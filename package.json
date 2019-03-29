@@ -1,0 +1,38 @@
+{
+  "name": "raddict",
+  "version": "1.0.0",
+  "description": "Raddict | A Simple Thought Sharing Platfom Among Developers",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevendaye/raddict.git"
+  },
+  "keywords": [],
+  "author": "Stephen Myles <stephen_myles@yahoo.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevendaye/raddict/issues"
+  },
+  "homepage": "https://github.com/stevendaye/raddict#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "hbs": "^4.0.3",
+    "morgan": "^1.9.1",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
+  }
+}

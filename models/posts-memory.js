@@ -1,5 +1,5 @@
-/* ## Storting Posts in Memeory ## */
-const Post = require("./Posts");
+/* ## Storing Posts in Memory ## */
+const Post = require("./Post");
 
 var posts = [];
 

@@ -13,9 +13,9 @@ class Post {
 
   get key() { return this[_post_key]; }
   get title() { return this[_post_title] }
-  set title() { return this[_post_title] = newTitle }
+  set title(newTitle) { return this[_post_title] = newTitle }
   get body() { return this[_post_body] }
-  set body() { return this[_post_body] = newBody }
+  set body(newBody) { return this[_post_body] = newBody }
 }
 
 module.exports = Post;

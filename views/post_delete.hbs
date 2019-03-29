@@ -1,0 +1,6 @@
+<form method="POST" action="/posts/delete/confirm">
+  <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
+  <p>Confirm Deletion: {{post.title}} ?</p><br/>
+  <input type="submit" value="Confirm" />
+  <a href="/posts/view?key={{#if post}}{{postkey}}{{/if}}">Cancel</a>
+</form>

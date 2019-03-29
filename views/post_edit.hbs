@@ -1,0 +1,22 @@
+<form method="POST", action="/posts/save">
+  <input type="hidden" name="docreate" value="<%= docreate ? 'create' : 'update' %>" />
+  <p>key:
+    {{#if docreate}}
+      <input type="text" name="postkey" value="" />
+    {{else}}
+      {{#if post}}
+        {{postkey}}
+      {{/if}}
+      <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
+    {{/if}}
+    <p> title:
+      <input type="text" name="title" value="{{#if post}}{{post.title}}{{/if}}" />
+    </p><br/>
+    <textarea rows="5" cols="40" name="body">
+      {{#if post}}
+        {{post.body}}
+      {{/if}}
+    </textarea><br/>
+    <input type="submit" value="Submit" />
+  </p>
+</form>

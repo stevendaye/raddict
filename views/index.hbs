@@ -1,1 +1,8 @@
-<h3>Welcome on one of the best platfrom to express your thoughts</h3>
+<h3>Express your thoughts</h3>
+{{#each postlist}}
+  <ul>
+    <li>{{key}}:
+      <a href="/posts/view?key={{ key }}">{{ title }}</a>
+    </li>
+  </ul>
+{{/each}}

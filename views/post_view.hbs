@@ -1,0 +1,12 @@
+{{#if post}}
+  <h3> {{ post.title }} </h3>
+  <p> {{ post.body }} </p>
+{{/if}}
+<p> key: {{ postkey }} </p>
+{{#if postkey}}
+  <hr/>
+  <p>
+    <a href="/posts/edit?key={{postkey}}">Edit</a> |
+    <a href="/posts/delete?key={{postkey}}">Delete</a>
+  </p>
+{{/if}}

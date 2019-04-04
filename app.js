@@ -23,6 +23,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(config.secret));
 app.use(express.static(__dirname + "/static"));
+app.use("/assets/vendor/bootstrap", express.static(path.join(__dirname, "node_modules", "bootstrap", "dist")));
+app.use("/assets/vendor/popper.js", express.static(path.join(__dirname, "node_modules", "popper.js", "dist")));
+app.use("/assets/vendor/jquery", express.static(path.join(__dirname, "node_modules", "jquery")));
+app.use("/assets/vendor/feather-icons", express.static(path.join(__dirname, "node_modules", "feather-icons", "dist")));
 
 routes(app);
 

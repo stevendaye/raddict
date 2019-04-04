@@ -9,6 +9,6 @@ module.exports = {
     );
     let postlist = await Promise.all(keyPromises);
 
-    res.render("index", { title: "Raddict | Your Thoughts Sharing Platform ", content: "Posts", postlist });
+    res.render("index", { title: "Raddict | Your Thoughts Sharing Platform ", fakecrumb: "Crumb", postlist });
   }
 };

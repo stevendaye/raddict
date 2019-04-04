@@ -36,7 +36,7 @@ module.exports = {
   async edit (req, res, next) {
     let post = await posts.read(req.query.key);
     res.render("post_edit", {
-      title: post ? (`Edit Post: ${post.title}`) : "Add a Post",
+      title: post ? `Edit Post: ${post.title}` : "Add a Post",
       docreate: false,
       postkey: req.query.key,
       post,

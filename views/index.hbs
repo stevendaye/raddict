@@ -1,8 +1,12 @@
-<h3>Express your thoughts</h3>
-{{#each postlist}}
-  <ul>
-    <li>{{key}}:
-      <a href="/posts/view?key={{ key }}">{{ title }}</a>
-    </li>
-  </ul>
-{{/each}}
+{{!-- <h3>Express your thoughts</h3> --}}
+<div class="container-fluid" style="margin: 25px 0 0 0;">
+  <div class="row">
+    <div class="col-12 btn-group-vertical" role="group">
+      {{#each postlist}}
+        <a class="btn btn-lg btn-block btn-outline-dark" href="/posts/view?key={{ key }}">
+          {{ title }}
+        </a>
+      {{/each}}
+    </div>
+  </div>
+</div>

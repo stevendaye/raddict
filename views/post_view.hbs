@@ -1,12 +1,25 @@
-{{#if post}}
-  <h3> {{ post.title }} </h3>
-  <p> {{ post.body }} </p>
-{{/if}}
-<p> key: {{ postkey }} </p>
-{{#if postkey}}
-  <hr/>
-  <p>
-    <a href="/posts/edit?key={{postkey}}">Edit</a> |
-    <a href="/posts/delete?key={{postkey}}">Delete</a>
-  </p>
-{{/if}}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xm-12">
+      {{#if post}}
+        <h3> {{ post.title }} </h3>
+        <p> {{ post.body }} </p>
+      {{/if}}
+      <p> key: {{ postkey }} </p>
+    </div>
+  </div>
+  {{#if postkey}}
+    <div class="row">
+      <div class="col-xm-12">
+        <div class="btn-group">
+          <a class="btn btn-outline-dark" role="button" href="/posts/edit?key={{postkey}}">
+            Edit
+          </a>
+          <a class="btn btn-outline-dark" role="button" href="/posts/delete?key={{postkey}}">
+            Delete
+          </a>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</div>

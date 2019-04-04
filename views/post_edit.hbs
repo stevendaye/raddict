@@ -1,22 +1,37 @@
 <form method="POST", action="/posts/save">
-  <input type="hidden" name="docreate" value="<%= docreate ? 'create' : 'update' %>" />
-  <p>key:
-    {{#if docreate}}
-      <input type="text" name="postkey" value="" />
-    {{else}}
-      {{#if post}}
-        {{postkey}}
+  <div class="container-fluid">
+    <input type="hidden" name="docreate" value="<%= docreate ? 'create' : 'update' %>" />
+
+    <div class="form-group row align-items-center">
+      <label for="postkey" class="col-1 col-form-label" >key:</label>
+      {{#if docreate}}
+        <div class="col">
+          <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" />
+        </div>
+      {{else}}
+        {{#if post}}
+          <span class="input-group-text">{{postkey}}</span>
+        {{/if}}
+        <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
       {{/if}}
-      <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
-    {{/if}}
-    <p> title:
-      <input type="text" name="title" value="{{#if post}}{{post.title}}{{/if}}" />
-    </p><br/>
-    <textarea rows="5" cols="40" name="body">
-      {{#if post}}
-        {{post.body}}
-      {{/if}}
-    </textarea><br/>
-    <input type="submit" value="Submit" />
-  </p>
+    </div>
+
+    <div class="form-group row">
+      <label for="title" class="col-1 col-form-label">Title</label>
+      <div class="col">
+        <input class="form-control" type="text" name="title" id="title" placeholder="Post title"
+          value="{{#if post}}{{post.title}}{{/if}}" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <textarea class="form-control" rows="5" name="body">
+        {{#if post}}
+          {{post.body}}
+        {{/if}}
+      </textarea>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+  </div>
 </form>

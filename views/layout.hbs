@@ -4,15 +4,22 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{title}}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/stylesheets/index.css" />
   </head>
   <body>
-    <h1>Raddict</h1>
+    <h1 class="first-header">Raddict</h1>
     {{> header }}
     {{{body}}}
 
-    <script src="/js/index.js"></script>
+    <script type="text/javascript" src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/feather-icons/feather.js"></script>
+    <script type="text/javascript">
+      feather.replace();
+    </script>
   </body>
 </html>

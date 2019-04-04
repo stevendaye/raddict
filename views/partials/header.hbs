@@ -1,6 +1,23 @@
-<header>
-  <h2>{{ content }}</h2>
-  <nav>
-    <p> <a href="/">Home</a> | <a href="/posts/add">Add Post</a> </p>
+<header class="page-header wrapper">
+  {{!-- <h2>{{ title }}</h2> --}}
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="/"><i data-feather="home"></i></a>
+
+    <button class="navbar-toggler" type="button"
+      data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {{!-- <div class="navbar-nav col">
+        {{#if breadcrumb}}
+          <a class="nav-item nav-link" href="{{breadcrumb.url}}">{{breadcrumb.title}}</a>
+        {{/if}}
+      </div> --}}
+      <span class="navbar-text col">{{title}}</span>
+      <a class="nav-item nav-link btn btn-light col-auto" href="/posts/add">Add Post</a>
+    </div>
   </nav>
 </header>

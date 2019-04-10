@@ -2,10 +2,18 @@
 <div class="container-fluid" style="margin: 25px 0 0 0;">
   <div class="row">
     <div class="col-12 btn-group-vertical" role="group">
+      {{#unless postlist }}
+        <div class="col-lg-6 col-md-6 no-post">
+          <div>There is no article yet. be the first to post one.</div>
+          <a href="/posts/add" class="btn btn-block btn-outline-dark col-12">Post Article</a>
+        </div>
+      {{/unless}}
       {{#each postlist}}
-        <a class="btn btn-lg btn-block btn-outline-dark" href="/posts/view?key={{ key }}">
-          {{ title }}
-        </a>
+        <div class="post col-6">
+          <a class="btn btn-lg btn-block btn-outline-dark" href="/posts/view?key={{ key }}">
+            {{ title }}
+          </a>
+        </div>
       {{/each}}
     </div>
   </div>

@@ -15,7 +15,7 @@ module.exports = {
 
   async create (req, res, next) {
     // This controller is used for both creating and updating posts
-    let post;
+    var post;
     if (req.body.docreate === "create") {
       post = await posts.create(req.body.postkey, req.body.title, req.body.body);
     } else {

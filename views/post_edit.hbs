@@ -1,4 +1,4 @@
-<form method="POST", action="/posts/save">
+<form method="POST", action="{{routes.post.create}}">
   <div class="container-fluid col-sm-9 custom-form">
     <input type="hidden" name="docreate" value="<%= docreate ? 'create' : 'update' %>" />
 

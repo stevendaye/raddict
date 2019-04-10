@@ -3,10 +3,13 @@ const express = require("express");
 const home = require("../controllers/home");
 const post = require("../controllers/post");
 const config =require("../config");
+const util = require("../middlewares/utilities");
 
 const router = express.Router();
 
 const routes = app => {
+  app.use(util.templateRoutes);
+
   router.get("/", home.index);
   router.get(config.routes.post.add, post.index);
   router.post(config.routes.post.create, post.create);

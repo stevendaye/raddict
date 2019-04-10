@@ -10,7 +10,9 @@ const config = {
       delete: "/posts/delete",
       deleteConfirm: "/posts/delete/confirm",
     },
-    user: {}
+    user: {
+      create: "/users/create"
+    }
   },
   secret: process.env.SECRET || "secret"
 };

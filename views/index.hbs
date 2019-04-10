@@ -5,7 +5,7 @@
       {{#unless postlist }}
         <div class="col-lg-6 col-md-6 no-post">
           <div>There is no article yet. be the first to post one.</div>
-          <a href="/posts/add" class="btn btn-block btn-outline-dark col-12">Post Article</a>
+          <a href="{{routes.post.add}}" class="btn btn-block btn-outline-dark col-12">Post Article</a>
         </div>
       {{/unless}}
       {{#each postlist}}

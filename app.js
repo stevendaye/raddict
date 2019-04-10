@@ -9,6 +9,7 @@ const path = require("path");
 const config = require("./config");
 const routes = require("./routes");
 const errorHandler = require("./middlewares/errorHandler");
+const log = require("./middlewares/log");
 
 const app = express();
 
@@ -18,7 +19,9 @@ app.use(favicon(path.join(__dirname, "static", "favicon.ico")));
 app.set("views", path.join(__dirname, "views"));
 hbs.registerPartials(path.join(__dirname, "views/partials"));
 
-app.use(logger("dev"));
+app.use(logger(process.env.REQUEST_LOG_FILE || "dev", {
+  stream: log.logStream ? log.logStream : process.stdout
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(config.secret));

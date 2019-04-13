@@ -1,13 +1,13 @@
 <form method="POST", action="{{routes.post.create}}">
-  <div class="container-fluid col-sm-9 custom-form">
+  <div class="container-fluid  col-lg-5 col-md-6 col-sm-7 col-10 custom-form">
     <input type="hidden" name="docreate" value="<%= docreate ? 'create' : 'update' %>" />
 
-    <div class="form-group row align-items-center">
-      <label for="postkey" class="col-1 col-form-label" >key:</label>
+    <div class="form-group row">
+      <label for="postkey" class="col-form-label">key:</label><br/>
       {{#if docreate}}
-        <div class="col">
+        {{!-- <div class="col"> --}}
           <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" />
-        </div>
+        {{!-- </div> --}}
       {{else}}
         {{#if post}}
           <span class="input-group-text">{{postkey}}</span>
@@ -17,21 +17,28 @@
     </div>
 
     <div class="form-group row">
-      <label for="title" class="col-1 col-form-label">Title</label>
-      <div class="col">
+      <label for="title" class="col-form-label">Title</label><br/>
+      {{!-- <div class="col"> --}}
         <input class="form-control" type="text" name="title" id="title" placeholder="Post title"
           value="{{#if post}}{{post.title}}{{/if}}" />
-      </div>
+      {{!-- </div> --}}
     </div>
 
     <div class="form-group row">
-      <textarea class="form-control" rows="5" name="body">
+      <label for="article" class="col-form-label">Aritcle:</label>
+      <textarea class="form-control" rows="4" name="body">
         {{#if post}}
           {{post.body}}
         {{/if}}
       </textarea>
     </div>
 
-    <button type="submit" class="btn btn-default">Submit</button>
+    <div class="row">
+      <button type="submit" class="btn btn-default" style="margin: 0;">Submit</button> &nbsp;&nbsp;&nbsp;
+      <a class="btn btn-outline-dark text-left" role="button"
+        href="{{#if post}}{{routes.post.view}}?key={{post.key}}{{else}}/{{/if}}">
+        Cancel
+      </a>
+    </div>
   </div>
 </form>

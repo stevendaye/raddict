@@ -27,9 +27,11 @@ async function connectDB() {
 
 // Creating a new database entry for inserting a post
 async function crupdate(key, title, body) {
+  debug(`CRUPDATE:Creating Post: ${key}, ${title}, ${body}`);
   const db = await connectDB();
   let post = new Post(key, title, body);
   await db.put(key, post.JSON); // Converted to json for easy insertion into the database
+  debug(`CRUPDATE:Inserted Post: ${key}, ${title}, ${body}`);
   return post;
 }
 
@@ -43,6 +45,7 @@ async function update(key, title, body) {
 
 // Reading a post from the database
 async function read(key) {
+  debug(`Reading ${key}`);
   const db = await connectDB();
   let post = Post.fromJSON(await db.get(key));
   return new Post(post.key, post.title, post.body);
@@ -50,11 +53,12 @@ async function read(key) {
 
 // Deleting a post from the database
 async function destroy(key) {
+  debug(`Deleting Post of key: ${key}`);
   const db = await connectDB();
   await db.del(key);
 }
 
-// Retuning all keys present in the database using the createKeyStream API
+// Returning all keys present in the database using the createKeyStream API
 // This API emits event as it goeas through each data in the database
 async function keylist() {
   const db = await connectDB();
@@ -65,6 +69,7 @@ async function keylist() {
     .on("error", err => reject(err))
     .on("end", () => resolve(keys));
   });
+  debug(`keylist: Returning following keys: ${util.inspect(keys)}`);
   return keys;
 }
 
@@ -78,6 +83,7 @@ async function count() {
       .on("error", err => reject(err))
       .on("end", () => resolve(total));
   });
+  debug(`count: Returning counts: ${util.inspect(total)}`);
   return total;
 }
 

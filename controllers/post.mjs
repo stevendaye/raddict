@@ -1,6 +1,6 @@
 /* ## Setting up the post controller ## */
 import util from "util";
-import * as posts from "../models/posts-memory";
+import * as posts from "../models/posts-model-type";
 import config from "../config";
 
 export default {

@@ -1,5 +1,5 @@
 /* ## Setting up the home controller ## */
-import * as posts from "../models/posts-memory";
+import * as posts from "../models/posts-model-type";
 
 export default {
   async index (req, res) {

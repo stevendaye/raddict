@@ -59,7 +59,7 @@ if (app.get("env") === "development") {
 }
 
 app.listen(config.port, () => {
-  console.log("Server running at http://127.0.0.1:3000");
+  console.log(`Server running at http://127.0.0.1:${app.get("port")}`);
 });
 
 export default app;

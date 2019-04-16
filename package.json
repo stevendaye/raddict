@@ -5,7 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --experimental-modules app.mjs"
+    "start": "cross-env DEBUG=raddict:* RADDICT_MODEL=memory nodemon --experimental-modules app.mjs",
+    "start-fs": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs nodemon --experimental-modules app.mjs",
+    "server1": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3001 nodemon --experimental-modules app.mjs",
+    "server2": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3002 nodemon --experimental-modules app.mjs",
+    "server3": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3003 nodemon --experimental-modules app.mjs"
   },
   "repository": {
     "type": "git",

@@ -8,7 +8,7 @@ import Post from "./Post";
 const debug = DGB("raddict:posts-fs");
 const error = DGB("raddict:error-fs");
 
-// Creating a directory for storing posts
+// Creating a directory for storing files containing a user's post
 const postsDir = async () => {
   let dir = process.env.POSTS_FS_DIR || "posts-fs-dir";
   await fs.ensureDir(dir);
@@ -23,7 +23,7 @@ const filePath = (postsdir, key) =>
 const readJSON = async (postsdir, key) => {
   const readFrom = filePath(postsdir, key);
   let data = await fs.readFile(readFrom, "utf8");
-  debug(`readJSON ${data}`);
+  debug(`readJSON:Reading Data From a JSON file -- ${data}`);
   return Post.fromJSON(data);
 };
 
@@ -35,7 +35,7 @@ const crupdate = async (key, title, body) => {
   let post = new Post(key, title, body);
   let writeTo = filePath(postsdir, key);
   let writeJSON = post.JSON;
-  debug(`WRITE ${writeTo} - ${writeJSON}`);
+  debug(`WRITING: ${writeJSON} TO: ${writeTo}`);
   await fs.writeFile(writeTo, writeJSON, "utf8");
   return post;
 };
@@ -50,13 +50,14 @@ export const update = (key, title, body) =>
 export const read = async key => {
   const postsdir = await postsDir();
   let userpost = readJSON(postsdir, key);
-  debug(`READ ${postsdir}/${key} - ${util.inspect(userpost)}`);
+  debug(`READ:Read Data From a JSON File -- ${postsdir}/${key} - ${util.inspect(userpost)}`);
   return userpost;
 }
 
 // Deleting a post from the filesystem(deletes a 'key.json' file)
 export const destroy = async key => {
   const postsdir = await postsDir();
+  debug(`Deleting ${key}`);
   await fs.unlink(filePath(postsdir, key));
 }
 
@@ -66,20 +67,21 @@ export const keylist = async () => {
   let files = await fs.readdir(postsdir);
   let emptyDir = [];
   (!files || typeof files === "undefined") && emptyDir;
-  debug(`keylist dir ${postsdir} files=${util.inspect(files)}`);
+  debug(`keylist:Listing Files Within "${postsdir}" Directory. Files:${util.inspect(files)}`);
   let usersposts = files.map(async filename => {
     let key = path.basename(filename, ".json");
-    debug(`About to READ ${key}`);
+    debug(`READ:Reading ${key}`);
     let userpost = await readJSON(postsdir, key);
     return userpost.key;
   });
-  return Promise.all(usersposts); // Making sure that all keys have been returned
+  return Promise.all(usersposts); // Making sure that all keys have been read and returned
 };
 
 // Counting all posts
 export const count = async () => {
   let postsdir = await postsDir();
   let files = fs.readdir(postsdir);
+  debug(`Counting All Posts`);
   return files.length;
 };
 

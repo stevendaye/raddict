@@ -1,4 +1,4 @@
-/* ## Selecting a Post Data Model Dynamically ## */
+/* ## Dynamically Selecting a Data Model for Raddict ## */
 var PostModelType;
 
 async function model () {

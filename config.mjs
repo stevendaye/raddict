@@ -14,6 +14,12 @@ const config = {
       create: "/users/create"
     }
   },
+  db: {
+    dbfile: process.env.SQLITE_FILE || "./database/posts.sqlite3",
+    create_sql_tables: {
+      posts: "./models/schema-sqlite3.sql"
+    }
+  },
   secret: process.env.SECRET || "secret"
 };
 

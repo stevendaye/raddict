@@ -1,0 +1,8 @@
+# Configurating connection parameters for using PostgreSQL Database #
+dbname: raddict
+username:
+password:
+params:
+  host: localhost
+  port:
+  dialect: postgres

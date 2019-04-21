@@ -26,4 +26,5 @@ This project was created to put together all the things I learned during my Full
 - npm run start-fs [will persist data into a filesystem]
 - npm run start-level [will persist data locally in the browswer]
 - npm run start-sqlite3 [will persist data in SQLite3 Database]
+- npm run start-sequelize [will persist data in SQLite3 Database using Sequelize]
 - npm run server-dbType1(2 || 3) [will run another instance of the app sharing the same data except when running: start & start-level]

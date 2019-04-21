@@ -9,10 +9,13 @@
     "start-fs": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs nodemon --experimental-modules app.mjs",
     "start-level": "cross-env DEBUG=raddict:* RADDICT_MODEL=level nodemon --experimental-modules app.mjs",
     "start-sqlite3": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 nodemon --experimental-modules app.mjs",
+    "start-sequelize": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs",
     "server-leve1": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3001 nodemon --experimental-modules app.mjs",
     "server-level2": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3002 nodemon --experimental-modules app.mjs",
     "server-sqlite1": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 PORT=3001 nodemon --experimental-modules app.mjs",
-    "server-sqlite2": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 PORT=3002 nodemon --experimental-modules app.mjs"
+    "server-sqlite2": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 PORT=3002 nodemon --experimental-modules app.mjs",
+    "server-sequelize1": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml PORT=3001 RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs",
+    "server-sequelize2": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml PORT=3002 RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs"
   },
   "repository": {
     "type": "git",

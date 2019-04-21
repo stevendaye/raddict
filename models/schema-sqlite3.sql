@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS posts(
-  postkey VARCHAR(255),
+  postkey VARCHAR(255) UNIQUE PRIMARY KEY,
   title VARCHAR(255),
   body TEXT
 );

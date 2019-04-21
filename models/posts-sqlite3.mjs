@@ -1,52 +1,14 @@
 /* ## Using SQLite3 database engine for storing posts ## */
 import util from "util";
 import DBG from "debug";
-import fs from "fs-extra";
 import Post from "./Post";
 import connectDB from "../database/load-sqlite3-db";
-import config from "../config.mjs";
 
 const debug = DBG("raddict:posts-sqlite3");
 const error = DBG("raddict:error-sqlite3");
 
-// Reading from the posts sql table definition file
-const readTable = async table => {
-  const file = await fs.readFile(table, "utf8");
-  debug(`File Read Successfully: ${util.inspect(file)}`);
-  return file;
-};
-
-var postTable;
-
-// Creating the post Table definition
-async function createPostsTable() {
-  
-  if (postTable) {
-    debug(`Posts Table Exists: ${util.inspect(postTable)}`);
-    return postTable;
-  }
-  
-  const sqlTable = await readTable(config.db.create_sql_tables.posts);
-  let db = await connectDB();
-
-  await new Promise((resolve, reject) => {
-    postTable = db.run(`${sqlTable}`,
-      err => {
-      if (err) {
-        error(`Error Occured when creating the table`);
-        return reject(err);
-      } else {
-        debug(`Table Posts Created and Loaded Successfully: ${util.inspect(db)}`);
-        resolve(postTable);
-      }
-    });
-  });
-  return postTable;
-}
-
 // Inserting a post
 async function create(key, title, body) {
-  await createPostsTable();
   let db = await connectDB();
   let post = new Post(key, title, body);
 
@@ -67,14 +29,13 @@ async function create(key, title, body) {
 
 // Updating a post
 async function update(key, title, body) {
-  await createPostsTable();
   let db = await connectDB();
   let post = new Post(key, title, body);
 
   await new Promise((resolve, reject) => {
     db.run(
       `UPDATE posts
-      SET title=?, body =?
+      SET title =?, body =?
       WHERE postkey =?`, [title, body, key],
       err => {
         if (err) {
@@ -90,7 +51,6 @@ async function update(key, title, body) {
 
 // Reading a post
 async function read(key) {
-  await createPostsTable();
   let db = await connectDB();
 
   let post = await new Promise((resolve, reject) => {
@@ -111,7 +71,6 @@ async function read(key) {
 
 // Deleting a post
 async function destroy(key) {
-  await createPostsTable();
   let db = await connectDB();
 
   return await new Promise((resolve, reject) => {
@@ -121,7 +80,7 @@ async function destroy(key) {
         if (err) {
           return reject(err + " Something went wrong when destroying!");
         }
-        debug(`DESTROYED ${key}`);
+        debug(`DELETED ${key}`);
         resolve();
       }
     );
@@ -130,7 +89,6 @@ async function destroy(key) {
 
 // Returning all pots' keys
 async function keylist() {
-  await createPostsTable();
   let db = await connectDB();
   debug(`keylist: ${util.inspect(db)}`);
 
@@ -153,12 +111,11 @@ async function keylist() {
 
 // Counting all posts
 async function count() {
-  await createPostsTable();
   let db = await connectDB();
 
   let count = new Promise((resolve, reject) => {
     db.get(
-      "SELECT Count(postkey) AS count FROM posts",
+      "SELECT COUNT(postkey) AS Count FROM posts",
       (err, row) => {
         if (err) {
           return reject(err  + " Something went wrong when inserting!");

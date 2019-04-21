@@ -1,6 +1,6 @@
 <form method="POST", action="{{routes.post.create}}">
   <div class="container-fluid  col-lg-5 col-md-6 col-sm-7 col-10 custom-form">
-    <input type="hidden" name="docreate" value="<%= docreate ? 'create' : 'update' %>" />
+    <input type="hidden" name="docreate" value="{{#if docreate}}create{{else}}update{{/if}}" />
 
     <div class="form-group row">
       <label for="postkey" class="col-form-label">key:</label><br/>

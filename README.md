@@ -1,11 +1,11 @@
 # raddict
 Raddict | A Simple Thought or Small Article Sharing Platform Among Developers
 
-Raddict is simple project where users can post little articles or their thoughts in real time, for other users to read and comment
+Raddict is a simple project where users can post little articles or their thoughts in real time, for other users to read and comment. 
 It also offers the possiblity for users to chat privately in real time.
 
 This project was created to put together all the things I learned during my Full Stack Web Development Training. These include:
-* Server Side Programming with Node
+* Server Side Programming with Node.js
 * Databases like MongoDB, MySQL, SQLite3
 * Local authentication and Twitter, Facebook and Google Login support
 * Security: SSL/TLS, Cross Forgery Request
@@ -15,10 +15,12 @@ This project was created to put together all the things I learned during my Full
 * && many other skills that I might be missing in this list
 
 # Technologies Used
-- Node.js && Expressjs
+- Node@10 && Expressjs
 - Handlebars.js (Decided not to use React/Redux here but to experiment more with HBS. The former is used in Platolio Project)
 - SQLite3, MySQL, Sequelize, MongoDB
 - Bootstrap
+- ES6/ES7
+- Sockect.IO
 
 # To run the project
 - npm install

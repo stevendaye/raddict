@@ -43,7 +43,7 @@ async function create(key, title, body) {
   const SQPost = await connectDB();
   const post = new Post(key, title, body);
   await SQPost.create({ postkey: key, title: title, body: body });
-  debug(`Created the post: ${util.inspect(post)}`)
+  debug(`Created the post: ${util.inspect(post)}`);
   return post;
 }
 
@@ -67,7 +67,7 @@ async function read(key) {
   if (!post) {
     throw new Error(`No Post of key = ${key} found.`);
   } else {
-    debug(`Read Post: ${util.inspect(post)}`);
+    debug(`Read Post of key: ${util.inspect(post)}`);
     return new Post(post.postkey, post.title, post.body);
   }
 }

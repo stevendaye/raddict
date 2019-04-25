@@ -10,12 +10,15 @@
     "start-level": "cross-env DEBUG=raddict:* RADDICT_MODEL=level nodemon --experimental-modules app.mjs",
     "start-sqlite3": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 nodemon --experimental-modules app.mjs",
     "start-sequelize": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs",
+    "start-mongodb": "cross-env DEBUG=raddict:* RADDICT_MODEL=mongodb MONGO_URL=mongodb://localhost/ MONGO_DBNAME=post-mongodb nodemon --experimental-modules app.mjs",
     "server-leve1": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3001 nodemon --experimental-modules app.mjs",
     "server-level2": "cross-env DEBUG=raddict:* RADDICT_MODEL=fs PORT=3002 nodemon --experimental-modules app.mjs",
     "server-sqlite1": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 PORT=3001 nodemon --experimental-modules app.mjs",
     "server-sqlite2": "cross-env DEBUG=raddict:* RADDICT_MODEL=sqlite3 PORT=3002 nodemon --experimental-modules app.mjs",
     "server-sequelize1": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml PORT=3001 RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs",
-    "server-sequelize2": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml PORT=3002 RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs"
+    "server-sequelize2": "cross-env DEBUG=raddict:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml PORT=3002 RADDICT_MODEL=sequelize nodemon --experimental-modules app.mjs",
+    "server-mongodb1": "cross-env DEBUG=raddict:* RADDICT_MODEL=mongodb PORT=3001 MONGO_URL=mongodb://localhost/ MONGO_DBNAME=post-mongodb nodemon --experimental-modules app.mjs",
+    "server-mongodb2": "cross-env DEBUG=raddict:* RADDICT_MODEL=mongodb PORT=3002 MONGO_URL=mongodb://localhost/ MONGO_DBNAME=post-mongodb nodemon --experimental-modules app.mjs"
   },
   "repository": {
     "type": "git",
@@ -43,6 +46,7 @@
     "moment": "^2.24.0",
     "mongodb": "^3.2.3",
     "morgan": "^1.9.1",
+    "mysql": "^2.17.1",
     "popper.js": "^1.14.7",
     "rotating-file-stream": "^1.4.0",
     "sequelize": "^4.31.2",

@@ -11,7 +11,8 @@ This project was created to put together all the things I learned during my Full
 * Security: SSL/TLS, Cross Forgery Request
 * Deployment on Cloud Services and Load Balancing Technics
 * Docker
-* Texting: TDD/BDD
+* Texting: TDD/BDD (Mocha, Chai, Pupeteer)
+* Microservice
 * && many other skills that I might be missing in this list
 
 # Technologies Used
@@ -21,6 +22,7 @@ This project was created to put together all the things I learned during my Full
 - Bootstrap
 - ES6/ES7
 - Sockect.IO
+- Restify
 
 # To run the project
 - npm install
@@ -29,4 +31,5 @@ This project was created to put together all the things I learned during my Full
 - npm run start-level [will persist data locally in the browswer]
 - npm run start-sqlite3 [will persist data in SQLite3 Database]
 - npm run start-sequelize [will persist data in SQLite3 Database using Sequelize]
+- npm run start-mongodb [will persist data in MongoDB. Just make sure you have a running mongodb instance]
 - npm run server-dbType1(2 || 3) [will run another instance of the app sharing the same data except when running: start & start-level]

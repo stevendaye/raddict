@@ -53,8 +53,8 @@ app.use(bodyParser.json());
 app.use(session({
   store: new FileStore({ path: "sessions" }),
   secret: config.secret,
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   name: sessionCookieName
 }));
 app.use(passport.initialize());
@@ -63,7 +63,7 @@ app.use(passport.session());
 // Enabling CORS Access from the server to be used by the user microservice server
 app.use(cors());
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", config.postsHost);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

@@ -2,6 +2,8 @@
 const config = {
   port: process.env.PORT || 3000,
   secret: process.env.SECRET || "keyboard wolf",
+  postsHost: process.env.POSTS_HOST || "http://localhost:3000",
+  usersHost: process.env.USERS_HOST || "http://localhost:3333",
   routes: {
     post: {
       add: "/posts/add",

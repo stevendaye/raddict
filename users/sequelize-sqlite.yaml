@@ -1,0 +1,15 @@
+# Sequelize Configuration Parameters to use the SQLiite3 DB
+dbname: raddict-users
+username: raddict-users
+password: raddict-users
+params:
+  dialect: sqlite
+  storage: ./database/users-sequelize.sqlite3
+  operatorsAliases:
+    $eq: Op.eq
+    $ne: Op.ne
+    $gte: Op.gte
+    $gt: Op.gt
+    $lte: Op.lte
+    $lt: Op.lt
+    $or: Op.or

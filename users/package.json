@@ -1,12 +1,33 @@
 {
-  "name": "users",
-  "version": "1.0.0",
+  "name": "raddict-users",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "user-server.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-server.mjs",
+    "start-block": "cross-env DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-block-server.mjs",
+    "start-add-user": "cross-env DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-add.mjs",
+    "start-find-user": "cross-env DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-find.mjs Steph",
+    "start-edit-user": "cross-env DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-edit.mjs Steph",
+    "start-list-user": "cross-env DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-list.mjs",
+    "start-delete-user": "cross-env DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-delete.mjs Steph"
   },
   "keywords": [],
-  "author": "Stephen Myles <stephen_myles@yahoo.com>",
-  "license": "ISC"
+  "author": "Steven Daye <dev.stevendaye@yahoo.com>",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.6.9",
+    "fs-extra": "^5.0.0",
+    "js-yaml": "^3.10.0",
+    "mysql": "^2.17.1",
+    "restify": "^6.3.4",
+    "restify-clients": "^1.5.3",
+    "sequelize": "^4.31.2",
+    "sqlite3": "^4.0.6"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.18.10"
+  }
 }

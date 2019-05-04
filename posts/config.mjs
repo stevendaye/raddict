@@ -1,6 +1,7 @@
 /* App Configuration */
 const config = {
   port: process.env.PORT || 3000,
+  secret: process.env.SECRET || "keyboard wolf",
   routes: {
     post: {
       add: "/posts/add",
@@ -11,7 +12,16 @@ const config = {
       deleteConfirm: "/posts/delete/confirm",
     },
     user: {
-      create: "/users/create"
+      create: "/create-user",
+      update: "/update-user",
+      find: "/find-user",
+      delete: "/destroy-user",
+      checkPassword: "/password-check",
+      findOrCreate: "/find-or-create",
+      list: "/list-users",
+      login: "/users/login",
+      logout: "/users/logout",
+      signup: "/users/signup"
     }
   },
   db: {
@@ -19,8 +29,7 @@ const config = {
     create_sql_tables: {
       posts: "./models/schema-sqlite3.sql"
     }
-  },
-  secret: process.env.SECRET || "secret"
+  }
 };
 
 export default config;

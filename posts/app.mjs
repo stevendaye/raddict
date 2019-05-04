@@ -1,19 +1,27 @@
 /* ## Setting Up the Server ## */
 import express from "express";
-import url from "url";
+import session from "express-session";
+import sessionFileStore from "session-file-store";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import hbs from "hbs";
 import favicon from "serve-favicon";
 import util from "util";
 import logger from "morgan";
 import path from "path";
 import DBG from "debug";
+import { passport, passportRoutes } from "./passport";
 import config from "./config";
-import routes from "./routes";
+import postsRoutes from "./routes/posts";
+import usersRoutes from "./routes/users";
 import * as errorHandler from "./middlewares/errorHandler";
+import * as utils from "./middlewares/utilities";
 import * as log from "./middlewares/log";
 import dirname from "./dirname";
+
+const FileStore = sessionFileStore(session);
+const sessionCookieName = "postscookie.sid";
 
 const debug = DBG("raddict:debug");
 const error = DBG("raddict:error");
@@ -32,16 +40,40 @@ hbs.registerPartials(path.join(__dirname, "views/partials"));
 app.use(logger(process.env.REQUEST_LOG_FILE || "dev", {
   stream: log.logStream ? log.logStream : process.stdout
 }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser(config.secret));
 app.use(express.static(__dirname + "/static"));
 app.use("/assets/vendor/bootstrap", express.static(path.join(__dirname, "node_modules", "bootstrap", "dist")));
 app.use("/assets/vendor/popper.js", express.static(path.join(__dirname, "node_modules", "popper.js", "dist")));
 app.use("/assets/vendor/jquery", express.static(path.join(__dirname, "node_modules", "jquery")));
 app.use("/assets/vendor/feather-icons", express.static(path.join(__dirname, "node_modules", "feather-icons", "dist")));
+app.use(utils.templateRoutes);
 
-routes(app);
+app.use(cookieParser(config.secret));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(session({
+  store: new FileStore({ path: "sessions" }),
+  secret: config.secret,
+  resave: true,
+  saveUninitialized: true,
+  name: sessionCookieName
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Enabling CORS Access from the server to be used by the user microservice server
+app.use(cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  next();
+});
+
+// Providing the express app function to all routes
+postsRoutes(app);
+usersRoutes(app);
+passportRoutes(app);
 
 app.use(errorHandler.notFound);
 
@@ -63,3 +95,4 @@ app.listen(config.port, () => {
 });
 
 export default app;
+export { sessionCookieName };

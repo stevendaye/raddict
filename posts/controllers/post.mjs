@@ -5,12 +5,17 @@ import config from "../config";
 
 export default {
   index (req, res, next) {
-    res.render("post_edit", {
-      title: "Add a Post",
-      docreate: true,
-      postkey: "",
-      post: undefined
-    });
+    try {
+      res.render("post_edit", {
+        title: "Add a Post",
+        docreate: true,
+        postkey: "",
+        post: undefined,
+        user: req.user ? req.user : undefined
+      });
+    } catch (err) {
+      next(err);
+    }
   },
 
   async create (req, res, next) {
@@ -25,31 +30,46 @@ export default {
   },
 
   async view (req, res, next) {
-    let post = await posts.read(req.query.key);
-    res.render("post_view", {
-      title: post ? post.title : "",
-      postkey: req.query.key,
-      post
-    });
+    try {
+      let post = await posts.read(req.query.key);
+      res.render("post_view", {
+        title: post ? post.title : "",
+        postkey: req.query.key,
+        post,
+        user: req.user ? req.user : undefined
+      });
+    } catch (err) {
+      next(err);
+    }
   },
 
   async edit (req, res, next) {
-    let post = await posts.read(req.query.key);
-    res.render("post_edit", {
-      title: post ? `Edit Post: ${post.title}` : "Add a Post",
-      docreate: false,
-      postkey: req.query.key,
-      post,
-    });
+    try {
+      let post = await posts.read(req.query.key);
+      res.render("post_edit", {
+        title: post ? `Edit Post: ${post.title}` : "Add a Post",
+        docreate: false,
+        postkey: req.query.key,
+        post,
+        user: req.user ? req.user : undefined
+      });
+    } catch (err) {
+      next(err);
+    }
   },
 
   async delete (req, res, next) {
-    let post = await posts.read(req.query.key);
-    res.render("post_delete", {
-      title: post ? post.title : "",
-      postkey: req.query.key,
-      post
-    });
+    try {
+      let post = await posts.read(req.query.key);
+      res.render("post_delete", {
+        title: post ? post.title : "",
+        postkey: req.query.key,
+        post,
+        user: req.user ? req.user : undefined
+      });
+    } catch (err) {
+      next(err);
+    }
   },
 
   async deleteConfirmed (req, res, next) {

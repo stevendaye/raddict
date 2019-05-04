@@ -10,11 +10,17 @@
     <link rel="stylesheet" type="text/css" href="/assets/stylesheets/index.css" />
   </head>
   <body>
-    <div class="first-header">
+    <div class="page-header first-header">
       <h1 class="">Raddict</h1>
       <p class="text-right" style="margin: -30px 30px 10px 0; font-size: 1.1em;">
-        <a href="/users/login" style="color: whitesmoke; text-decoration: none">Login</a>&nbsp;&nbsp;
-        <a href="/users/signup" style="color: whitesmoke; text-decoration: none;">Sign Up</a>
+        {{#if user}}
+          <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
+            <span class="badge badge-light">{{user.username}}</span>
+          </a>
+        {{else}}
+          <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none">Log in</a>&nbsp;&nbsp;
+          <a href="{{routes.user.signup}}" style="color: whitesmoke; text-decoration: none;">Sign Up</a>
+        {{/if}}
       </p>
     </div>
     {{> header }}

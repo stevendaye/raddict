@@ -1,0 +1,34 @@
+<div class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    {{#if user}}
+      <div class="currently-logged">
+        <h1>You are already logged in</h1>
+        <a href="/" class="btn" style="background-color: white; color:black;">
+          Go back to homepage
+        </a>
+      </div>
+    {{else}}
+      <div class="col-10 col-lg-3 col-md-4 col-sm-5 custom-form-login" role="group">
+        <form method="POST" action="{{routes.user.login}}">
+          {{#if message}}
+            <div class="alert alert-danger">{{message}}</div>
+          {{/if}}
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="your username" value=""/>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="your password" value=""/>
+          </div>
+          
+          <button type="submit" class="btn btn-default col-12">Submit</button>
+        </form>
+        <div style="text-align: center; margin: 10px 0 0 0">
+          Don't have an account? <a href="{{routes.user.signup}}">Sign Up</a>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>

@@ -16,7 +16,7 @@ a {
 }
 
 a:hover {
-  color: whitesmoke;
+  color: rgb(37,37, 41);
 } 
 
 .first-header {
@@ -58,4 +58,23 @@ a:hover {
 .clear {
   clear: both;
   margin: 0;
+}
+
+/* Login Form */
+.custom-form-login {
+  border-radius: 7px;
+  height: 400px;
+  margin: 25px 0 0 0;
+  padding: 25px;
+  background-color: white;
+}
+
+/* Logged in user */
+.currently-logged {
+  color: white;
+  background-color: rgb(37,37, 41);
+  border-radius: 7px;
+  padding: 100px;
+  text-align: center;
+  margin: 25px 0 0 0;
 }

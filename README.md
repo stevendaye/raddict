@@ -25,11 +25,21 @@ This project was created to put together all the things I learned during my Full
 - Restify
 
 # To run the project
-- npm install
-- npm start [will store data in memory]
-- npm run start-fs [will persist data into a filesystem]
-- npm run start-level [will persist data locally in the browswer]
-- npm run start-sqlite3 [will persist data in SQLite3 Database]
-- npm run start-sequelize [will persist data in SQLite3 Database using Sequelize]
-- npm run start-mongodb [will persist data in MongoDB. Just make sure you have a running mongodb instance]
-- npm run server-dbType1(2 || 3) [will run another instance of the app sharing the same data except when running: start & start-level]
+  /*User Directory*/
+  - cd users/
+  - npm install
+  - npm start [in one console. This is to be kept running as it is a microserice]
+  - npm run start-add-user [in another console]
+
+  /*Post Directoy*/
+  - cd posts/
+  - npm install || npm i --force
+  - npm run start [make sure the user microservive is running in another console]
+
+  - npm run start-memory [will store data in memory]
+  - npm run start-fs [will persist data into a filesystem]
+  - npm run start-level [will persist data locally in the browswer]
+  - npm run start-sqlite3 [will persist data in SQLite3 Database]
+  - npm run start-sequelize [will persist data in SQLite3 Database using Sequelize]
+  - npm run start-mongodb [will persist data in MongoDB. Just make sure you have a running mongodb instance]
+  - npm run server-dbType1(2 || 3) [will run another instance of the app sharing the same data except when running: start & start-level]

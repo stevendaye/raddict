@@ -20,3 +20,5 @@ GOOGLE_CLIENT_SECRET="CREATE-SECRET"
   https://www.developer.twitter.com,
   https://www.developers.facebook.com,
   https://www.console.developers.google.com
+
+IMPORTANT: Change this pub file to pub.env after creating and replacing your credentials

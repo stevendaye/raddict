@@ -48,7 +48,6 @@ typings/
 
 # dotenv environment variables file
 .env
-pub
 
 # next.js build output
 .next

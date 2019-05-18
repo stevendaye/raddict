@@ -60,21 +60,33 @@ a:hover {
   margin: 0;
 }
 
-/* Login Form */
-.custom-form-login {
+/* Login and Sign UOp Form */
+.custom-form-login, .custom-form-signup {
   border-radius: 7px;
-  height: 400px;
   margin: 25px 0 0 0;
   padding: 25px;
   background-color: white;
 }
 
+.custom-form-signup {
+  margin: 25px 0 25px 0;
+}
+
 /* Logged in user */
 .currently-logged {
-  color: white;
-  background-color: rgb(37,37, 41);
-  border-radius: 7px;
-  padding: 100px;
+  color: rgb(37,37, 41);
+  background-color: none;
+  border: none;
+  padding: none;
   text-align: center;
-  margin: 25px 0 0 0;
+  margin: 150px 0 0 0;
+}
+
+/* Login Line */
+.login-line {
+  display: inline-block;
+  font-style: italic;
+}
+hr.login-line {
+  margin: 35px 0 0 0; 
 }

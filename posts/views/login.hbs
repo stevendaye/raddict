@@ -1,32 +1,58 @@
 <div class="container-fluid h-100">
   <div class="row h-100 justify-content-center align-items-center">
     {{#if user}}
-      <div class="currently-logged">
-        <h1>You are already logged in</h1>
-        <a href="/" class="btn" style="background-color: white; color:black;">
+      <div class="currently-logged col-12 col-sm-6 col-md-5 col-lg-4">
+        <h4>You are logged in</h4>
+        <a href="/" class="btn btn-default" style="background-color: rgb(37,37, 41); color:white;">
           Go back to homepage
         </a>
       </div>
     {{else}}
-      <div class="col-10 col-lg-3 col-md-4 col-sm-5 custom-form-login" role="group">
+      <div class="col-10 col-lg-3 col-md-5 col-sm-5 custom-form-login" role="group">
+        <h5 class="text-center">Log In</h5>
         <form method="POST" action="{{routes.user.login}}">
           {{#if message}}
             <div class="alert alert-danger">{{message}}</div>
           {{/if}}
           <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="your username" value=""/>
+            <label for="username">Username*:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="your username" value="" required/>
           </div>
 
           <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="your password" value=""/>
+            <label for="password">Password*:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="your password" value="" required/>
           </div>
           
-          <button type="submit" class="btn btn-default col-12">Submit</button>
+          <button type="submit" class="btn btn-default col-12">CONNECT</button>
         </form>
+
+        <div class="text-center" style="margin: 0 0 25px 0;">
+          <hr class="col-auto login-line"/>
+            <b class="login-line" style="padding: 0 7px 0 7px;"> Log in with</b>
+          <hr class="col-auto login-line"/>
+        </div>
+
+        <div class="twitter-login-with-oauth" style="margin: 0 0 7px 0;">
+          <a href="{{routes.auth.twitterAuth}}" class="btn col-12" style="background-color: #1da1f2; color: white">
+            <img src="/assets/vendor/twitter/Twitter_Logo_White.png" width="15px"/>
+            Twitter
+          </a>
+        </div>
+        <div class="facebook-login-with-oauth2" style="margin: 0 0 7px 0;">
+          <a href="{{routes.auth.facebookAuth}}" class="btn col-12" style="background-color: #3b5998; color: white">
+            <img src="/assets/vendor/facebook/Facebook_Logo_White.png" width="15px"/>
+            Facebook
+          </a>
+        </div>
+        <div class="google-login-with-oauth2" style="margin: 0 0 7px 0;">
+          <a href="{{routes.auth.googleAuth}}" class="btn col-12" style="background-color: #db3236; color: white">
+            <img src="/assets/vendor/google/Google_Logo_White.png" width="15px"/>
+            Google
+          </a>
+        </div>
         <div style="text-align: center; margin: 10px 0 0 0">
-          Don't have an account? <a href="{{routes.user.signup}}">Sign Up</a>
+          Don't have an account? <a href="{{routes.user.signup}}">Sign In</a>
         </div>
       </div>
     {{/if}}

@@ -15,7 +15,11 @@
       <div class="text-right" style="margin: -30px 30px 10px 0; font-size: 1.1em;">
         {{#if user}}
           <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
-            <span class="badge badge-light">{{user.username}}</span>
+            {{#xif user.provider local}}
+              <span class="badge badge-light">{{user.username}}</span>
+            {{else}}
+              <span class="badge badge-light">{{user.familyName}}</span>
+            {{/xif}}
           </a>
         {{else}}
           <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none">Log in</a>&nbsp;&nbsp;

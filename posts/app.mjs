@@ -1,4 +1,5 @@
 /* ## Setting Up the Server ## */
+import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import sessionFileStore from "session-file-store";
@@ -36,6 +37,12 @@ app.set("view engine", "hbs");
 app.use(favicon(path.join(__dirname, "static", "favicon.ico")));
 app.set("views", path.join(__dirname, "views"));
 hbs.registerPartials(path.join(__dirname, "views/partials"));
+hbs.registerHelper("xif", function (rendered, local, options) {
+  local = "local";
+  return rendered === local
+  ? options.fn(this)
+  : options.inverse(this);
+});
 
 app.use(logger(process.env.REQUEST_LOG_FILE || "dev", {
   stream: log.logStream ? log.logStream : process.stdout

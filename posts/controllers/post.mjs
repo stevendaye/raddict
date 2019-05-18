@@ -20,13 +20,17 @@ export default {
 
   async create (req, res, next) {
     // This controller is used for both creating and updating posts
-    let post;
-    if (req.body.docreate === "create") {
-      post = await posts.create(req.body.postkey, req.body.title, req.body.body);
+    if (req.body.postkey && req.body.title && req.body.body) {
+      let post;
+      if (req.body.docreate === "create") {
+        post = await posts.create(req.body.postkey, req.body.title, req.body.body);
+      } else {
+        post = await posts.update(req.body.postkey, req.body.title, req.body.body);
+      }
+      res.redirect(`${config.routes.post.view}?key=${req.body.postkey}`);
     } else {
-      post = await posts.update(req.body.postkey, req.body.title, req.body.body);
+      return res.render("post_edit", { message: "You must provide value for each field" });
     }
-    res.redirect(`${config.routes.post.view}?key=${req.body.postkey}`);
   },
 
   async view (req, res, next) {

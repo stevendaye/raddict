@@ -33,7 +33,7 @@ export default {
 
   signup (req, res, next) {
     try {
-
+      res.render("signup", { title: "Sign Up", user: req.user });
     } catch (err) {
       next(err);
     }

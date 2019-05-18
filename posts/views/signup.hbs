@@ -1,0 +1,60 @@
+<div class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-10 col-lg-3 col-md-5 col-sm-5 custom-form-signup" role="group">
+      <h5 class="text-center">Sign Up</h5>
+      <form method="POST" action="{{routes.user.signup}}">
+        <input type="hidden" name="provider" value="local"/>
+        {{#if message}}
+          <div class="alert alert-danger">{{message}}</div>
+        {{/if}}
+        <input type="hidden" name="newuser" value="true"/>
+
+        <div class="form-group">
+          <label for="givenName">First Name*:</label>
+          <input type="text" class="form-control" id="givenName" name="givenName" placeholder="Your Given Name" value="" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="familyName">Last Name*:</label>
+          <input type="text" class="form-control" id="familyName" name="familyName" placeholder="Your Family Name" value="" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email*:</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Your email" value="" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="birthday">Date of Birth*:</label>
+          <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Your Date of Birth" value="" required/>
+        </div>
+        
+        <div class="form-group">
+          <label for="username">Username*:</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Choose username" value="" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password*:</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Your password" value="" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPass">Confirm Password*:</label>
+          <input type="password" class="form-control" id="confirmPass" name="confirmPass" placeholder="Confirm password" required/>
+        </div>
+        <input type="hidden" name="photos" value=""/>
+
+        <div class="terms-services">
+          I agree to the <a href="/policy/terms-and-services">terms and services</a>&nbsp;
+          <input type="checkbox" id="checkedTerms" style="margin: 0 0 15px 0;" required/>
+        </div>
+
+        <button type="submit" class="btn btn-default col-12" id="signup">REGISTER</button>
+      </form>
+      <div style="text-align: center; margin: 10px 0 0 0">
+        Have an account? <a href="{{routes.user.login}}">Log In</a>
+      </div>
+    </div>
+  </div>
+</div>

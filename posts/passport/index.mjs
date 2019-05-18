@@ -50,6 +50,30 @@ passport.use(new LocalStrategy(async (username, password, done) => {
   }
 }));
 
+// Configuring the Local User SignUp/Registration
+passport.use("local-signup", new LocalStrategy({
+  usernameField: "username",
+  passwordField: "password",
+  passReqToCallback: true // passing the entire request to the callback
+}, async (req, username, password, done) => {
+  try {
+    debug(`local-signup: ${username}`);
+    let user = await UsersModel.find(username);
+    if (user.found) {
+      debug(`findUsername:local-signup - ${util.inspect(user)}`);
+      done(null, false, { message: user.message });
+    } else {
+      if (req.body.newuser) {
+        debug(`findUsername:local-signup - ${util.inspect(user)}`);
+        done(null, { id: username, username });
+      }
+    }
+  } catch (err) {
+    error(`local-signup threw an error - ${err.stack}`);
+    done(err);
+  }
+}));
+
 // Configuring Twitter Strategy
 passport.use(new TwitterStrategy({
   consumerKey: config.twitter.consumerKey,
@@ -147,6 +171,42 @@ const passportRoutes = app => {
         return res.redirect("/");
       });
     })(req, res, next);
+  });
+
+  router.post(user.signup, (req, res, next) => {
+    if (req.body.username && req.body.password &&
+        req.body.givenName && req.body.familyName && req.body.email &&
+        req.body.birthday && req.body.confirmPass) {
+      
+      passport.authenticate("local-signup", async (err, isNewUser, feedback) => {
+        if (err) {
+          error(`SignIn:local - Error Occured`);
+          return next(err);
+        }
+
+        if (!isNewUser) {
+          debug(`username:Signup - ${util.inspect(isNewUser)}`);
+          return res.render("signup", { message: feedback.message });
+        } // !isNewUser = oldUser
+
+        // Otherwise, if the user is a new user(isNewUser) then
+        if (req.body.password === req.body.confirmPass) {
+          await UsersModel.create(
+            req.body.username, req.body.password, req.body.provider,
+            req.body.familyName, req.body.givenName, req.body.middleName,
+            req.body.email, req.body.photos
+          );
+          req.login(isNewUser, err => {
+            if (err) return next(err);
+            return res.redirect("/");
+          });
+        } else {
+          return res.render("signup", { message: "Passwords do not match" });
+        }
+      })(req, res, next);
+    } else {
+      return res.render("signup", { message: "You must fill all fields" });
+    } // "req.birthday" not used in the user microservice. Set just for testing purpose
   });
 
   router.get(auth.twitterAuth, passport.authenticate("twitter"));

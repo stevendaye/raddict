@@ -43,3 +43,7 @@ This project was created to put together all the things I learned during my Full
   - npm run start-sequelize [will persist data in SQLite3 Database using Sequelize]
   - npm run start-mongodb [will persist data in MongoDB. Just make sure you have a running mongodb instance]
   - npm run server-dbType1(2 || 3) [will run another instance of the app sharing the same data except when running: start & start-level]
+
+# Important
+ - See "pub" file and rename it to "pub.env". Do this after creating your third-party tokens and credentials for facebook,
+   google and twitter for testing user authentication

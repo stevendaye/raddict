@@ -4,10 +4,10 @@
       <input type="hidden" name="docreate" value="{{#if docreate}}create{{else}}update{{/if}}" />
 
       <div class="form-group row">
-        <label for="postkey" class="col-form-label">key:</label><br/>
+        <label for="postkey" class="col-form-label">key*:</label><br/>
         {{#if docreate}}
           {{!-- <div class="col"> --}}
-            <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" />
+            <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" required/>
           {{!-- </div> --}}
         {{else}}
           {{#if post}}
@@ -18,10 +18,10 @@
       </div>
 
       <div class="form-group row">
-        <label for="title" class="col-form-label">Title</label><br/>
+        <label for="title" class="col-form-label">Title*:</label><br/>
         {{!-- <div class="col"> --}}
           <input class="form-control" type="text" name="title" id="title" placeholder="Post title"
-            value="{{#if post}}{{post.title}}{{/if}}" />
+            value="{{#if post}}{{post.title}}{{/if}}" required/>
         {{!-- </div> --}}
       </div>
 

@@ -6,7 +6,7 @@ import DBG from "debug";
 import config from "../../config";
 
 const URL = url.URL;
-const debug = DBG(`raddict:users-superagent`);
+const log = DBG(`raddict:users-superagent`);
 const error = DBG(`raddict:error-superagent`);
 
 const reqURL = path => {
@@ -24,6 +24,11 @@ async function create(username, password, provider, familyName, givenname, middl
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`create: {
+      username: ${username}, provider: ${provider},
+      familyName: ${familyName}, middleName: ${middleName}
+      emails: ${emails}, photos: ${photos}
+    }`);
   return res.body;
 }
 
@@ -36,6 +41,7 @@ async function update(username, password, provider, familyName, givenname, middl
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`update:${util.inspect(res.body)}`);
   return res.body;
 }
 
@@ -47,6 +53,7 @@ async function find(username) {
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`find:${util.inspect(res.body)}`);
   return res.body;
 }
 
@@ -59,11 +66,12 @@ async function checkPassword(username, password) {
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`checkPassword:${util.inspect(res.body)}`);
   return res.body;
 }
 
 // Quering the user microservice to find or create a user based on the profile info
-async function findOrCreateProfile(profile) {
+async function findOrCreate(profile) {
   let res = await request
     .post(reqURL(config.routes.user.findOrCreate))
     .withCredentials()
@@ -80,6 +88,7 @@ async function findOrCreateProfile(profile) {
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`findOrCreate:${util.inspect(res.body)}`);
   return res.body;
 }
 
@@ -91,6 +100,7 @@ async function destroy(username) {
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`destroy:${username}`);
 }
 
 // Quering the user microservice to list all users in the database
@@ -101,7 +111,8 @@ async function listUsers() {
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
+    log(`listUsers:${util.inspect(res.body)}`);
   return res.body
 }
 
-export { create, update, find, destroy, checkPassword, findOrCreateProfile, listUsers }
+export { create, update, find, destroy, checkPassword, findOrCreate, listUsers }

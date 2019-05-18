@@ -70,10 +70,19 @@ async function update(username, password, provider, familyName, givenName, middl
 async function find(username) {
   const SQUser = await connectDB();
   const user = await SQUser.find({ where: { username: { [Op.eq]: username } } });
-  debug(`Find User: ${util.inspect(sanitizedUser(user))}`);
-  return user
-    ? sanitizedUser(user)
-    : undefined;
+  debug(`Find User: ${ user ? util.inspect(await sanitizedUser(user)) : user}`);
+  if (!user) {
+    return {
+      found: false,
+      user: username
+    }
+  } else {
+    return {
+      found: true,
+      user: username,
+      message: `Username "${username}" is not available`,
+      sanitize: await sanitizedUser(user)}
+  }
 } // Returning a sanitized user object instead of the actual user object so as not to expose data we don't want exposed
 
 // Deleting a user
@@ -112,9 +121,9 @@ async function userCheckPassword(username, password) {
 
 // Creating or finding a user profile. This will be used to authenticate against third-party modules
 async function findOrCreateProfile(profile) {
-  const user = await find(profile.id);
+  const user = await SQUser.find({ where: { username: { [Op.eq]: profile.id } } });
   if (user) {
-    return user
+    return await sanitizedUser(user);
   }
   // If no user profile exists, then we create one
   return await create(
@@ -128,7 +137,7 @@ async function findOrCreateProfile(profile) {
 async function listUsers() {
   const SQUser = await connectDB();
   const users = await SQUser.findAll({});
-  return users.map(user => sanitizedUser(user));
+  return users.map(async user => await sanitizedUser(user));
 }
 
 // Sanitizing users to emulate a secured user information service exposing only what we want exposed

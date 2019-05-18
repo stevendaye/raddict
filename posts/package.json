@@ -5,13 +5,18 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+
     "start": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=sequelize SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml node --experimental-modules app.mjs",
+    "start-main1": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=sequelize PORT=3001 SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml node --experimental-modules app.mjs",
+    "start-main2": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=sequelize PORT=3002 SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml node --experimental-modules app.mjs",
+    
     "start-memory": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=memory node --experimental-modules app.mjs",
     "start-fs": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=fs node --experimental-modules app.mjs",
     "start-level": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=level node --experimental-modules app.mjs",
     "start-sqlite3": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=sqlite3 node --experimental-modules app.mjs",
     "start-sequelize": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=sequelize SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml node --experimental-modules app.mjs",
     "start-mongodb": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=mongodb MONGO_URL=mongodb://localhost/ MONGO_DBNAME=post-mongodb node --experimental-modules app.mjs",
+    
     "server-leve1": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=fs PORT=3001 node --experimental-modules app.mjs",
     "server-level2": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=fs PORT=3002 node --experimental-modules app.mjs",
     "server-sqlite1": "cross-env DEBUG=raddict:* USER_SERVICE_URL=http://localhost:3333 RADDICT_MODEL=sqlite3 PORT=3001 node --experimental-modules app.mjs",

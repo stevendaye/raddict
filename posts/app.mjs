@@ -13,7 +13,9 @@ import logger from "morgan";
 import path from "path";
 import DBG from "debug";
 import { passport, passportRoutes } from "./passport";
+import * as io from "./sockect.io";
 import config from "./config";
+import homeRoute from "./routes/home";
 import postsRoutes from "./routes/posts";
 import usersRoutes from "./routes/users";
 import * as errorHandler from "./middlewares/errorHandler";
@@ -23,6 +25,8 @@ import dirname from "./dirname";
 
 const FileStore = sessionFileStore(session);
 const sessionCookieName = "postscookie.sid";
+const sessionSecret = config.secret;
+const sessionStore = new FileStore({ path: "sessions" });
 
 const debug = DBG("raddict:debug");
 const error = DBG("raddict:error");
@@ -58,8 +62,8 @@ app.use(cookieParser(config.secret));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
-  store: new FileStore({ path: "sessions" }),
-  secret: config.secret,
+  store: sessionStore,
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
   name: sessionCookieName
@@ -78,6 +82,7 @@ app.use((req, res, next) => {
 });
 
 // Providing the express app function to all routes
+homeRoute(app);
 postsRoutes(app);
 usersRoutes(app);
 passportRoutes(app);
@@ -97,9 +102,11 @@ if (app.get("env") === "development") {
   app.use(errorHandler.err);
 }
 
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`Server running at http://127.0.0.1:${app.get("port")}`);
 });
 
 export default app;
-export { sessionCookieName };
+export { sessionCookieName, sessionSecret, sessionStore };
+
+io.startSocket(server);

@@ -1,6 +1,5 @@
 /* ## Setting up posts routes ## */
 import express from "express";
-import home from "../controllers/home";
 import post from "../controllers/post";
 import * as utils from "../middlewares/utilities";
 import config from "../config";
@@ -8,7 +7,6 @@ import config from "../config";
 const router = express.Router();
 
 const postsRoutes = app => {
-  router.get("/", home.index);
   router.get(config.routes.post.add, utils.requireAuthentication, post.index);
   router.post(config.routes.post.create, utils.requireAuthentication, post.create);
   router.get(config.routes.post.view, post.view);

@@ -1,6 +1,6 @@
 /* #### Setting up Socket.IO for real time communication #### */
 import socketio from "socket.io";
-import passportSocketIo from "passport.sockectio";
+import passportSocketIo from "passport.socketio";
 import cookieParser from "cookie-parser";
 import { sessionCookieName, sessionSecret, sessionStore } from "../app.mjs"
 

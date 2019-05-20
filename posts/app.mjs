@@ -13,7 +13,7 @@ import logger from "morgan";
 import path from "path";
 import DBG from "debug";
 import { passport, passportRoutes } from "./passport";
-import * as io from "./sockect.io";
+import * as io from "./socket.io";
 import config from "./config";
 import homeRoute from "./routes/home";
 import postsRoutes from "./routes/posts";
@@ -107,6 +107,6 @@ const server = app.listen(config.port, () => {
 });
 
 export default app;
-export { sessionCookieName, sessionSecret, sessionStore };
+export { sessionCookieName, sessionStore, sessionSecret };
 
 io.startSocket(server);

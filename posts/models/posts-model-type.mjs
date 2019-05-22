@@ -15,13 +15,13 @@ async function model () {
 export const events = _events;
 
 export async function create(key, title, body) {
- const post = await model().create(key, title, body);
+ const post = (await model()).create(key, title, body);
  _events.postCreated(post);
  return post // returning the promise
 };
 
 export async function update(key, title, body) {
-  const post = await model().update(key, title, body);
+  const post = (await model()).update(key, title, body);
   _events.postUpdated(post);
   return post // returning the promise
 };
@@ -31,7 +31,7 @@ export async function read(key) {
 };
 
 export async function destroy(key) {
-  await model().destroy(key);
+  (await model()).destroy(key);
   _events.postDestroyed(key);
   return key; // returning the promise
 }

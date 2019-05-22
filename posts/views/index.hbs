@@ -1,7 +1,7 @@
 {{!-- <h3>Express your thoughts</h3> --}}
 <div class="container-fluid index-wrapper">
   <div class="row">
-    <div class="col-12 btn-group-vertical" id="postitles" role="group">
+    <div class="col-12 btn-group-vertical" role="group">
       {{#unless postlist }}
         <div class="align-self-center text-center col-sm-6 col-lg-4 no-post">
           <div>There is no article yet. Be the first to post one.</div>
@@ -18,24 +18,3 @@
     </div>
   </div>
 </div>
-{{> footer_js }}
-
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript">
-  $(document).ready(function () {
-    var socket = io("/home");
-    socket.on("postitles", function (data) {
-      var postlist = data.postlist;
-      $("#postitles").empty();
-      for (var i = 0; i < postlist.length; i ++) {
-        postdata = postlist[i];
-        $("#postitles").append(
-          "<div class=\"col-sm-8 col-lg-7 align-self-center\" style=\"margin: 0 0 10px 0\">" +
-            "<a class=\"btn btn-lg btn-block btn-outline-dark overflow\" href=\"/posts/view?key=" + postdata.key + "\">"
-              + postdata.title + "</a>" +
-          "</div>"
-        );
-      }
-    });
-  });
-</script>

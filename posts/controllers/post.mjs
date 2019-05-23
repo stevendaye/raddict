@@ -1,7 +1,11 @@
 /* ## Setting up the post controller ## */
 import util from "util";
+import DBG from "debug";
 import * as posts from "../models/posts-model-type";
 import config from "../config";
+
+const debug = DBG("raddict:post-controllers");
+const error = DBG("raddict:error-controllers");
 
 export default {
   index (req, res, next) {
@@ -81,3 +85,20 @@ export default {
     res.redirect("/");
   }
 };
+
+export function socketio(io) {
+  posts.events.on("postupdated", post => {
+  debug(`"postupdated" event emitted successfully from the server`);
+  debug(`Socketio -- Viewing - Post Key: ${util.inspect(post.key)} \n Post Title: ${util.inspect(post.title)}`);
+    let data = {};
+    data["post"] = {
+      key: post.key,
+      title: post.title,
+      body: post.body
+    }
+    io.of("/view").emit("postupdated",  data);
+  });
+  posts.events.on("postdestroyed", data => {
+    io.of("/view").emit("postdestroyed", data);
+  });
+}

@@ -2,8 +2,8 @@
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col col-md-10 col-lg-8 word-wrap" style="background: white; margin: 15px 0 5px 0; padding: 15px">
       {{#if post}}
-        <h3 style="color: steelblue"> {{ post.title }} </h3>
-        <p> {{ post.body }} </p>
+        <h3 id="postitle" style="color: steelblue"> {{ post.title }} </h3>
+        <p id="postbody"> {{ post.body }} </p>
       {{/if}}
       <p> key: {{ postkey }} </p>
     </div>
@@ -26,3 +26,30 @@
   {{/if}}
 </div>
 {{> footer_js }}
+
+{{#if postkey}}
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      io("/view").on("postupdated", function (data) {
+        console.log("\"postupdated\" event emitted successfully from the client");
+        console.debug(data);
+        var post = data.post;
+        if (post.key === "{{postkey}}") {
+          $("h3#postitle").empty();
+          $("h3#postitle").text(post.title);
+          $("#postbody").empty();
+          $("#postbody").text(post.body);
+        }
+      });
+
+      io("/view").on("postdestroyed", function (key) {
+        console.log("\"postdestroyed\" event emitted successfully from the client");
+        console.log("psotkey: " + key);
+        if (key === "{{postkey}}") {
+          window.location.href = "/";
+        }
+      });
+    });
+  </script>
+{{/if}}

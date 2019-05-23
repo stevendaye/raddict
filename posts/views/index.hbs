@@ -23,8 +23,9 @@
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
   $(document).ready(function () {
-    var socket = io("/home");
-    socket.on("postitles", function (data) {
+    io("/home").on("postitles", function (data) {
+      console.log("\"postcreated\" event emitted successfully from the client");
+      console.debug(data);
       var postlist = data.postlist;
       $("#postitles").empty();
       for (var i = 0; i < postlist.length; i ++) {
@@ -36,6 +37,10 @@
           "</div>"
         );
       }
+    });
+
+    io("/view").on("postdestroyed", function (key) {
+      window.location.href = "/";
     });
   });
 </script>

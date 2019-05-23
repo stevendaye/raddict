@@ -32,7 +32,7 @@ async function getKeyTitlesList() {
   return Promise.all(keyPromises);
 }
 
-export function homeSocketio(io) {
+export function socketio(io) {
   const emitPostTitles = async () => {
     const postlist = await getKeyTitlesList();
     io.of("/home").emit("postitles", { postlist });

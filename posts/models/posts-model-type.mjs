@@ -15,35 +15,35 @@ async function model () {
 export const events = _events;
 
 export async function create(key, title, body) {
- const post = (await model()).create(key, title, body);
- _events.postCreated(post);
+ const post = await (await model()).create(key, title, body);
+_events.postCreated(post);
  return post // returning the promise
 };
 
 export async function update(key, title, body) {
-  const post = (await model()).update(key, title, body);
+  const post = await (await model()).update(key, title, body);
   _events.postUpdated(post);
   return post // returning the promise
 };
 
 export async function read(key) {
-  return (await model()).read(key); // returning the promise
+  return await (await model()).read(key); // returning the promise
 };
 
 export async function destroy(key) {
-  (await model()).destroy(key);
+  await (await model()).destroy(key);
   _events.postDestroyed(key);
   return key; // returning the promise
 }
 
 export async function keylist() {
-  return (await model()).keylist(); // returning the promise
+  return await (await model()).keylist(); // returning the promise
 };
 
 export async function count() {
-  return (await model()).count(); // returning the promise
+  return await (await model()).count(); // returning the promise
 }
 
 export async function close() {
-  return (await model()).close(); // returning the promise
+  return await (await model()).close(); // returning the promise
 }

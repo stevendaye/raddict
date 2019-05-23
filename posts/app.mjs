@@ -1,5 +1,6 @@
 /* ## Setting Up the Server ## */
 import "dotenv/config";
+import http from "http";
 import express from "express";
 import session from "express-session";
 import sessionFileStore from "session-file-store";
@@ -28,13 +29,16 @@ const sessionCookieName = "postscookie.sid";
 const sessionSecret = config.secret;
 const sessionStore = new FileStore({ path: "sessions" });
 
-const debug = DBG("raddict:debug");
-const error = DBG("raddict:error");
+const debug = DBG("raddict:server-app");
+const error = DBG("raddict:error-app");
 
 // Workaround for the lack __dirname in ES6 modules
 const { __dirname } = dirname;
 
 const app = express();
+const server = http.createServer(app);
+
+var port = normalizePort(config.port);
 
 app.set("port", config.port);
 app.set("view engine", "hbs");
@@ -102,11 +106,52 @@ if (app.get("env") === "development") {
   app.use(errorHandler.err);
 }
 
-const server = app.listen(config.port, () => {
-  console.log(`Server running at http://127.0.0.1:${app.get("port")}`);
-});
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+io.startSocket(server);
+
+// Configuring the port
+function normalizePort(val) {
+  let port = parseInt(val, 10);
+  if (isNaN(port)) {
+    return val;
+  } // Named pipe
+  if (port >= 0) {
+    return port
+  }
+  return false;
+}
+
+// Event listeners for HTTP Server
+function onError (error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  let bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  // Handling specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening () {
+  let addr = server.address();
+  let bind = typeof addr === "string" ? "Pipe " + addr : addr.port;
+  debug("Server listening at http://localhost:" + bind);
+}
 
 export default app;
 export { sessionCookieName, sessionStore, sessionSecret };
 
-io.startSocket(server);

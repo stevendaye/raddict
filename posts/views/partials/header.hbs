@@ -3,6 +3,7 @@
     <div class="row h-100 justify-content-center">
       <div class="col-12 col-md-11 col-lg-11 col-xl-11" style="margin: 0;">
 
+        {{!-- Login and Signup icons hidden on small screens but displayed on all others --}}
         <nav class="navbar float-right d-none d-sm-block" style="margin: 15px 0 0 0;">
           {{#if user}}
             <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
@@ -37,6 +38,7 @@
             <span class="navbar-toggler-icon" style=""></span>
           </button>
 
+          {{!-- Login and Signup icons displayed only on small screens but hidden on all others --}}
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav col d-lg-none d-md-none d-sm-none" style="text-align: center; margin: 0 0 15px 0; padding: 0;">
               {{#if user}}

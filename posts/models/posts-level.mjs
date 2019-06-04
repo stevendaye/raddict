@@ -26,21 +26,21 @@ async function connectDB() {
 }
 
 // Creating a new database entry for inserting a post
-async function crupdate(key, title, body) {
-  debug(`CRUPDATE:Creating Post: ${key}, ${title}, ${body}`);
+async function crupdate(key, username, title, body, timestamp) {
+  debug(`CRUPDATE:Creating Post: ${key}, ${username}, ${title}, ${body}, ${timestamp}`);
   const db = await connectDB();
-  let post = new Post(key, title, body);
+  let post = new Post(key, username, title, body, timestamp);
   await db.put(key, post.JSON); // Converted to json for easy insertion into the database
-  debug(`CRUPDATE:Inserted Post: ${key}, ${title}, ${body}`);
+  debug(`CRUPDATE:Inserted Post: ${key}, ${username}, ${title}, ${body}, ${timestamp}`);
   return post;
 }
 
-async function create(key, title, body) {
-  return crupdate(key, title, body);
+async function create(key, username, title, body, timestamp) {
+  return crupdate(key, username, title, body, timestamp);
 }
 
-async function update(key, title, body) {
-  return crupdate(key, title, body);
+async function update(key, username, title, body, timestamp) {
+  return crupdate(key, username, title, body, timestamp);
 }
 
 // Reading a post from the database
@@ -48,7 +48,7 @@ async function read(key) {
   debug(`Reading ${key}`);
   const db = await connectDB();
   let post = Post.fromJSON(await db.get(key));
-  return new Post(post.key, post.title, post.body);
+  return new Post(post.key, post.username, post.title, post.body, post.timestamp);
 };
 
 // Deleting a post from the database

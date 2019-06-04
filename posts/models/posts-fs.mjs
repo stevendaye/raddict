@@ -28,11 +28,11 @@ const readJSON = async (postsdir, key) => {
 };
 
 // Creating and updating a post
-const crupdate = async (key, title, body) => {
+const crupdate = async (key, username, title, body, timestamp) => {
   const postsdir = await postsDir();
   if (key.includes("/"))
     throw new Error(`${key} cannot contain '/'`);
-  let post = new Post(key, title, body);
+  let post = new Post(key, username, title, body, timestamp);
   let writeTo = filePath(postsdir, key);
   let writeJSON = post.JSON;
   debug(`WRITING: ${writeJSON} TO: ${writeTo}`);
@@ -40,11 +40,11 @@ const crupdate = async (key, title, body) => {
   return post;
 };
 
-export const create = (key, title, body) =>
-  crupdate(key, title, body);
+export const create = (key, username, title, body, timestamp) =>
+  crupdate(key, username, title, body, timestamp);
 
-export const update = (key, title, body) =>
-  crupdate(key, title, body);
+export const update = (key, username, title, body, timestamp) =>
+  crupdate(key, username, title, body, timestamp);
 
 // Reading a post from the 'key.json' file
 export const read = async key => {

@@ -13,6 +13,9 @@ import util from "util";
 import logger from "morgan";
 import path from "path";
 import DBG from "debug";
+import moment from "moment";
+import gravatar from "gravatar";
+import md5 from "md5";
 import { passport, passportRoutes } from "./passport";
 import * as io from "./socket.io";
 import config from "./config";
@@ -23,6 +26,9 @@ import * as errorHandler from "./middlewares/errorHandler";
 import * as utils from "./middlewares/utilities";
 import * as log from "./middlewares/log";
 import dirname from "./dirname";
+import * as miscellaneous from "./miscellaneous";
+
+hbs.handlebars === import("handlebars");
 
 const FileStore = sessionFileStore(session);
 const sessionCookieName = "postscookie.sid";
@@ -42,15 +48,26 @@ var port = normalizePort(config.port);
 
 app.set("port", config.port);
 app.set("view engine", "hbs");
-app.use(favicon(path.join(__dirname, "static", "favicon.ico")));
+app.use(favicon(path.join(__dirname, "static", "raddictr.ico")));
 app.set("views", path.join(__dirname, "views"));
 hbs.registerPartials(path.join(__dirname, "views/partials"));
-hbs.registerHelper("xif", function (rendered, local, options) {
-  local = "local";
-  return rendered === local
-  ? options.fn(this)
-  : options.inverse(this);
+hbs.registerHelper({
+  wif(post, user, options) {
+    return post === user
+      ? options.fn(this)
+      : options.inverse(this);
+  },
+  xif(rendered, local, options) {
+    local = "local";
+    return rendered === local
+      ? options.fn(this)
+      : options.inverse(this);
+  },
+  timeago(timestamp) {
+    return moment(timestamp).startOf("seconds").fromNow();
+  }
 });
+miscellaneous.dataFeathers(hbs);
 
 app.use(logger(process.env.REQUEST_LOG_FILE || "dev", {
   stream: log.logStream ? log.logStream : process.stdout

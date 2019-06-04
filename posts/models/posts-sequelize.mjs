@@ -32,31 +32,33 @@ async function connectDB() {
       primaryKey: true,
       unique: true
     },
+    username: Sequelize.STRING,
     title: Sequelize.STRING,
-    body: Sequelize.TEXT
+    body: Sequelize.TEXT,
+    timestamp: Sequelize.DATE
   });
   return SQPost.sync();
 }
 
 // Creating a Post
-async function create(key, title, body) {
+async function create(key, username, title, body, timestamp) {
   const SQPost = await connectDB();
-  const post = new Post(key, title, body);
-  await SQPost.create({ postkey: key, title: title, body: body });
+  const post = new Post(key, username, title, body, timestamp);
+  await SQPost.create({ postkey: key, username: username, title: title, body: body, timestamp: timestamp });
   debug(`Created the post: ${util.inspect(post)}`);
   return post;
 }
 
 // Updating a Post
-async function update(key, title, body) {
+async function update(key, username, title, body, timestamp) {
   const SQPost = await connectDB();
   const post = await SQPost.find({ where: { postkey: { [Op.eq]: key } } });
   if (!post) {
     throw new Error(`No Post of key = ${key} found.`);
   } else {
-    await post.updateAttributes({ title : title, body: body });
+    await post.updateAttributes({ title : title, body: body, timestamp: timestamp });
     debug(`Updated Post: ${util.inspect(post)}`);
-    return new Post(key, title, body);
+    return new Post(key, username, title, body, timestamp);
   }
 }
 
@@ -68,7 +70,7 @@ async function read(key) {
     throw new Error(`No Post of key = ${key} found.`);
   } else {
     debug(`Read Post of key: ${util.inspect(post)}`);
-    return new Post(post.postkey, post.title, post.body);
+    return new Post(post.postkey, post.username, post.title, post.body, post.timestamp);
   }
 }
 

@@ -13,6 +13,11 @@ const config = {
       update: "/posts/edit",
       delete: "/posts/delete",
       deleteConfirm: "/posts/delete/confirm",
+      comment: {
+        like: "/posts/like-comment",
+        make: "/posts/make-comment",
+        delete: "/posts/delete-comment"
+      }
     },
     user: {
       create: "/create-user",

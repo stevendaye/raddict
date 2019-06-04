@@ -1,4 +1,4 @@
-/* ## Setting up Sequelize to store comments ## */
+/* ## Setting up Sequelize to store chat messages ## */
 import Sequelize from "sequelize";
 import jsyaml from "js-yaml";
 import fs from "fs-extra";
@@ -6,13 +6,13 @@ import EventEmitter from "events";
 import util from "util";
 import DBG from "debug";
 
-class commentEmitter extends EventEmitter {}
+class messageEmitter extends EventEmitter {}
 
-const debug = DBG("raddict:model-comments");
-const error = DBG("raddict:error-comments");
+const debug = DBG("raddict:model-messsages");
+const error = DBG("raddict:error-messages");
 const Op = Sequelize.Op;
 
-var SQComment;
+var SQMessage;
 var Sqlize;
 
 async function connectDB() {
@@ -23,11 +23,11 @@ async function connectDB() {
     Sqlize = new Sequelize(params.dbname, params.username, params.password, params.params);
   }
 
-  if (SQComment) {
-    return SQComment.sync();
+  if (SQMessage) {
+    return SQMessage.sync();
   }
 
-  SQComment = Sqlize.define("Comment", {
+  SQMessage = Sqlize.define("Message", {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -36,47 +36,47 @@ async function connectDB() {
     },
     from: Sequelize.STRING,
     namespace: Sequelize.STRING,
-    comment: Sequelize.STRING(1024),
+    message: Sequelize.STRING(1024),
     timestamp: Sequelize.DATE
   });
-  return SQComment.sync();
+  return SQMessage.sync();
 }
 
-export async function postComment(from, namespace, comment) {
-  const SQComment = await connectDB();
-  const newComment = await SQComment.create({
-    from, namespace, comment, timestamp: new Date()
+export async function postMessage(from, namespace, message) {
+  const SQMessage = await connectDB();
+  const newMessage = await SQMessage.create({
+    from, namespace, message, timestamp: new Date()
   });
-  const theComment = {
-    id: newComment.id, from: newComment.from, namespace: newComment.namespace,
-    comment: newComment.comment, timestamp: newComment.timestamp
+  const theMessage = {
+    id: newMessage.id, from: newMessage.from, namespace: newMessage.namespace,
+    message: newMessage.message, timestamp: newMessage.timestamp
   };
 
-  emitter.emit("newcomment", theComment);
-  return newComment;
+  emitter.emit("newmessage", theMessage);
+  return newMessage;
 }
 
-export async function destroyComment(id, namespace) {
-  const SQComment = await connectDB();
-  const comment = SQComment.find({ where: { id: { [Op.eq]: id} } });
-  if (comment) {
-    comment.destroy();
-    emitter.emit("destroycomment", { id, namespace });
+export async function destroymessage(id, namespace) {
+  const SQMessage = await connectDB();
+  const message = SQMessage.find({ where: { id: { [Op.eq]: id} } });
+  if (message) {
+    message.destroy();
+    emitter.emit("destroymessage", { id, namespace });
   }
-  return comment;
+  return message;
 }
 
 export async function recentMessages(namespace) {
-  const SQComment = await connectDB();
-  const comments = SQComment.findAll({
+  const SQMessage = await connectDB();
+  const messages = SQMessage.findAll({
     where: { [Op.eq]: namespace }, order: ["timestamp"], limit: 20
   });
-  return comments.map(comment => {
+  return messages.map(message => {
     return {
-      id: comment.id, from: comment.from, namespace: comment.namespace,
-      comment: comment.comment, timestamp: comment.timestamp
+      id: message.id, from: message.from, namespace: message.namespace,
+      message: message.message, timestamp: message.timestamp
     };
   });
 }
 
-export const emitter = new commentEmitter();
+export const emitter = new messageEmitter();

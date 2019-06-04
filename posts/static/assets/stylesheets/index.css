@@ -2,8 +2,8 @@
 body {
   margin: 0;
   padding: 0;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgb(250,250, 250);
+  font: 14px "Lucida Grande", "TrebuchetMS", Helvetica, Arial, sans-serif;
+  background-color: #f6f9fc;
 }
 
 h1:first-child {
@@ -11,24 +11,86 @@ h1:first-child {
 }
 
 a {
-  color: #00B7FF;
+  color: steelblue;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-decoration: none;
 }
 
 a:hover {
   color: rgb(37,37, 41);
+  text-decoration: none;
 } 
 
-.first-header {
-  padding: 15px 0 15px 25px;
+.second-header {
+  padding: 15px 0 10px 25px;
   margin: 0;
   color:white;
-  background:steelblue;
+  background:rgb(37,37, 41);
+}
+
+.home-view {
+  display: inline-block;
 }
 
 /* Wraping the index content */
 .index-wrapper {
   margin: 25px 0 15px 0;
+}
+
+/* Index: Postlist Rules */
+a.postlist {
+  margin: 0 0 10px 0;
+  background-color: white;
+  padding: 15px 25px 45px 30px;
+}
+a.postlist:hover {
+  border: none;
+  box-shadow: 5px 5px 20px #faeaea;
+  -webkit-box-shadow: 5px 5px 20px #aaaaaa;
+  -moz-box-shadow: 5px 5px 20px #aaaaaa;
+  text-decoration: none;
+}
+
+/* View: Post view Rules */
+.edit:hover, .delete:hover {
+  color: steelblue;
+}
+
+.comment, .heart {
+  color: steelblue;
+}
+
+.heart:hover {
+  color: #E04C4C;
+  fill: #E04C4C;
+  cursor: pointer;
+}
+
+.comment:hover {
+  cursor: pointer;
+  fill: steelblue;
+}
+
+.more-vertical {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.more-vertical:hover {
+  cursor: pointer;
+}
+
+.vistor-comment a {
+  color: whitesmoke;
+}
+
+.round {
+  border: 2px solid red;
+  padding: 0 4px 0 4px;
+  border-radius: 100px;
+}
+.round:hover, .comment-del-btn:hover {
+  cursor: pointer;
 }
 
 /* No Post Rules when no articles */
@@ -52,6 +114,7 @@ a:hover {
 .overflow {
   overflow: hidden;
   text-overflow: ellipsis;
+  text-emphasis: wrap;
   white-space: nowrap;
 }
 
@@ -87,6 +150,17 @@ a:hover {
   display: inline-block;
   font-style: italic;
 }
+
 hr.login-line {
   margin: 35px 0 0 0; 
+}
+
+/* Footer */
+footer a {
+  color: inherit;
+}
+
+footer a:hover {
+  text-decoration: none;
+  color: inherit;
 }

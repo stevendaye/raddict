@@ -10,6 +10,7 @@ export default {
   async index (req, res, next) {
     try {
       const postlist = await getKeyTitlesList();
+      if (req.user) log(`Successfully sent to index template req.user: ${util.inspect(req.user)}`);
       
       res.render("index", {
         title: "Raddict | Your Thoughts Sharing Platform ",
@@ -27,7 +28,7 @@ async function getKeyTitlesList() {
   const keylist = await posts.keylist();
   const keyPromises = keylist.map( key =>
     posts.read(key).then( post => {
-      return { key: post.key, title: post.title };
+      return { key: post.key, username: post.username, title: post.title, timestamp: post.timestamp };
     }));
   return Promise.all(keyPromises);
 }

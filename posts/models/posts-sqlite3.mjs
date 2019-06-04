@@ -8,13 +8,13 @@ const debug = DBG("raddict:posts-sqlite3");
 const error = DBG("raddict:error-sqlite3");
 
 // Inserting a post
-async function create(key, title, body) {
+async function create(key, username, title, body, timestamp) {
   let db = await connectDB();
-  let post = new Post(key, title, body);
+  let post = new Post(key, username, title, body, timestamp);
 
   await new Promise((resolve, reject) => {
     db.run(`INSERT INTO posts(postkey, title, body)
-      VALUES(?, ?, ?)`, [key, title, body],
+      VALUES(?, ?, ?, ?, ?)`, [key, username, title, body, timestamp],
       err => {
         if (err) {
           return reject(err + " Something went wrong when inserting!");
@@ -28,9 +28,9 @@ async function create(key, title, body) {
 }
 
 // Updating a post
-async function update(key, title, body) {
+async function update(key, username, title, body, timestamp) {
   let db = await connectDB();
-  let post = new Post(key, title, body);
+  let post = new Post(key, username, title, body, timestamp);
 
   await new Promise((resolve, reject) => {
     db.run(
@@ -60,7 +60,7 @@ async function read(key) {
         if (err) {
           return reject(err + " Something went wrong when reading!");
         }
-        const post = new Post(row.postkey, row.title, row.body);
+        const post = new Post(row.postkey, row.username, row.title, row.body, row.timestamp);
         debug(`READING ${util.inspect(post)}`);
         resolve(post);
       }

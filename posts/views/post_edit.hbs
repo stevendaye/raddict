@@ -2,6 +2,8 @@
   <div class="container-fluid  col-lg-5 col-md-6 col-sm-7 col-10 custom-form">
     {{#if user}}
       <input type="hidden" name="docreate" value="{{#if docreate}}create{{else}}update{{/if}}" />
+      <input type="hidden" name="username" value="{{user.username}}" />
+      <input type="hidden" name="timestamp" value="{{#if post}}{{post.timestamp}}{{else}}{{timestamp}}{{/if}}"/>
       {{#if message}}
         <div class="row alert alert-danger">{{message}}</div>
       {{/if}}     
@@ -30,11 +32,7 @@
 
       <div class="form-group row">
         <label for="article" class="col-form-label">Aritcle:</label>
-        <textarea class="form-control" rows="4" name="body">
-          {{#if post}}
-            {{post.body}}
-          {{/if}}
-        </textarea>
+        <textarea class="form-control" rows="4" name="body">{{#if post}}{{post.body}}{{/if}}</textarea>
       </div>
 
       <div class="row">
@@ -49,4 +47,5 @@
     {{/if}}
   </div>
 </form>
+
 {{> footer_js }}

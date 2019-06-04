@@ -1,28 +1,64 @@
-<header class="page-header" style="margin: 0;">
-  {{!-- <h2>{{ title }}</h2> --}}
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/"><i data-feather="home"></i></a>
+<header style="background-color: steelblue; margin: 0; padding: 0;" class="page-header">
+  <div class="container-fluid h-100">
+    <div class="row h-100 justify-content-center">
+      <div class="col-12 col-md-11 col-lg-11 col-xl-11" style="margin: 0;">
 
-    <button class="navbar-toggler" type="button"
-      data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <nav class="navbar float-right d-none d-sm-block" style="margin: 15px 0 0 0;">
+          {{#if user}}
+            <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
+              {{#xif user.provider local}}
+                <span class="badge badge-light">{{user.username}}</span>
+              {{else}}
+                <span class="badge badge-light">{{user.familyName}}</span>
+              {{/xif}}
+            </a>
+          {{else}}
+            <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none" title="Log In">
+              <i data-feather="log-in" width="25px" height="25px"></i>
+            </a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{{routes.user.signup}}" style="color: whitesmoke; text-decoration: none;" title="Sign Up">
+              <i data-feather="user-plus" width="25px" height="25px"></i>
+            </a>  
+          {{/if}}
+        </nav>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      {{!-- <div class="navbar-nav col">
-        {{#if breadcrumb}}
-          <a class="nav-item nav-link" href="{{breadcrumb.url}}">{{breadcrumb.title}}</a>
-        {{/if}}
-      </div> --}}
-      <span class="navbar-text col">{{title}}</span>
-      {{!-- Login and Signup buttons could have stayed here rather --}}
-      <a class="nav-item nav-link btn col-auto"
-          style="background-color: steelblue; color:white; margin: 0 15px 0 0;"
-          href="{{routes.post.add}}">
-        Add Post
-      </a>
+        <nav class="navbar navbar-expand-sm navbar-dark" style="padding: 0 0 0 15px;">
+          <a href="/" style="margin: 0 0 0 0; padding: 0;">
+            <img src="/assets/vendor/local/raddict-white.png" width="40px" height="40px" class="navbar-brand img-fluid"/>
+          </a>
+          <span style="margin: -5px 0 0 -10px;; color: white; font-size: 2em; font-weight: bold; font-family: 'Helvetica';">
+            raddict
+          </span>
+          
+          <button class="navbar-toggler float-right" type="button"
+            data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style=""></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav col d-lg-none d-md-none d-sm-none" style="text-align: center; margin: 0 0 15px 0; padding: 0;">
+              {{#if user}}
+                <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
+                  {{#xif user.provider local}}
+                    <span class="badge badge-light">{{user.username}}</span>
+                  {{else}}
+                    <span class="badge badge-light">{{user.familyName}}</span>
+                  {{/xif}}
+                </a>
+              {{else}}
+                <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none" title="Log In">
+                  <i data-feather="log-in" width="25px" height="25px"></i>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{{routes.user.signup}}" style="color: whitesmoke; text-decoration: none;" title="Sign Up">
+                  <i data-feather="user-plus" width="25px" height="25px"></i>
+                </a>  
+              {{/if}}
+            </div> 
+          </div>
+        </nav>
+      </div>
     </div>
-  </nav>
+  </div>
 </header>

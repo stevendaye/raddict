@@ -1,33 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="eng">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{title}}</title>
+    {{!-- <title>{{title}}</title> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/raddictr.ico" />
     <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/assets/stylesheets/index.css" />
   </head>
   <body>
-    <div class="page-header first-header">
-      <h1 class="">Raddict</h1>
-      <div class="text-right" style="margin: -30px 30px 10px 0; font-size: 1.1em;">
-        {{#if user}}
-          <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
-            {{#xif user.provider local}}
-              <span class="badge badge-light">{{user.username}}</span>
-            {{else}}
-              <span class="badge badge-light">{{user.familyName}}</span>
-            {{/xif}}
-          </a>
-        {{else}}
-          <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none">Log in</a>&nbsp;&nbsp;
-          <a href="{{routes.user.signup}}" style="color: whitesmoke; text-decoration: none;">Sign Up</a>
-        {{/if}}
-      </div>
-    </div>
+
     {{> header }}
     {{{body}}}
+    {{> footer }}
+    
   </body>
 </html>

@@ -1,23 +1,96 @@
 {{!-- <h3>Express your thoughts</h3> --}}
-<div class="container-fluid index-wrapper">
-  <div class="row">
-    <div class="col-12 btn-group-vertical" id="postitles" role="group">
-      {{#unless postlist }}
-        <div class="align-self-center text-center col-sm-6 col-lg-4 no-post">
-          <div>There is no article yet. Be the first to post one.</div>
-          <a href="{{routes.post.add}}" class="btn btn-block btn-outline-dark col-12">Post Article</a>
-        </div>
-      {{/unless}}
-      {{#each postlist}}
-        <div class="col-sm-8 col-lg-7 align-self-center" style="margin: 0 0 10px 0">
-          <a class="btn btn-lg btn-block btn-outline-dark overflow" href="/posts/view?key={{ key }}">
-            {{ title }}
+<div class="container-fluid h-100 index-wrapper">
+  <div class="row h-100 justify-content-center">
+
+    {{!-- Group of all hidden above bellow displayed on small screes horizontally at the very top of postlists --}}
+    <div class="col-9 d-sm-none d-flex justify-content-between"
+      style="margin: 0 0 15px 0; background-color: white; border-radius: 4px; padding: 15px 25px 15px 25px;">
+      <a href="/posts/whatsup" style="padding: 0;" title="Thought Posts">
+        <i data-feather="feather" stroke="steelblue" fill="none"></i>
+      </a>
+      <a href="/posts/images" title="Image Posts">
+        <i data-feather="image" stroke="steelblue" fill="none"></i>
+      </a>
+      <a href="{{routes.user.people}}" style="padding: 0;" title="Users You Might Know">
+        <i data-feather="users" stroke="steelblue" fill="none"></i>
+      </a>
+      <a href="{{routes.post.add}}" style="padding: 0;" title="Post a thought">
+        <i data-feather="edit-2" stroke="steelblue" fill="none"></i>
+      </a>
+      <a href="{{routes.post.images.add}}" style="padding: 0;" title="Post an image">
+        <i data-feather="edit" stroke="steelblue" fill="none"></i>
+      </a>
+    </div>
+
+    <div class="col-12 col-lg-10 d-flex justify-content-start" style="border: none">
+
+      {{!-- Group of buttons to view notifications: hidden on small screens and displayed on all others--}}
+      <div class="d-none d-sm-block d-md-block">
+        <div class="col-auto d-inline-block" style="height: 25%; margin: 0; background-color: steelblue; border-radius: 4px;">
+          <a href="/posts/whatsup" style="display:block; padding: 15px 0 10px 0;" title="Thought Posts">
+            <i data-feather="feather" stroke="white" fill="none"></i>
+          </a>
+          <a href="/posts/images" style="display:block;" title="Image Posts">
+            <i data-feather="image" stroke="white" fill="none"></i>
+          </a>
+          <a href="{{routes.user.people}}" style="display:block; padding: 10px 0 15px 0;" title="Users You Might Know">
+            <i data-feather="users" stroke="white" fill="none"></i>
           </a>
         </div>
-      {{/each}}
+      </div>
+
+      {{!-- List of postlist: Expanded on all 12 grid columns from on small screens and inline-block on all others --}}
+      <div class="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 d-sm-block d-inline-block" style="border: none; margin: 0%;">
+        <div class="col-12 btn-group-vertical" id="postitles" role="group">
+          {{#unless postlist }}
+            <div class="align-self-center text-center col-sm-6 col-lg-4 no-post">
+              <div>There is no article yet. Be the first to post one.</div>
+              <a href="{{routes.post.add}}" class="btn btn-block btn-outline-dark col-12">Post Article</a>
+            </div>
+          {{/unless}}
+          {{#each postlist }}
+            <a class="col-12 align-self-center overflow postlist" href="/posts/view?key={{ key }}">
+              <div style="postion: relative">
+                <h6 id="username" style="color: grey">{{username}}</h6>
+                <h5>{{ title }}</h5>       
+                <p style="position: absolute; top: 15px; right: 25px; border: none;">
+                  <small class="text-muted timeago">{{timeago timestamp}}</small>&nbsp;&nbsp;<i data-feather="clock" width="12px"></i>
+                </p>
+              </div>
+            </a>
+            <div class="col-sm-8 col-lg-7 align-self-center" style="margin: -50px 0 30px 0; border: none;">
+              <div style="padding: 0 5px 0 0;">
+                <span style="margin: 0 0 0 13px;"><i data-feather="more-horizontal" width="20px" height="20px" stroke="grey"></i></span>
+                <a href="/posts/share" class="float-right">
+                  <i data-feather="share" width="20px" height="20px"></i>
+                </a>
+                <a href="/posts/view?key={{ key }}" class="float-right" style="margin: 0 15px 0 0;">
+                  <i class="comment" data-feather="message-circle" width="20px" height="20px"></i>
+                </a>
+                <a href="/posts/like-comment" class="float-right" style="margin: 0 15px 0 0;">
+                  <i class="heart" data-feather="heart" width="20px" height="20px"></i>
+                </a>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Group of buttons to post thoughts and images: hidden on small screens and displayed on all others--}}
+      <div class="d-none d-sm-block d-md-block">
+        <div class="col-auto d-inline-block" style="height: 20%; background-color: white; border-radius: 4px;">
+          <a href="{{routes.post.add}}" style="display: block; padding: 15px 0 10px 0;" title="Post a thought">
+            <i data-feather="edit-2"></i>
+          </a>
+          <a href="{{routes.post.images.add}}" style="display: block; padding: 0 0 15px 0;" title="Post an image">
+            <i data-feather="edit"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 {{> footer_js }}
 
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -29,11 +102,12 @@
       var postlist = data.postlist;
       $("#postitles").empty();
       for (var i = 0; i < postlist.length; i ++) {
-        postdata = postlist[i];
-        $("#postitles").append(
-          "<div class=\"col-sm-8 col-lg-7 align-self-center\" style=\"margin: 0 0 10px 0\">" +
-            "<a class=\"btn btn-lg btn-block btn-outline-dark overflow\" href=\"/posts/view?key=" + postdata.key + "\">"
+        var postdata = postlist[i];
+        $("#postitles").prepend("<div class=\"col-sm-8 col-lg-7 align-self-center\" style=\"margin: 0 0 10px 0\">" +
+            "<p id=\"username\">" + postdata.username + "</p>" +
+            "<a class=\"btn btn-lg btn-block btn-outline-dark overflow\" href=\"{{routes.post.view}}?key=" + postdata.key + "\">"
               + postdata.title + "</a>" +
+            "<small class=\"text-muted timeago\">" + "{{timeago " + postdata.timestamp + "}}" + "</small>" +
           "</div>"
         );
       }

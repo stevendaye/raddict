@@ -1,39 +1,141 @@
-<div class="container-fluid h-100">
+<div class="container-fluid h-100" style="position: relative;">
   <div class="row h-100 justify-content-center align-items-center">
-    <div class="col col-md-10 col-lg-8 word-wrap" style="background: white; margin: 15px 0 5px 0; padding: 15px">
+    <div class="col col-md-10 col-lg-8 word-wrap" style="background: white; margin: 15px 0 5px 0; padding: 25px 15px 65px 25px">
       {{#if post}}
-        <h3 id="postitle" style="color: steelblue"> {{ post.title }} </h3>
+        <h3 id="username">{{post.username}}</h3>
+        <h4 id="postitle" style="color: steelblue"> {{ post.title }} </h4>
         <p id="postbody"> {{ post.body }} </p>
+        <small class="text-muted timeago" style="position: absolute; top: 37px; left: 125px;">{{timeago post.timestamp}}</small>
       {{/if}}
-      <p> key: {{ postkey }} </p>
+      {{!-- <p> key: {{ postkey }} </p> --}}
+      <span title="More"><i class="more-vertical" data-feather="more-vertical"></i></span>
     </div>
   </div>
-  {{#if postkey}}
+  {{#if user}}
+    {{#if postkey}}
+      <div class="row h-100 justify-content-center">
+        <div class="col col-md-10 col-lg-8" style="margin: -70px 0 0 0; padding: 10px 30px 0 0;">
+          <div class="col-xm-12" style="border: none; padding: 0 0 0 25px;">
+
+            <div class="btn-group float-right" style="border: none;">
+              <a href="/posts/like"><i class="heart" data-feather="heart"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="comment" data-feather="message-circle" data-toggle="modal" data-target="#posts-comment-modal"></i>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              
+              {{#if post}}
+                {{#wif post.username user.username}}
+                <a class="edit" role="button" href="{{routes.post.update}}?key={{postkey}}" title="Edit">
+                  <i data-feather="edit-3"></i>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                {{/wif}}
+              {{/if}}
+
+              {{#if post}}
+                {{#wif post.username user.username}}
+                  <a class="delete" role="button" href="{{routes.post.delete}}?key={{postkey}}" title="Delete">
+                    <i data-feather="delete"></i>
+                  </a>
+                {{/wif}}
+              {{/if}}
+            </div>
+
+            <div class="stats float-left" style="color: grey; margin: 5px 0 0 0; border: none; width: 52%;">
+              <p>
+                <span>{{#if totalLikes}}{{totalLikes}}{{else}}0{{/if}}</span> Likes &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>{{#if totalComments}}{{totalComments}}{{else}}0{{/if}}</span> Comments
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="row h-100 justify-content-center">
+        <div id="postComments" style="margin: 10px 0 0 0; position: relative;" class="col-12 col-md-10 col-lg-8"></div>
+      </div>
+    {{/if}}
+  {{else}}
     <div class="row h-100 justify-content-center">
-      <div class="col col-md-10 col-lg-8" style="padding: 10px 0 0 0;">
-        <div class="col-xm-12">
-          <div class="btn-group">
-            <a class="btn btn-outline-dark" role="button" href="{{routes.post.update}}?key={{postkey}}">
-              Edit
-            </a>
-            <a class="btn btn-outline-dark" role="button" href="{{routes.post.delete}}?key={{postkey}}">
-              Delete
-            </a>
+        <div class="col col-md-10 col-lg-8" style="margin: -70px 0 0 0; padding: 10px 30px 0 0;">
+
+          <div class="col-xm-12" style="border: none; padding: 0 0 0 25px;">
+            <div class="btn-group float-right" style="border: none;">
+              <a href="{{routes.post.comment.like}}">
+                <i class="heart" data-feather="heart"></i>
+              </a>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="{{routes.post.comment.make}}">
+                <i class="comment" data-feather="message-circle" data-toggle="modal" data-target="#posts-comment-modal"></i>
+              </a>
+            </div>
+
+            <div class="stats float-left" style="color: grey; margin: 5px 0 0 0; border: none; width: 52%;">
+              <p>
+                <span>{{#if totalLikes}}{{totalLikes}}{{else}}0{{/if}}</span> Likes &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>{{#if totalComments}}{{totalComments}}{{else}}0{{/if}}</span> Comments
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="row h-100 justify-content-center">
+        <div style="margin: 10px 0 0 0; padding: 15px 0 15px 0; background-color: steelblue; color: white;"
+          class="col-12 col-md-10 col-lg-8 text-center vistor-comment">
+          <a href="{{routes.user.login}}">Login</a> or <a href="{{routes.user.signup}}">Signup</a> to see Comments and Interactivity
+        </div>
+      </div>
+  {{/if}}
+</div>
+
+{{!-- Modal window view --}}
+{{#if user}}
+  {{#if postkey}}
+    <div class="modal fade" id="posts-comment-modal" tabindex="-1" role="dialog"
+      aria-labelledby="postCommentModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="postCommentModalLabel">Leave a comment</h4>
+          </div>
+
+          <div class="modal-body">
+            <form method="POST" id="submit-comment" class="well" data-async
+              data-target="#rating-modal" action="{{routes.post.comment.make}}">
+              <input type="hidden" name="from" value="{{user.id}}" />
+              <input type="hidden" name="namespace" value="/view-{{postkey}}"/>
+              <input type="hidden" name="key" value="{{postkey}}"/>
+              <fieldset>
+                <div class="form-group">
+                  <label for="postCommentTextArea">Your Thoughts On This, Please</label>
+                  <textarea id="postCommentTextArea" name="comment" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button id="submitNewComment" type="submit" class="btn btn-default">Make Comment</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
           </div>
         </div>
       </div>
     </div>
   {{/if}}
-</div>
+{{/if}}
+
 {{> footer_js }}
 
+{{!-- Handling the postupdated and postdestroyed events to update and destroy post in rela-time --}}
 {{#if postkey}}
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       io("/view").on("postupdated", function (data) {
-        console.log("\"postupdated\" event emitted successfully from the client");
-        console.debug(data);
+        console.log("\"postupdated\" event listened successfully from the client");
+        // console.debug(data);
         var post = data.post;
         if (post.key === "{{postkey}}") {
           $("h3#postitle").empty();
@@ -44,12 +146,114 @@
       });
 
       io("/view").on("postdestroyed", function (key) {
-        console.log("\"postdestroyed\" event emitted successfully from the client");
-        console.log("psotkey: " + key);
+        console.log("\"postdestroyed\" event listened successfully by the client");
+        console.log("postkey: " + key);
         if (key === "{{postkey}}") {
           window.location.href = "/";
         }
       });
     });
   </script>
+{{/if}}
+
+{{!-- Rendering all recent comments on a post and listening to the newcomment and destroycomment events --}}
+{{#if postkey}}
+  {{#if user}}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        io("/view").emit("getpostcomments", "/view-{{postkey}}", function(comments) {
+          console.log("\"getpostscomment\" emitted successfully by the client: ");
+          $("#postComments").empty();
+          if(comments.length > 0) {
+            comments.forEach(function(newcomment) {
+              if (newcomment.namespace === "/view-{{postkey}}") {
+                $("#postComments").prepend(formatComment(newcomment));
+              }
+            });
+            $("#postComments").show();
+            connectCmtDelButton();
+          } else {
+            console.log("Successfull: No Comments Was Made!");
+            $("#postComments").hide();
+          }
+        });
+
+        io("/view").on("newcomment", function(newcomment) {
+          if (newcomment.namespace === "/view-{{postkey}}") {
+            console.log("newcomment event listened successfully by the client!");
+            $("#postComments").prepend(formatComment(newcomment));
+            connectCmtDelButton();
+          }
+        });
+        io("/view").on("destroycomment", function(data) {
+          if (data.namespace === "/view-{{postkey}}") {
+            console.log("destroycomment event listened successfully by the client!");
+            // console.debug(data);
+            $("#postComments #post-comment-" + data.id).remove();
+          }
+        });
+
+        $("form#submit-comment").submit(function(e) {
+          // first we abort any pending request
+          if (request) {
+            request.abort();
+          }
+          var $form = $("form#submit-comment");
+          var target = $($form.attr("data-target"));
+          var request = $.ajax({
+            type: $form.attr("method"),
+            url: $form.attr("action"),
+            data: $form.serialize()
+          });
+          request.done(function(response, textStatus, jqXHR) { });
+          request.fail(function(jqXHR, textStatus, errorThrown) {
+            alert("ERROR -- Oups, an error occcured during your request to post a comment: " + jqXHR.responseText +
+              "\n PLEASE TRY AGAIN");
+          });
+          request.always(function() {
+            $("#posts-comment-modal").modal("hide");
+          });
+          e.preventDefault();
+        });
+    });
+
+    function formatComment(newcomment) {
+      console.log(newcomment.from);
+      return "<div style=\"position: relative; margin: 0 0 7px 0; padding: 10px 10px 40px 10px; background-color: white; border: none;"
+        + "\" class=\"custom-card col-12 word-wrap\" id=\"post-comment-" + newcomment.id + "\">"
+          + "<div class=\"card-body\">"
+              + "<h5 class=\"card-title\">" + newcomment.from + "</h5>"
+              + "<div class=\"card-text\">" + newcomment.comment
+                + "<small style=\"position: absolute; top: 37px; left: 115px;\" class=\"text-muted timeago\">"
+                  + newcomment.timestamp
+                + "</small>"
+              + "</div>"
+              + "{{#wif " + newcomment.from + " user.username}}"
+              + "<span class=\"comment-del-btn \" style=\"position: absolute; top: 35px; right: 30px; font-size: 1em; color: red;\""
+                + "data-id=\"" + newcomment.id + "\" data-namespace=\"" + newcomment.namespace + "\">"
+                  + "<span class=\"round\" title=\"Delete\">" + "&times;" + "</span>"
+                + "</span>"
+              + "{{/wif}}"
+              + "<div class=\"float-right\" style=\"margin: 15px 0 0 0; font-size: .9em; font: TrebuchetMS\">"
+                + "<a href=\"posts/like-reply\"><span class=\"heart\" width=\"20px\" height=\"20px\">Like</span></a>" + "&nbsp;&nbsp;&nbsp;"
+                + "<a href=\"posts/reply-comment\"><span class=\"comment\" width=\"20px\" height=\"20px\">Reply</span></a>" + "&nbsp;&nbsp;&nbsp;"
+                + "<a href=\"/posts/edit-comment\"><span class=\"edit\" width=\"20px\" height=\"20px\">Edit</span></a>"
+              + "</div>"
+          + "</div>"
+        + "</div>"
+    };
+    
+    function connectCmtDelButton() {
+      $(".comment-del-btn").on("click", function(e) {
+        $.post("{{routes.post.comment.delete}}", {
+          id: $(this).data("id"),
+          namespace: $(this).data("namespace")
+        },
+        function (response) { });
+        e.preventDefault();
+      });
+    };
+
+    </script>
+  {{/if}}
 {{/if}}

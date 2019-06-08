@@ -2,6 +2,7 @@ import util from "util"
 import DBG from "debug";
 import * as UsersModel from "../users-sequelize";
 import config from "../config";
+import md5 from "md5";
 
 const log = DBG("raddict-users:service");
 const logError = DBG("raddict-users:error");
@@ -10,10 +11,15 @@ export default {
   // Create a new user
   async create(req, res, next) {
     try {
+      const profileCreatedAt = new Date();
+      
       let result = await UsersModel.create(
         req.params.username, req.params.password, req.params.provider,
         req.params.familyName, req.params.givenName, req.params.middleName,
-        req.params.emails, req.params.photos
+        req.params.gender, req.params.birthday,
+        md5(req.params.username), req.params.displayPicture,
+        profileCreatedAt,
+        req.params.email, req.params.photos
       );
       log(`Created: ${util.inspect(result)}`);
       res.send(result);
@@ -31,7 +37,10 @@ export default {
       let result = await UsersModel.update(
         req.params.username, req.params.password, req.params.provider,
         req.params.familyName, req.params.givenName, req.params.middleName,
-        req.params.emails, req.params.photos
+        req.params.gender, req.params.birthday,
+        req.params.gravatar, req.params.displayPicture,
+        req.params.profileCreatedAt,
+        req.params.email, req.params.photos
       );
       res.send(UsersModel.sanitizedUser(result));
       log(`Updated: ${util.inspect(UsersModel.sanitizedUser(result))}`);
@@ -55,7 +64,12 @@ export default {
         familyName: req.params.familyName,
         givenName: req.params.givenName,
         middleName: req.params.middleName,
-        emails: req.params.emails,
+        gender: req.params.gender,
+        birthday: req.params.birthday,
+        gravatar: req.params.gravatar,
+        displayPicture: req.params.displayPicture,
+        profileCreatedAt: new Date(),
+        emails: req.params.email,
         photos: req.params.photos
       });
       log(`find-or-create: ${util.inspect(result)}`);

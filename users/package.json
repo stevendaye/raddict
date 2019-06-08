@@ -19,7 +19,10 @@
   "dependencies": {
     "debug": "^2.6.9",
     "fs-extra": "^5.0.0",
+    "gravatar": "^1.8.0",
     "js-yaml": "^3.10.0",
+    "md5": "^2.2.1",
+    "moment": "^2.24.0",
     "mysql": "^2.17.1",
     "restify": "^6.3.4",
     "restify-clients": "^1.5.3",

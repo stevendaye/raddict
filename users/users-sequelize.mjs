@@ -34,6 +34,11 @@ async function connectDB() {
     familyName: Sequelize.STRING,
     givenName: Sequelize.STRING,
     middleName: Sequelize.STRING,
+    gender: Sequelize.STRING,
+    birthday: Sequelize.DATE,
+    gravatar: Sequelize.STRING,
+    displayPicture: Sequelize.STRING,
+    profileCreatedAt: Sequelize.DATE,
     emails: Sequelize.STRING(2048),
     photos: Sequelize.STRING(2048)
   });
@@ -41,11 +46,15 @@ async function connectDB() {
 }
 
 // Creating a new user;
-async function create(username, password, provider, familyName, givenName, middleName, emails, photos) {
+async function create(username, password, provider, familyName, givenName, middleName, gender, birthday,
+    gravatar, displayPicture, profileCreatedAt, emails, photos) {
   const SQUser = await connectDB();
   const user = await SQUser.create({
     username, password,
     provider, familyName, givenName, middleName,
+    gender, birthday,
+    gravatar, displayPicture,
+    profileCreatedAt,
     emails: JSON.stringify(emails),
     photos: JSON.stringify(photos)
   });
@@ -53,13 +62,15 @@ async function create(username, password, provider, familyName, givenName, middl
 }
 
 // Updating an existing user
-async function update(username, password, provider, familyName, givenName, middleName, emails, photos) {
+async function update(username, password, provider, familyName, givenName, middleName, gender, birthday,
+  gravatar, displayPicture, profileCreatedAt, emails, photos) {
   const SQUser = await connectDB();
   const user = await SQUser.find({ where: { username: { [Op.eq]: username } } });
   return user
     ? await user.updateAttributes({
         password, provider,
         familyName, givenName, middleName,
+        birthday, displayPicture,
         emails: JSON.stringify(emails),
         photos: JSON.stringify(photos)
       })
@@ -129,6 +140,9 @@ async function findOrCreateProfile(profile) {
   return await create(
     profile.id, profile.password, profile.provider,
     profile.familyName, profile.givenName,profile.middleName,
+    profile.gender, profile.birthday,
+    profile.gravatar, profile.displayPicture,
+    profile.profileCreatedAt,
     profile.emails, profile.photos
   );
 }
@@ -149,8 +163,13 @@ async function sanitizedUser(user) {
     familyName: user.familyName,
     givenName: user.givenName,
     middleName: user.middleName,
+    gender: user.gender,
+    birthday: user.birthday,
+    gravatar: user.gravatar,
+    displayPicture: user.displayPicture,
+    profileCreatedAt: user.profileCreatedAt,
     emails: JSON.parse(user.emails),
-    photos: JSON.parse(user.photos)
+    photos: JSON.parse(user.photos),
   };
   
   // Catching errors in case the parsing was unsuccessfull

@@ -19,9 +19,12 @@ var client = restify.createJsonClient({
 client.basicAuth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
 
 client.post(config.routes.user.create, {
-  username: "Steph", password: "stephenMyles", provider: "local",
+  username: "Stephen", password: "stephenMyles", provider: "local",
   familyName: "Myles", givenName: "Stephen", middleName: "Paul",
-  emails: [], photos: []
+  gender: "male", birthday: "1987-09-11",
+  gravatar: "", displayPicture: "stephen-myles-0127865981693568.jpg",
+  profileCreatedAt: "",
+  email: ["stephen-myles@yahoo.com"], photos: []
 }, (err, req, res, obj) => {
   if (err) {
     logError("CREATE:Oups Something Got Wrong!");

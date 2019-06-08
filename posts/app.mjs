@@ -14,8 +14,6 @@ import logger from "morgan";
 import path from "path";
 import DBG from "debug";
 import moment from "moment";
-import gravatar from "gravatar";
-import md5 from "md5";
 import { passport, passportRoutes } from "./passport";
 import * as io from "./socket.io";
 import config from "./config";
@@ -65,6 +63,24 @@ hbs.registerHelper({
   },
   timeago(timestamp) {
     return moment(timestamp).startOf("seconds").fromNow();
+  },
+  profile(provider, id, gravatar) {
+    switch (provider) {
+      case "local":
+        return gravatar;
+      break;
+      case "google":
+        return gravatar;
+      break;
+      case "twitter":
+        return gravatar;
+      break;
+      case "facebook":
+        return `http://graph.facebook.com/'}${id}${"picture/"}?height=200`;
+      break;
+      default:
+        return gravatar;
+    }
   }
 });
 miscellaneous.dataFeathers(hbs);

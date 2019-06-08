@@ -16,11 +16,13 @@ const reqURL = path => {
 }
 
 // Quering the user microservice to create a user record
-async function create(username, password, provider, familyName, givenname, middleName, emails, photos) {
+async function create(username, password, provider, familyName, givenname, middleName,
+    gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos) {
   let res = await request
     .post(reqURL(config.routes.user.create))
     .withCredentials()
-    .send({ username, password, provider, familyName, givenname, middleName, emails, photos })
+    .send({ username, password, provider, familyName, givenname, middleName,
+      gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos })
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
@@ -33,11 +35,13 @@ async function create(username, password, provider, familyName, givenname, middl
 }
 
 // Quering the user microservice to update a user record
-async function update(username, password, provider, familyName, givenname, middleName, emails, photos) {
+async function update(username, password, provider, familyName, givenname, middleName,
+  gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos) {
   let res = await request
     .post(reqURL(`${config.routes.user.update}/${username}`))
     .withCredentials()
-    .send({ username, password, provider, familyName, givenname, middleName, emails, photos })
+    .send({ username, password, provider, familyName, givenname, middleName,
+      gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos })
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
@@ -82,6 +86,11 @@ async function findOrCreate(profile) {
       familyName: profile.familyName,
       givenname: profile.givenname,
       middleName: profile.givenname,
+      gender: profile.gender,
+      birthday: profile.birthday,
+      gravatar: profile.gravatar,
+      displayPicture: profile.displayPicture,
+      profileCreatedAt: profile.profileCreatedAt,
       emails: profile.emails,
       photos: profile.photos
     })

@@ -14,14 +14,14 @@ async function model () {
 
 export const events = _events;
 
-export async function create(key, username, title, body, timestamp) {
- const post = await (await model()).create(key, username, title, body, timestamp);
+export async function create(key, username, familyname, gravatar, title, body, timestamp) {
+ const post = await (await model()).create(key, username, familyname, gravatar, title, body, timestamp);
 _events.postCreated(post);
  return post // returning the promise
 };
 
-export async function update(key, username, title, body, timestamp) {
-  const post = await (await model()).update(key, username, title, body, timestamp);
+export async function update(key, username, familyname, gravatar, title, body, timestamp) {
+  const post = await (await model()).update(key, username, familyname, gravatar, title, body, timestamp);
   _events.postUpdated(post);
   return post // returning the promise
 };

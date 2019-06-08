@@ -22,19 +22,19 @@ async function connectDB() {
 }
 
 // Creating a Post;
-async function create(key, title, body) {
+async function create(key, username, familyname, gravatar, title, body, timestamp) {
   const { client, db } = await connectDB();
-  const post = new Post(key, title, body);
+  const post = new Post(key, username, familyname, gravatar, title, body, timestamp);
   const collection = db.collection("posts"); // Created the posts collection/model/document
-  await collection.insertOne({ postkey: key, title, body });
+  await collection.insertOne({ postkey: key, username, familyname, gravatar, title, body, timestamp });
   debug(`Post Created: ${util.inspect(post)}`);
   return post;
 }
 
 // Updating a Post
-async function update(key, title, body) {
+async function update(key, username, familyname, gravatar, title, body, timestamp) {
   const { client, db } = await connectDB();
-  const post = new Post(key, title, body);
+  const post = new Post(key, username, familyname, gravatar, title, body, timestamp);
   const collection = db.collection("posts");
   await collection.updateOne({ postkey: key }, { $set: { title, body } });
   debug(`Post Updated: ${util.inspect(post)}`);
@@ -47,7 +47,7 @@ async function read(key) {
   const collection = db.collection("posts");
   const doc = await collection.findOne({ postkey: key });
   debug(`Read Post of key: ${doc.postkey}`);
-  const post = new Post(doc.postkey, doc.title, doc.body);
+  const post = new Post(doc.postkey, doc.username, doc.familyname, doc.gravatar, doc.title, doc.body, doc.timestamp);
   return post;
 }
 

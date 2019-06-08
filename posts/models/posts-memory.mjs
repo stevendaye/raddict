@@ -4,14 +4,14 @@ import Post from "./Post";
 var posts = [];
 
 // Creating a Post
-export const create = async (key, username, title, body, timestamp) => {
-  posts[key] = new Post(key, username, title, body, timestamp);
+export const create = async (key, username, familyname, gravatar, title, body, timestamp) => {
+  posts[key] = new Post(key, username, familyname, gravatar, title, body, timestamp);
   return posts[key];
 };
 
 // Updating a Post
-export const update = async (key, username, title, body) => {
-  posts[key] = new Post(key, username, title, body, timestamp);
+export const update = async (key, username, familyname, gravatar, title, body) => {
+  posts[key] = new Post(key, username, familyname, gravatar, title, body, timestamp);
   return posts[key];
 };
 

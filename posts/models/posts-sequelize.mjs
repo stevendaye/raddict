@@ -33,6 +33,8 @@ async function connectDB() {
       unique: true
     },
     username: Sequelize.STRING,
+    familyname: Sequelize.STRING,
+    gravatar: Sequelize.STRING,
     title: Sequelize.STRING,
     body: Sequelize.TEXT,
     timestamp: Sequelize.DATE
@@ -41,24 +43,25 @@ async function connectDB() {
 }
 
 // Creating a Post
-async function create(key, username, title, body, timestamp) {
+async function create(key, username, familyname, gravatar, title, body, timestamp) {
   const SQPost = await connectDB();
-  const post = new Post(key, username, title, body, timestamp);
-  await SQPost.create({ postkey: key, username: username, title: title, body: body, timestamp: timestamp });
+  const post = new Post(key, username, familyname, gravatar, title, body, timestamp);
+  await SQPost.create({ postkey: key, username: username, familyname: familyname,
+    gravatar: gravatar, title: title, body: body, timestamp: timestamp });
   debug(`Created the post: ${util.inspect(post)}`);
   return post;
 }
 
 // Updating a Post
-async function update(key, username, title, body, timestamp) {
+async function update(key, username, familyname, gravatar, title, body, timestamp) {
   const SQPost = await connectDB();
   const post = await SQPost.find({ where: { postkey: { [Op.eq]: key } } });
   if (!post) {
     throw new Error(`No Post of key = ${key} found.`);
   } else {
-    await post.updateAttributes({ title : title, body: body, timestamp: timestamp });
+    await post.updateAttributes({ title : title, body: body });
     debug(`Updated Post: ${util.inspect(post)}`);
-    return new Post(key, username, title, body, timestamp);
+    return new Post(key, username, familyname, gravatar, title, body, timestamp);
   }
 }
 
@@ -70,7 +73,7 @@ async function read(key) {
     throw new Error(`No Post of key = ${key} found.`);
   } else {
     debug(`Read Post of key: ${util.inspect(post)}`);
-    return new Post(post.postkey, post.username, post.title, post.body, post.timestamp);
+    return new Post(post.postkey, post.username, post.familyname, post.gravatar, post.title, post.body, post.timestamp);
   }
 }
 

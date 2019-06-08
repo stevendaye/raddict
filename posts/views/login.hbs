@@ -8,7 +8,7 @@
         </a>
       </div>
     {{else}}
-      <div class="col-10 col-lg-3 col-md-5 col-sm-5 custom-form-login" role="group">
+      <div class="col-10 col-lg-4 col-md-5 col-sm-7 custom-form-login" role="group">
         <h5 class="text-center">Log In</h5>
         <form method="POST" action="{{routes.user.login}}">
           {{#if message}}
@@ -24,7 +24,9 @@
             <input type="password" class="form-control" id="password" name="password" placeholder="your password" value="" required/>
           </div>
           
-          <button type="submit" class="btn btn-default col-12">CONNECT</button>
+          <button type="submit" class="btn btn-default col-12" style="background-color: steelblue; color: white;">
+            CONNECT
+          </button>
         </form>
 
         <div class="text-center" style="margin: 0 0 25px 0;">
@@ -59,4 +61,5 @@
   </div>
 </div>
 
+{{> footer_relative }}
 {{> footer_js }}

@@ -4,6 +4,11 @@
       <h5 class="text-center">Sign Up</h5>
       <form method="POST" action="{{routes.user.signup}}">
         <input type="hidden" name="provider" value="local"/>
+        <input type="hidden" name="gender" value=""/>
+        <input type="hidden" name="gravatar" value=""/>
+        <input type="hidden" name="displayPicture" value=""/>
+        <input type="hidden" name="profileCreatedAt" value=""/>
+
         {{#if message}}
           <div class="alert alert-danger">{{message}}</div>
         {{/if}}
@@ -33,16 +38,6 @@
           <label for="username">Username*:</label>
           <input type="text" class="form-control" id="username" name="username" placeholder="Choose username" value="" required/>
         </div>
-        
-        <div class="form-group">
-          <label for="password">Gender*:</label>
-          <label class="radio-inline">Male
-            <input type="radio" name="gender" class="form-control" id="male" value="male" autocomplete="off"/>
-          </label>
-          <label class="radio-inline">Female
-            <input type="radio" name="gender" class="form-control" id="female" value="female" autocomplete="off"/>
-          </label>
-        </div>
 
         <div class="form-group">
           <label for="password">Password*:</label>
@@ -60,7 +55,9 @@
           <input type="checkbox" id="checkedTerms" style="margin: 0 0 15px 0;" required/>
         </div>
 
-        <button type="submit" class="btn btn-default col-12" id="signup">REGISTER</button>
+        <button type="submit" class="btn btn-default col-12" id="signup" style="background-color: steelblue; color:white">
+          CREATE PROFILE
+        </button>
       </form>
       <div style="text-align: center; margin: 10px 0 0 0">
         Have an account? <a href="{{routes.user.login}}">Log In</a>
@@ -69,4 +66,5 @@
   </div>
 </div>
 
+{{> footer_relative }}
 {{> footer_js }}

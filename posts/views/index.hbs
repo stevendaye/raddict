@@ -2,63 +2,152 @@
 <div class="container-fluid h-100 index-wrapper">
   <div class="row h-100 justify-content-center">
 
-    {{!-- Group of all hidden buttons bellow displayed on small screes horizontally at the very top of postlists --}}
-    <div class="col-9 d-sm-none d-flex justify-content-between"
-      style="margin: 0 0 15px 0; background-color: white; border-radius: 4px; padding: 15px 25px 15px 25px;">
-      <a href="/posts/whatsup" style="padding: 0;" title="Thought Posts">
-        <i data-feather="feather" stroke="steelblue" fill="none"></i>
-      </a>
-      <a href="/posts/images" title="Image Posts">
-        <i data-feather="image" stroke="steelblue" fill="none"></i>
-      </a>
-      <a href="{{routes.user.people}}" style="padding: 0;" title="Users You Might Know">
-        <i data-feather="users" stroke="steelblue" fill="none"></i>
-      </a>
-      <a href="{{routes.post.add}}" style="padding: 0;" title="Post a thought">
-        <i data-feather="edit-2" stroke="steelblue" fill="none"></i>
-      </a>
-      <a href="{{routes.post.images.add}}" style="padding: 0;" title="Post an image">
-        <i data-feather="edit" stroke="steelblue" fill="none"></i>
-      </a>
-    </div>
-
-    <div class="col-12 col-lg-10 d-flex justify-content-start" style="border: none">
+    {{!-- Rearrange the layout when there is no user logged in--}}
+    {{#if user}}<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-center" style="padding: 0;">{{/if}}
 
       {{!-- Group of buttons to view notifications: hidden on small screens and displayed on all others--}}
-      <div class="d-none d-sm-block d-md-block">
-        <div class="col-auto d-inline-block" style="height: 25%; margin: 0; background-color: steelblue; border-radius: 4px;">
-          <a href="/posts/whatsup" style="display:block; padding: 15px 0 10px 0;" title="Thought Posts">
-            <i data-feather="feather" stroke="white" fill="none"></i>
-          </a>
-          <a href="/posts/images" style="display:block;" title="Image Posts">
-            <i data-feather="image" stroke="white" fill="none"></i>
-          </a>
-          <a href="{{routes.user.people}}" style="display:block; padding: 10px 0 15px 0;" title="Users You Might Know">
-            <i data-feather="users" stroke="white" fill="none"></i>
-          </a>
-        </div>
-      </div>
+      {{#if user}}
+        <div class="col-3 col-md-4 col-lg-3 d-none d-md-block col-lg-block d-md-block">
+          <div class="col-12 d-inline-block" style="margin: 0; padding: 30px 20px 30px 20px; background-color: white;">
+            <a href="{{routes.user.profile}}" class="float-left">
+              <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=75"
+              style="padding: 4px; border: 2px solid steelblue;"/>
+            </a>
+            
+            <div class="float-left userinfo col-7" style="margin: 3px 0 0 0; border: none;">
+              <p style="font-size: 1.2em; margin: 0;"><strong>{{user.givenName}}&nbsp;{{user.familyName}}</strong></p>
+              <p class="username" style="margin: 4px 0 4px 0;">
+                {{#xif user.provider local}}
+                  @{{user.username}}
+                {{else}}
+                  @{{user.familyName}}
+                {{/xif}}
+              </p>
+              <div class="watch-number" style="margin: 7px 0 7px 0;">
+                <p style=" margin: 0 0 2px 0;">
+                  <span id="total-watching">0</span> <span class="text-muted" style="font-size: .82em;"><b>Watching</b></span>
+                </p>
+                <p style=" margin:0;">
+                  <span id="total-watchers">0</span> <span class="text-muted" style="font-size: .82em;"><b>Watchers</b></span>
+                </p>
+              </div>
+            </div>
 
-      {{!-- List of postlist: Expanded on all 12 grid columns from on small screens and inline-block on all others --}}
-      <div class="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 d-sm-block d-inline-block" style="border: none; margin: 0%;">
-        <div class="col-12 btn-group-vertical" id="postitles" role="group">
+            <div style="clear: both;"></div>
+
+            <p class="col-auto" style="font-size: .9em; margin: 10px 0 15px -5px; line-height: 1.4em;">
+              {{#if user.biographie}}
+                {{user.biographie}}
+              {{else}}
+                Edit your profile to let all your connections know you a bit about by writing a little
+                biography about yourself.
+              {{/if}}<br/>
+              <a href="{{routes.user.profile.edit}}">Edit Profile</a>
+            </p>
+            <div class="user-utils">
+              <ul>
+                <li><a href="{{routes.post.add}}" style="color: rgb(37, 37, 41);">
+                  <i data-feather="edit-2" class="feathers"></i>&nbsp;&nbsp; Post a thought</a>
+                </li>
+                <li class="post-util"><a href="{{routes.post.image.add}}" style="color: rgb(37, 37, 41)">
+                  <i data-feather="edit" class="feathers"></i>&nbsp;&nbsp; Post a picture</a>
+                </li>
+                <li><a href="{{routes.user.notifications}}" style="color: rgb(37, 37, 41)">
+                  <i data-feather="bell" class="feathers"></i>&nbsp;&nbsp; Notifications</a>
+                </li>
+                <li><a href="{{routes.user.messages}}" style="color: rgb(37, 37, 41)">
+                  <i data-feather="message-square" class="feathers"></i>&nbsp;&nbsp; Messages</a>
+                </li>
+                <li class="last-util"><a href="{{routes.user.logout}}" style="color: rgb(37, 37, 41)">
+                  <i data-feather="log-out" class="feathers"></i>&nbsp;&nbsp; Logout</a></a>
+                </li>
+              </ul>
+            </div>
+            <a href="{{routes.user.profile.more}}" class="float-right"><i data-feather="more-horizontal" stroke="steelblue"></i></a>
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+      {{/if}}
+
+      {{!-- List of postlist: Expanded on all 12 grid columns block on small screens and inline-block on all others --}}
+      <div class="col-12 col-sm-10 {{#if user}}col-md-7{{else}}col-md-10{{/if}} col-lg-8 d-sm-block d-inline-block"
+      style="border: none; padding: 0;">
+        <div class="feed-bar">
+          {{#if user}}
+            <div class="col-12 d-flex justify-content-between"
+            style="margin: 0 0 15px 0; background-color: white; padding: 15px 25px 15px 25px;">
+              <a href="{{routes.post.connections}}">
+                <i data-feather="rss" stroke="steelblue" fill="none" style="margin: 0 0 0 17px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">My Feeds</span>
+              </a>
+              <a href="/" class="active-feed" style="color: grey; font-weight: bold; border: none;">
+                <i data-feather="feather" stroke="grey" fill="none" style="margin: 0 0 0 20px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">Thoughts</span>
+              </a>
+              <a href="/posts/images">
+                <i data-feather="image" stroke="steelblue" fill="none" style="margin: 0 0 0 12px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">Pictures</span>
+              </a>
+              <a href="{{routes.user.people}}" style="padding: 0;">
+                <i data-feather="users" stroke="steelblue" fill="none" style="margin: 0 0 0 9px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">People</span>
+              </a>
+            </div>
+          {{else}}
+            {{!-- Rearrange the layout while disabling some features when there is no user logged in--}}
+            <div class="col-12 d-flex justify-content-between" style="margin: 0 0 15px 0; background-color: white; 
+            padding: 15px 25px 15px 25px; display: block;">
+              <a href="/posts/thoughts" style="padding: 0;" title="Thought Posts">
+                <i data-feather="feather" stroke="steelblue" fill="none" style="margin: 0 0 0 20px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">Thoughts</span> 
+              </a>
+              <a href="/posts/images" title="Image Posts">
+                <i data-feather="image" stroke="steelblue" fill="none" style="margin: 0 0 0 12px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">Pictures</span>
+              </a>
+              <a href="{{routes.user.people}}" style="padding: 0;" title="Users You Might Know">
+                <i data-feather="users" stroke="steelblue" fill="none" style="margin: 0 0 0 9px"></i>&nbsp;&nbsp;
+                <span class="d-block d-sm-inline">People</span>
+              </a>
+            </div>
+          {{/if}}
+        </div>
+
+        <div class="col-12 btn-group-vertical" id="postitles" role="group" style="padding: 0;">
           {{#unless postlist }}
-            <div class="align-self-center text-center col-sm-6 col-lg-4 no-post">
-              <div>There is no article yet. Be the first to post one.</div>
-              <a href="{{routes.post.add}}" class="btn btn-block btn-outline-dark col-12">Post Article</a>
+            <div class="align-self-center text-center col-sm-7 col-lg-5 no-post">
+              <a href="{{routes.post.add}}" class="btn col-12"
+                style="background-color: steelblue; color: white; border-radius: 0;">
+                Post Article
+              </a>
             </div>
           {{/unless}}
+
+          {{!-- Displaying user's family name instead of the username because of other third parthy auth services --}}
           {{#each postlist }}
-            <a class="col-12 align-self-center overflow postlist" href="/posts/view?key={{ key }}">
+            <a class="col-12 align-self-center postlist" href="/posts/view?key={{ key }}">
               <div style="postion: relative">
-                <h6 id="username" style="color: grey">{{username}}</h6>
-                <h5>{{ title }}</h5>       
+                <div class="post">
+                  <img class="img-fluid rounded-circle d-inline-block" src="http://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=35"
+                  title="" alt="" style="margin: 0 10px 10px 0; border: none;"/>
+                  <p class="d-inline-block" class="username" style="color: grey; font-size: 1.4em;">
+                    {{familyname}}
+                  </p>
+                  <div style="clear:both;"></div>
+                  <h5 class=" col-auto post-title overflow" style="margin: 0">{{ title }}</h5>
+                  <p class="post-content col-11 overflow"
+                  style="font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                  color:black; margin: 10px 0 0 0;">
+                    {{ body }}
+                  </p>
+                </div>
                 <p style="position: absolute; top: 15px; right: 25px; border: none;">
                   <small class="text-muted timeago">{{timeago timestamp}}</small>&nbsp;&nbsp;<i data-feather="clock" width="12px"></i>
                 </p>
               </div>
             </a>
-            <div class="col-sm-8 col-lg-7 align-self-center" style="margin: -50px 0 30px 0; border: none;">
+            {{!-- Attaching a bar of the Comment, Like, Share buttons to each post --}}
+            <div class="col-12" style="margin: -50px 0 30px 0; padding: 0 15px 0 25px; background-color: white;">
               <div style="padding: 0 5px 0 0;">
                 <span style="margin: 0 0 0 13px;"><i data-feather="more-horizontal" width="20px" height="20px" stroke="grey"></i></span>
                 <a href="/posts/share" class="float-right">
@@ -75,21 +164,38 @@
           {{/each}}
         </div>
       </div>
-
-      {{!-- Group of buttons to post thoughts and images: hidden on small screens and displayed on all others--}}
-      <div class="d-none d-sm-block d-md-block">
-        <div class="col-auto d-inline-block" style="height: 20%; background-color: white; border-radius: 4px;">
-          <a href="{{routes.post.add}}" style="display: block; padding: 15px 0 10px 0;" title="Post a thought">
-            <i data-feather="edit-2"></i>
-          </a>
-          <a href="{{routes.post.images.add}}" style="display: block; padding: 0 0 15px 0;" title="Post an image">
-            <i data-feather="edit"></i>
-          </a>
-        </div>
-      </div>
-    </div>
+    {{#if user}}</div>{{/if}}
   </div>
 </div>
+
+{{!-- Buttons to post thoughts and images: displayed only small screens--}}
+{{#if user}}
+  <div class="d-block d-md-none">
+    <div class="post-btn rounded-circle">Post</div>
+    <div class="post-btn-hide rounded-circle">&times;</div>
+    <div class="post-btn-add">
+      <a href="{{routes.post.images.add}}" title="Post a picture" class="post-btn-pics" style="bottom: -20px;">
+        <i data-feather="edit" stroke="white" width="19"></i>
+      </a>
+      <a href="{{routes.post.add}}" title="Post a thought" class="post-btn-write" style="bottom: 20px;">
+        <i data-feather="edit-2" stroke="white" width="19"></i>
+      </a>
+    </div>
+  </div>
+{{else}}
+  <div class="d-block d-sm-none">
+    <a href="{{routes.user.login}}" class="login-round-btn rounded-circle" title="Login to have fun"
+    style="padding-top: 13px; color: white;">
+      <i data-feather="log-in"></i>
+    </a>
+  </div>
+{{/if}}
+
+{{#if postlist}}
+  {{> footer_relative }}
+{{else}}
+  {{> footer_absolute }}
+{{/if}}
 
 {{> footer_js }}
 

@@ -2,28 +2,38 @@
   <div class="container-fluid h-100">
     <div class="row h-100 justify-content-center">
       <div class="col-12 col-md-11 col-lg-11 col-xl-11" style="margin: 0;">
-
+        
         {{!-- Login and Signup icons hidden on small screens but displayed on all others --}}
-        <nav class="navbar float-right d-none d-sm-block" style="margin: 15px 0 0 0;">
+        <nav class="navbar float-right d-none d-sm-block" style="margin: 15px 0 0 0; color: white;">
           {{#if user}}
-            <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
+            <a href="{{routes.user.profile}}" style="color: white; font-size: 1.1em">
+              <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=27"/>&nbsp;
               {{#xif user.provider local}}
-                <span class="badge badge-light">{{user.username}}</span>
+                {{user.givenName}}
               {{else}}
-                <span class="badge badge-light">{{user.familyName}}</span>
-              {{/xif}}
+                {{user.familyName}}
+              {{/xif}}&nbsp;&nbsp;&nbsp;
+            </a>
+            
+            <a href="{{routes.user.profile.settings}}" style="color: white;">
+              <i data-feather="settings" stroke="white" fill="none"></i>&nbsp;&nbsp;Settings &amp; Privacy
+            </a>&nbsp;&nbsp;&nbsp;
+            <a href="{{routes.user.profile.help}}" style="color: white;">
+              <i data-feather="help-circle" stroke="white" fill="none"></i>&nbsp;&nbsp;Help Center
             </a>
           {{else}}
-            <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none" title="Log In">
+            <a href="{{routes.user.login}}" style="color: white; text-decoration: none" title="Log In">
               <i data-feather="log-in" width="25px" height="25px"></i>
+              Log In
             </a>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="{{routes.user.signup}}" style="color: whitesmoke; text-decoration: none;" title="Sign Up">
+            <a href="{{routes.user.signup}}" style="color: white; text-decoration: none;" title="Sign Up">
               <i data-feather="user-plus" width="25px" height="25px"></i>
+              Sign Up
             </a>  
           {{/if}}
         </nav>
 
-        <nav class="navbar navbar-expand-sm navbar-dark" style="padding: 0 0 0 15px;">
+        <nav class="navbar navbar-expand-sm navbar-dark" style="padding: 0">
           <a href="/" style="margin: 0 0 0 0; padding: 0;">
             <img src="/assets/vendor/local/raddict-white.png" width="40px" height="40px" class="navbar-brand img-fluid"/>
           </a>
@@ -40,23 +50,38 @@
 
           {{!-- Login and Signup icons displayed only on small screens but hidden on all others --}}
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="navbar-nav col d-lg-none d-md-none d-sm-none" style="text-align: center; margin: 0 0 15px 0; padding: 0;">
-              {{#if user}}
-                <a class="btn btn-light col-auto" href="{{routes.user.logout}}">Log Out
-                  {{#xif user.provider local}}
-                    <span class="badge badge-light">{{user.username}}</span>
-                  {{else}}
-                    <span class="badge badge-light">{{user.familyName}}</span>
-                  {{/xif}}
-                </a>
-              {{else}}
-                <a href="{{routes.user.login}}" style="color: whitesmoke; text-decoration: none" title="Log In">
-                  <i data-feather="log-in" width="25px" height="25px"></i>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="{{routes.user.signup}}" style="color: whitesmoke; text-decoration: none;" title="Sign Up">
-                  <i data-feather="user-plus" width="25px" height="25px"></i>
-                </a>  
-              {{/if}}
+            <div class="navbar-nav col d-lg-none d-md-none d-sm-none" style="margin: 0 0 15px 0; padding: 0; border: none;">
+              <div class="col-auto align-self-center" style="border: none; margin: 0 0 0 25px;">
+                {{#if user}}
+                  <a href="{{routes.user.profile}}" style="display: block; color: white; font-size: 1.1em; margin: 0 0 10px 0;">
+                    <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=27"/>&nbsp;
+                    {{#xif user.provider local}}
+                      {{user.givenName}}
+                    {{else}}
+                      {{user.familyName}}
+                    {{/xif}}
+                  </a>
+                  
+                  <a href="{{routes.user.logout}}" style="display: block; color: white; margin: 0 0 10px 0;">
+                    <i data-feather="log-out" stroke="white" fill="none"></i>&nbsp;&nbsp;Logout
+                  </a>
+                  <a href="{{routes.user.profile.settings}}" style="display: block; color: white; margin: 0 0 10px 0;">
+                    <i data-feather="settings" stroke="white" fill="none"></i>&nbsp;&nbsp;Settings &amp; Privacy
+                  </a>
+                  <a href="{{routes.user.profile.help}}" style="display: block; color: white; margin: 0 0 10px 0;">
+                    <i data-feather="help-circle" stroke="white" fill="none"></i>&nbsp;&nbsp;Help Center
+                  </a>
+                {{else}}
+                  <a href="{{routes.user.login}}" style="color: white; text-decoration: none" title="Log In">
+                    <i data-feather="log-in" width="25px" height="25px"></i>
+                    Log In
+                  </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="{{routes.user.signup}}" style="color: white; text-decoration: none;" title="Sign Up">
+                    <i data-feather="user-plus" width="25px" height="25px"></i>
+                    Sign Up
+                  </a>  
+                {{/if}}
+              </div>
             </div> 
           </div>
         </nav>

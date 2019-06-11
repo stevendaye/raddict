@@ -26,13 +26,15 @@ export default {
 
   async create (req, res, next) {
     // This controller is used for both creating and updating posts
-    if (req.body.postkey && req.body.username && req.body.title && req.body.body) {
+    if (req.body.postkey && req.body.title && req.body.body) {
       let post;
       if (req.body.docreate === "create") {
         const timestamp = new Date();
-        post = await posts.create(req.body.postkey, req.body.username, req.body.title, req.body.body, timestamp);
+        post = await posts.create(req.body.postkey, req.body.username, req.body.familyname,
+          req.body.gravatar, req.body.title, req.body.body, timestamp);
       } else {
-        post = await posts.update(req.body.postkey, req.body.username, req.body.title, req.body.body, req.body.timestamp);
+        post = await posts.update(req.body.postkey, req.body.username, req.body.familyname,
+          req.body.gravatar, req.body.title, req.body.body, req.body.timestamp);
       }
       res.redirect(`${config.routes.post.view}?key=${req.body.postkey}`);
     } else {
@@ -143,6 +145,8 @@ export function socketio(io) {
     data["post"] = {
       key: post.key,
       username: post.username,
+      familyname: post.familyname,
+      ugravatar: post.gravatar,
       title: post.title,
       body: post.body,
       timestamp: post.timestamp
@@ -152,5 +156,6 @@ export function socketio(io) {
   });
   posts.events.on("postdestroyed", data => {
     io.of("/view").emit("postdestroyed", data);
+    io.of("/home").emit("postdestroyed", data);
   });
 }

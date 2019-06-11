@@ -28,7 +28,8 @@ async function getKeyTitlesList() {
   const keylist = await posts.keylist();
   const keyPromises = keylist.map( key =>
     posts.read(key).then( post => {
-      return { key: post.key, username: post.username, title: post.title, timestamp: post.timestamp };
+      return { key: post.key, username: post.username, familyname: post.familyname,
+        gravatar: post.gravatar, title: post.title, body: post.body, timestamp: post.timestamp };
     }));
   return Promise.all(keyPromises);
 }

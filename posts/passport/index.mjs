@@ -84,8 +84,11 @@ passport.use(new TwitterStrategy({
   try {
     done(null, await UsersModel.findOrCreate({
       id: profile.id, username: profile.username, password: profile.password,
-      provider: profile.provider, familyName: profile.displayName, givenName: "",
-      middleName: "", photos: profile.photos, emails: profile.email
+      provider: profile.provider, familyName: profile.displayName, givenName: "", middleName: "",
+      gender: profile.gender, birthday: profile.birthday,
+      gravatar: profile.gravatar, displayPicture: profile.displayPicture,
+      profileCreatedAt: profile.profileCreatedAt,
+      photos: profile.photos, emails: profile.email
     }));
   } catch (err) {
     done(err);
@@ -103,7 +106,10 @@ passport.use(new FacebookStrategy({
     done(null, await UsersModel.findOrCreate({
       id: profile.id, username: profile.username, password: profile.password,
       provider: profile.provider, familyName: profile.name.familyName, givenName: profile.name.givenName,
-      middleName: profile.name.middleName, photos: profile.photos, emails: profile.email
+      middleName: profile.name.middleName, gender: profile.gender, birthday: profile.birthday,
+      gravatar: profile.gravatar, displayPicture: profile.displayPicture,
+      profileCreatedAt: profile.profileCreatedAt,
+      photos: profile.photos, emails: profile.email
     }));
     debug(`Profile: ${util.inspect(profile)}`);
   } catch (err) {
@@ -120,8 +126,11 @@ passport.use(new GoogleStrategy({
   try {
     done(null, await UsersModel.findOrCreate({
       id: profile.id, username: profile.username, password: profile.password,
-      provider: profile.provider, familyName: profile.displayName, givenName: "",
-      middleName: "", photos: profile.photos, emails: profile.emails
+      provider: profile.provider, familyName: profile.displayName, givenName: "", middleName: "",
+      gender: profile.gender, birthday: profile.birthday,
+      gravatar: profile.gravatar, displayPicture: profile.displayPicture,
+      profileCreatedAt: profile.profileCreatedAt,
+      photos: profile.photos, emails: profile.emails
     }));
   } catch (err) {
     done(err);
@@ -174,9 +183,9 @@ const passportRoutes = app => {
   });
 
   router.post(user.signup, (req, res, next) => {
-    if (req.body.username && req.body.password &&
-        req.body.givenName && req.body.familyName && req.body.email &&
-        req.body.birthday && req.body.confirmPass) {
+    if (req.body.username && req.body.password && req.body.givenName
+      && req.body.familyName && req.body.email && req.body.birthday
+      && req.body.confirmPass) {
       
       passport.authenticate("local-signup", async (err, isNewUser, feedback) => {
         if (err) {
@@ -187,13 +196,16 @@ const passportRoutes = app => {
         if (!isNewUser) {
           debug(`username:Signup - ${util.inspect(isNewUser)}`);
           return res.render("signup", { message: feedback.message });
-        } // !isNewUser = oldUser
+        } // !isNewUser = oldUser -- Checking this way for making sure the username is unique
 
         // Otherwise, if the user is a new user(isNewUser) then
         if (req.body.password === req.body.confirmPass) {
           await UsersModel.create(
             req.body.username, req.body.password, req.body.provider,
             req.body.familyName, req.body.givenName, req.body.middleName,
+            req.body.gender, req.body.birthday,
+            req.body.gravatar, req.body.displayPicture,
+            req.body.profileCreatedAt,
             req.body.email, req.body.photos
           );
           req.login(isNewUser, err => {

@@ -1,8 +1,8 @@
 # raddict
-Raddict | A Simple Thought or Small Article Sharing Platform Among Developers
+Raddict | A light-weight social network where you can share your thoughts and pictures with friends and families.
 
-Raddict is a simple project where users can post little articles or their thoughts in real time, for other users to read and comment. 
-It also offers the possiblity for users to chat privately in real time.
+Raddict is a light-weight and simple social network platform where users can post their thoughts and pictures in real time,
+for others to like and comment. It also offers the possiblity for users to chat privately in real time.
 
 This project was created to put together all the things I learned during my Full Stack Web Development Training. These include:
 * Server Side Programming with Node.js
@@ -13,6 +13,7 @@ This project was created to put together all the things I learned during my Full
 * Docker
 * Texting: TDD/BDD (Mocha, Chai, Pupeteer)
 * Microservice
+* Full Responsiveness
 * && many other skills that I might be missing in this list
 
 # Technologies Used
@@ -27,23 +28,26 @@ This project was created to put together all the things I learned during my Full
 # To run the project
   /*User Directory*/
   - cd users/
-  - npm install
-  - npm start [in one console. This is to be kept running as it is a microserice]
-  - npm run start-add-user [in another console]
+  - npm install || npm i --force
+  - npm start (in one console. This is to be kept running as it is a microserice)
 
   /*Post Directoy*/
   - cd posts/
   - npm install || npm i --force
-  - npm run start [make sure the user microservive is running in another console]
+  - npm start
 
-  - npm run start-memory [will store data in memory]
-  - npm run start-fs [will persist data into a filesystem]
-  - npm run start-level [will persist data locally in the browswer]
-  - npm run start-sqlite3 [will persist data in SQLite3 Database]
-  - npm run start-sequelize [will persist data in SQLite3 Database using Sequelize]
-  - npm run start-mongodb [will persist data in MongoDB. Just make sure you have a running mongodb instance]
-  - npm run server-dbType1(2 || 3) [will run another instance of the app sharing the same data except when running: start & start-level]
+# MUST READ CAREFULLY
+  - Make sure the /*users*/ microservive is running in another console before running the /*posts*/ microservice.
 
-# Important
- - See "pub" file and rename it to "pub.env". Do this after creating your third-party tokens and credentials for facebook,
-   google and twitter for testing user authentication
+  - See "pub" file and rename it to ".env". I have provided fake api token keys for facebook, twitter and google. This will enable you
+    to run the app without third-party authentication services. However, you can create your third-party tokens and credentials
+    for testing user authentication.
+
+  - Depending on your OS, You might encounter an error when installing dependencies in the /*posts*/ microservice. It is usually
+    the /*node-gyp-build*/ error due to the /*level@5.0.1*/ Local Storage Database that installs automatically the
+    /*levelup@5.0.1 and leveldown@5.0.3*/. So, just make sure you force the installation.
+
+  - Depending on your OS, you might also encounter an error that says /*let url=moduleWrapResolve(specifier, parentURL)*/. This is due
+    to the fact that I am using ES6 Modules instead of COMMONJS. So the paths to import modules are not being resolved. In this case,
+    just open the /*users*/ and /*posts*/ microservices and add in the start script, right after nodemon or node the following command:
+    /*--es-module-specifier-resolution=node*/, and you are good to go.

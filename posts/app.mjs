@@ -20,6 +20,7 @@ import config from "./config";
 import homeRoute from "./routes/home";
 import postsRoutes from "./routes/posts";
 import usersRoutes from "./routes/users";
+import imageRoutes from "./routes/images";
 import * as errorHandler from "./middlewares/errorHandler";
 import * as utils from "./middlewares/utilities";
 import * as log from "./middlewares/log";
@@ -122,6 +123,7 @@ app.use((req, res, next) => {
 homeRoute(app);
 postsRoutes(app);
 usersRoutes(app);
+imageRoutes(app);
 passportRoutes(app);
 
 app.use(errorHandler.notFound);

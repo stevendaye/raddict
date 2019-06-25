@@ -13,10 +13,29 @@ const config = {
       update: "/posts/edit",
       delete: "/posts/delete",
       deleteConfirm: "/posts/delete/confirm",
+      like: "/posts/like",
+      likers: "/posts/likes/all",
+      share: "/posts/share",
       comment: {
-        like: "/posts/like-comment",
         make: "/posts/make-comment",
+        like: "/posts/like-comment",
         delete: "/posts/delete-comment"
+      },
+      refresh: "/posts/refresh",
+      image: {
+        add: "/posts/image/add",
+        create: "/posts/image/save",
+        view: "/posts/image/view",
+        delete: "/posts/image/delete",
+        deleteConfirm: "/posts/image/delete/confirm",
+        like: "/posts/image/like",
+        likers: "/posts/image/likes/all",
+        share: "/posts/image/share",
+        comment: {
+          make: "/posts/image/make-comment",
+          like: "/posts/image/like-comment",
+          delete: "/posts/image/delete-comment"
+        }
       }
     },
     user: {

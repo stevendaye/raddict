@@ -4,6 +4,7 @@ import passportSocketIo from "passport.socketio";
 import cookieParser from "cookie-parser";
 import { socketio as homeSocketio } from "../controllers/home";
 import { socketio as postSocketio } from "../controllers/post";
+import { socketio as imageSocketio } from "../controllers/image";
 import { sessionCookieName, sessionStore, sessionSecret } from "../app.mjs"
 
 function startSocket (server) {
@@ -16,6 +17,7 @@ function startSocket (server) {
   }));
   homeSocketio(io);
   postSocketio(io);
+  imageSocketio(io);
 };
 
 export { startSocket };

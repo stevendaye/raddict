@@ -28,15 +28,17 @@ a:hover {
 /* Wraping the index content */
 .index-wrapper {
   margin: 25px 0 15px 0;
+  padding: 0px;
+  border: none;
 }
 
 /* Index: Postlist Rules */
-a.postlist {
+a.postlist, a.imagelist {
   margin: 0 0 10px 0;
   background-color: white;
   padding: 15px 25px 60px 30px;
 }
-a.postlist:hover {
+a.postlist:hover, a.imagelist:hover {
   border: none;
   box-shadow: 5px 5px 20px #faeaea;
   -webkit-box-shadow: 5px 5px 20px #aaaaaa;
@@ -54,9 +56,29 @@ a.postlist:hover {
 }
 
 .heart:hover {
+  cursor: pointer;
   color: #E04C4C;
   fill: #E04C4C;
+}
+
+.post-dislike, .image-dislike {
+  color: #E04C4C;
+  fill: #E04C4C;
+}
+
+.post-like, .image-dislike {
+  color: steelblue;
+  fill: none;
+}
+
+.post-like:hover, .image-like:hover {
+  color: #E04C4C;
+  fill: #E04C4C;
+}
+
+.post-like, .image-like, .post-dislike:hover, .image-dislike:hover {
   cursor: pointer;
+
 }
 
 .comment:hover {
@@ -83,6 +105,11 @@ a.postlist:hover {
   border-radius: 100px;
 }
 .round:hover, .comment-del-btn:hover {
+  cursor: pointer;
+}
+
+/* Post Thought && Image Butoon Rules */
+.post-img-btn:hover, .post-btn:hover {
   cursor: pointer;
 }
 
@@ -184,6 +211,7 @@ ul li.post-util {
   stroke: rgb(37,37, 41);
 }
 
+/* Utility Buttons */
 /* Post button displayed only on small screens when the user is logged in */
 div.post-btn, .login-round-btn {
   position:fixed;
@@ -244,5 +272,32 @@ div.post-btn-hide {
 }
 
 div.post-btn-hide:hover {
+  cursor: pointer;
+}
+
+/* Load-more Button */
+.load-more {
+  font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: grey;
+  margin: 15px 0 0 0;
+  padding: 10px 75px 10px 75px;
+  border: 1px solid grey;
+  border-radius: 50px;
+}
+
+.load-more:hover {
+  cursor: pointer;
+  color: rgb(37,37, 41);
+  border: 1px solid rgb(37,37, 41);
+  background-color: white;
+}
+
+.loader {
+  display: none;
+  margin: 15px 0 100px 0;
+}
+
+/* Delete comment button */
+.cmt-del-btn:hover {
   cursor: pointer;
 }

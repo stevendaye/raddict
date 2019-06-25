@@ -8,13 +8,15 @@ const debug = DBG("raddict:posts-sqlite3");
 const error = DBG("raddict:error-sqlite3");
 
 // Inserting a post
-async function create(key, username, familyname, gravatar, title, body, timestamp) {
+async function create(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp) {
   let db = await connectDB();
-  let post = new Post(key, username, familyname, gravatar, title, body, timestamp);
+  let post = new Post(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp);
 
   await new Promise((resolve, reject) => {
-    db.run(`INSERT INTO posts(postkey, username, familyname, gravatar, title, body, timestamp)
-      VALUES(?, ?, ?, ?, ?, ?, ?)`, [key, username, familyname, gravatar, title, body, timestamp],
+    db.run(
+      `INSERT INTO posts(postkey, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp)
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp],
       err => {
         if (err) {
           return reject(err + " Something went wrong when inserting!");
@@ -28,9 +30,9 @@ async function create(key, username, familyname, gravatar, title, body, timestam
 }
 
 // Updating a post
-async function update(key, username, familyname, gravatar, title, body, timestamp) {
+async function update(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp) {
   let db = await connectDB();
-  let post = new Post(key, username, familyname, gravatar, title, body, timestamp);
+  let post = new Post(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp);
 
   await new Promise((resolve, reject) => {
     db.run(
@@ -60,7 +62,8 @@ async function read(key) {
         if (err) {
           return reject(err + " Something went wrong when reading!");
         }
-        const post = new Post(row.postkey, row.username, row.familyname, row.gravatar , row.title, row.body, row.timestamp);
+        const post = new Post(row.postkey, row.username, row.provider, row.familyname, row.gravatar,
+          row.title, row.body, row.likes, row.views, row.likedBy, row.timestamp);
         debug(`READING ${util.inspect(post)}`);
         resolve(post);
       }

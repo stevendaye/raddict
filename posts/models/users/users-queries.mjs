@@ -16,31 +16,31 @@ const reqURL = path => {
 }
 
 // Quering the user microservice to create a user record
-async function create(username, password, provider, familyName, givenname, middleName,
+async function create(username, password, provider, familyName, givenName, middleName,
     gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos) {
   let res = await request
     .post(reqURL(config.routes.user.create))
     .withCredentials()
-    .send({ username, password, provider, familyName, givenname, middleName,
+    .send({ username, password, provider, familyName, givenName, middleName,
       gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos })
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
     .auth("team", "DHKHJ98N-UHG9-K09J-7YHD-8Q7LK98DHGS7");
     log(`create: {
       username: ${username}, provider: ${provider},
-      familyName: ${familyName}, middleName: ${middleName}
+      familyName: ${familyName}, givenName: ${givenName}, middleName: ${middleName}
       emails: ${emails}, photos: ${photos}
     }`);
   return res.body;
 }
 
 // Quering the user microservice to update a user record
-async function update(username, password, provider, familyName, givenname, middleName,
+async function update(username, password, provider, familyName, givenName, middleName,
   gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos) {
   let res = await request
     .post(reqURL(`${config.routes.user.update}/${username}`))
     .withCredentials()
-    .send({ username, password, provider, familyName, givenname, middleName,
+    .send({ username, password, provider, familyName, givenName, middleName,
       gender, birthday, gravatar, displayPicture, profileCreatedAt, emails, photos })
     .set("Content-Type", "application/json")
     .set("Accept", "application/json")
@@ -84,8 +84,8 @@ async function findOrCreate(profile) {
       password: profile.password,
       provider: profile.provider,
       familyName: profile.familyName,
-      givenname: profile.givenname,
-      middleName: profile.givenname,
+      givenName: profile.givenName,
+      middleName: profile.middleName,
       gender: profile.gender,
       birthday: profile.birthday,
       gravatar: profile.gravatar,

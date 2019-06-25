@@ -1,6 +1,7 @@
 /* ## Setting the Post model as an EventEmitter class ## */
+/* Emitting events on post creation, deletion and update */
 import EventEmitter from "events";
-import util, { inspect } from "util";
+import util from "util";
 import DBG from "debug";
 
 const debug = DBG("raddict:posts-events");

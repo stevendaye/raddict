@@ -22,19 +22,20 @@ async function connectDB() {
 }
 
 // Creating a Post;
-async function create(key, username, familyname, gravatar, title, body, timestamp) {
+async function create(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp) {
   const { client, db } = await connectDB();
-  const post = new Post(key, username, familyname, gravatar, title, body, timestamp);
+  const post = new Post(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp);
   const collection = db.collection("posts"); // Created the posts collection/model/document
-  await collection.insertOne({ postkey: key, username, familyname, gravatar, title, body, timestamp });
+  await collection.insertOne({ postkey: key, username, provider, familyname, gravatar, title, body, likes, views,
+    likedBy, timestamp });
   debug(`Post Created: ${util.inspect(post)}`);
   return post;
 }
 
 // Updating a Post
-async function update(key, username, familyname, gravatar, title, body, timestamp) {
+async function update(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp) {
   const { client, db } = await connectDB();
-  const post = new Post(key, username, familyname, gravatar, title, body, timestamp);
+  const post = new Post(key, username, provider, familyname, gravatar, title, body, likes, views, likedBy, timestamp);
   const collection = db.collection("posts");
   await collection.updateOne({ postkey: key }, { $set: { title, body } });
   debug(`Post Updated: ${util.inspect(post)}`);
@@ -47,7 +48,8 @@ async function read(key) {
   const collection = db.collection("posts");
   const doc = await collection.findOne({ postkey: key });
   debug(`Read Post of key: ${doc.postkey}`);
-  const post = new Post(doc.postkey, doc.username, doc.familyname, doc.gravatar, doc.title, doc.body, doc.timestamp);
+  const post = new Post(doc.postkey, doc.username, doc.provider, doc.familyname, doc.gravatar, doc.title, doc.body,
+    doc.likes, doc.views, doc.likedBy, doc.timestamp);
   return post;
 }
 

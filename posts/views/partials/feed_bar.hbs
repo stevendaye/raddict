@@ -1,0 +1,40 @@
+<div class="feed-bar">
+  {{#if user}}
+    <div class="col-12 d-flex justify-content-between"
+    style="margin: 0 0 15px 0; background-color: white; padding: 15px 25px 15px 25px;">
+      <a href="{{routes.post.connections}}">
+        <i data-feather="rss" stroke="steelblue" fill="none" style="margin: 0 0 0 7px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">Feeds</span>
+      </a>
+      <a href="/" class="active-feed" style="border: none;">
+        <i data-feather="feather" stroke="steelblue" fill="none" style="margin: 0 0 0 20px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">Thoughts</span>
+      </a>
+      <a href="/posts/images">
+        <i data-feather="image" stroke="steelblue" fill="none" style="margin: 0 0 0 12px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">Pictures</span>
+      </a>
+      <a href="{{routes.user.people}}" style="padding: 0;">
+        <i data-feather="users" stroke="steelblue" fill="none" style="margin: 0 0 0 9px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">People</span>
+      </a>
+    </div>
+  {{else}}
+    {{!-- Rearrange the layout while disabling some features when there is no user logged in--}}
+    <div class="col-12 d-flex justify-content-between" style="margin: 0 0 15px 0; background-color: white; 
+    padding: 15px 25px 15px 25px; display: block;">
+      <a href="/" style="padding: 0;" title="Thought Posts">
+        <i data-feather="feather" stroke="steelblue" fill="none" style="margin: 0 0 0 20px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">Thoughts</span> 
+      </a>
+      <a href="/posts/images" title="Image Posts">
+        <i data-feather="image" stroke="steelblue" fill="none" style="margin: 0 0 0 12px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">Pictures</span>
+      </a>
+      <a href="{{routes.user.people}}" style="padding: 0;" title="Users You Might Know">
+        <i data-feather="users" stroke="steelblue" fill="none" style="margin: 0 0 0 9px"></i>&nbsp;&nbsp;
+        <span class="d-block d-sm-inline">People</span>
+      </a>
+    </div>
+  {{/if}}
+</div>

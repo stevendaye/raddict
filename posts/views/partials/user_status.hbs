@@ -1,0 +1,64 @@
+<div class="user-status col-3 col-md-4 col-lg-3 d-none d-md-block col-lg-block d-md-block">
+  <div class="col-12 d-inline-block" style="margin: 0; padding: 15px 0 15px 20px; background-color: white;">
+    <a href="{{routes.user.profile}}" class="float-left">
+      <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=75"
+      style="padding: 4px; border: 2px solid steelblue;"/>
+    </a>
+        
+    <div class="float-left userinfo col-7" style="margin: 3px 0 0 0; border: none;">
+      <p style="col-auto font-size: 1.2em; margin: 0; padding: 0 15px 0 0;">
+        <strong>{{user.givenName}}&nbsp;{{user.familyName}}</strong>
+      </p>
+      <p class="username" style="margin: 4px 0 4px 0;">
+        {{#xif user.provider local}}
+          @{{user.username}}
+        {{else}}
+          @{{user.familyName}}
+        {{/xif}}
+      </p>
+      <div class="watch-number" style="margin: 7px 0 7px 0;">
+        <p style=" margin: 0 0 2px 0;">
+          <span id="total-watching">0</span> <span class="text-muted" style="font-size: .82em;"><b>Watching</b></span>
+        </p>
+        <p style=" margin:0;">
+          <span id="total-watchers">0</span> <span class="text-muted" style="font-size: .82em;"><b>Watchers</b></span>
+        </p>
+      </div>
+     </div>
+
+    <div style="clear: both;"></div>
+
+    <p class="col-auto" style="font-size: .9em; margin: 10px 0 15px -5px; line-height: 1.4em;">
+      {{#if user.biographie}}
+        {{user.biographie}}
+      {{else}}
+        Edit your profile to let all your connections know you a bit about by writing a little
+        biography about yourself.
+      {{/if}}<br/>
+      <a href="{{routes.user.profile.edit}}">Edit Profile</a>
+    </p>
+    <div class="user-utils">
+      <ul>
+        <li><a href="{{routes.post.add}}" style="color: rgb(37, 37, 41);">
+          <i data-feather="edit-2" class="feathers"></i>&nbsp;&nbsp; Post a thought</a>
+        </li>
+        <li class="post-util"><a href="{{routes.post.image.add}}" style="color: rgb(37, 37, 41)">
+          <i data-feather="upload-cloud" class="feathers"></i>&nbsp;&nbsp; Post a picture</a>
+        </li>
+        <li><a href="{{routes.user.notifications}}" style="color: rgb(37, 37, 41)">
+          <i data-feather="bell" class="feathers"></i>&nbsp;&nbsp; Notifications</a>
+        </li>
+        <li><a href="{{routes.user.messages}}" style="color: rgb(37, 37, 41)">
+          <i data-feather="message-square" class="feathers"></i>&nbsp;&nbsp; Messages</a>
+        </li>
+        <li class="last-util"><a href="{{routes.user.logout}}" style="color: rgb(37, 37, 41)">
+          <i data-feather="log-out" class="feathers"></i>&nbsp;&nbsp; Logout</a></a>
+        </li>
+      </ul>
+    </div>
+    <a href="{{routes.user.profile.more}}" class="float-right" style="margin: 0 20px 0 0;">
+      <i data-feather="more-horizontal" stroke="steelblue"></i>
+    </a>
+    <div style="clear: both;"></div>
+  </div>
+</div>

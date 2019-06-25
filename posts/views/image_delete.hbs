@@ -1,16 +1,18 @@
-<form method="POST" action="{{routes.post.deleteConfirm}}">
+<form method="POST" action="{{routes.post.image.deleteConfirm}}">
   <div class="container-fluid h-100">
     <div class="row h-100 justify-content-center">
       {{#if user}}
         <div class="col-10 col-sm-10 col-md-8 col-lg-7 alert alert-danger text-center"
         style="margin: 15px; padding:15px; color: rgb(37, 37, 41);">
-          <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
-          <p><span style="color:red;">CONFIRM DELETION: </span></p>
-          <p>You are about to delete your post of title <b>{{post.title}}</b></p>
+          <input type="hidden" name="imagekey" value="{{#if image}}{{imagekey}}{{/if}}" />
+          <p><span style="color:red;">CONFIRM DELETION: </span></p> <br/>
+          <p>Your are about to delete your photo of caption: <b>{{image.caption}}</b></p>
           <p>Are You Sure?</p>
           <div class="btn-group">
             <button type="submit" class="btn btn-outline-danger">YES</button>
-            <a class="btn btn-outline-dark" role="button" href="{{routes.post.view}}?key={{#if post}}{{postkey}}{{/if}}">NO</a>
+            <a class="btn btn-outline-dark" role="button" href="{{routes.post.image.view}}?key={{#if image}}{{imagekey}}{{/if}}">
+              NO
+            </a>
           </div>
         </div>
       {{else}}

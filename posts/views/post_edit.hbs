@@ -1,40 +1,52 @@
-<form method="POST", action="{{routes.post.create}}">
+{{!-- Form for posting a thought --}}
+<form method="POST", action="{{routes.post.create}}" id="post-form">
   <div class="container-fluid  col-lg-5 col-md-6 col-sm-7 col-10 custom-form">
     {{#if user}}
-      <input type="hidden" name="docreate" value="{{#if docreate}}create{{else}}update{{/if}}" />
-      <input type="hidden" name="username" value="{{user.username}}" />
+      <input type="hidden" name="docreate" value="{{#if docreate}}create{{else}}update{{/if}}"/>
+      <input type="hidden" name="postkey" value="{{#if post}}{{post.key}}{{else}}{{postkey}}{{/if}}"/>
+      <input type="hidden" name="username" value="{{user.username}}"/>
+      <input type="hidden" name="provider" value="{{user.provider}}"/>
       <input type="hidden" name="familyname" value="{{user.familyName}}" />
+      <input type="hidden" name="likes" value="{{#if post}}{{post.likes}}{{else}}{{likes}}{{/if}}"/>
+      <input type="hidden" name="views" value="{{#if post}}{{post.views}}{{else}}{{views}}{{/if}}"/>
+      <input type="hidden" name="likedBy" value="{{#if post}}{{post.likedBy}}{{else}}{{likedBy}}{{/if}}"/>
+      <input type="hidden" name="hasLiked" value="{{#if post}}{{post.hasLiked}}{{else}}{{hasLiked}}{{/if}}"/>
       <input type="hidden" name="timestamp" value="{{#if post}}{{post.timestamp}}{{else}}{{timestamp}}{{/if}}"/>
       <input type="hidden" name="gravatar" value="{{user.gravatar}}"/>
       {{#if message}}
         <div class="row alert alert-danger">{{message}}</div>
-      {{/if}}     
+      {{/if}}
 
-      <div class="form-group row">
-        <label for="postkey" class="col-form-label">key:</label><br/>
-        {{#if docreate}}
-          <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" required/>
-        {{else}}
-          {{#if post}}
-            <span class="input-group-text">{{postkey}}</span>
+      {{!-- Leaving the poskey field here, in case we might change our mind for the user to provide one 
+        <div class="form-group row">
+          <label for="postkey" class="col-form-label">key:</label><br/>
+          {{#if docreate}}
+            <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" required/>
+          {{else}}
+            {{#if post}}
+              <span class="input-group-text">{{postkey}}</span>
+            {{/if}}
+            <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
           {{/if}}
-          <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
-        {{/if}}
-      </div>
+        </div>
+      --}}
 
       <div class="form-group row">
         <label for="title" class="col-form-label">Title:</label><br/>
-        <input class="form-control" type="text" name="title" id="title" placeholder="Post title"
+        <input class="form-control post-title" type="text" name="title" id="title" placeholder="Post title"
         value="{{#if post}}{{post.title}}{{/if}}" required/>
       </div>
 
       <div class="form-group row">
         <label for="article" class="col-form-label">Thought:</label>
-        <textarea class="form-control" rows="4" name="body">{{#if post}}{{post.body}}{{/if}}</textarea>
+        <textarea class="form-control post-body" rows="4" name="body" required>{{#if post}}{{post.body}}{{/if}}</textarea>
       </div>
 
-      <div class="row">
-        <button type="submit" class="btn btn-default" style="margin: 0;">Submit</button> &nbsp;&nbsp;&nbsp;
+      <div class="row post-button">
+        <button type="submit" class="btn btn-default" style="margin: 0; background-color: steelblue; color: white;">
+          <span class="post-btn">Post</span>
+        </button>
+        &nbsp;&nbsp;&nbsp;
         <a class="btn btn-outline-dark text-left" role="button"
           href="{{#if post}}{{routes.post.view}}?key={{post.key}}{{else}}/{{/if}}">
           Cancel

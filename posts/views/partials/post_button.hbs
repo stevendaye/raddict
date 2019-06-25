@@ -1,0 +1,21 @@
+{{#if user}}
+  <div class="d-block d-md-none">
+    <div class="post-btn rounded-circle">Post</div>
+    <div class="post-btn-hide rounded-circle">&times;</div>
+    <div class="post-btn-add">
+      <a href="{{routes.post.image.add}}" title="Post a picture" class="post-btn-pics" style="bottom: -20px;">
+        <i data-feather="upload-cloud" stroke="white" width="19"></i>
+      </a>
+      <a href="{{routes.post.add}}" title="Post a thought" class="post-btn-write" style="bottom: 20px;">
+        <i data-feather="edit-2" stroke="white" width="19"></i>
+      </a>
+    </div>
+  </div>
+{{else}}
+  <div class="d-block d-sm-none">
+    <a href="{{routes.user.login}}" class="login-round-btn rounded-circle" title="Login to have fun"
+    style="padding-top: 13px; color: white;">
+      <i data-feather="log-in"></i>
+    </a>
+  </div>
+{{/if}}

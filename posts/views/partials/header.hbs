@@ -9,7 +9,7 @@
             <a href="{{routes.user.profile}}" style="color: white; font-size: 1.1em">
               <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=27"/>&nbsp;
               {{#xif user.provider local}}
-                {{user.givenName}}
+                {{user.username}}
               {{else}}
                 {{user.familyName}}
               {{/xif}}&nbsp;&nbsp;&nbsp;
@@ -34,11 +34,13 @@
         </nav>
 
         <nav class="navbar navbar-expand-sm navbar-dark" style="padding: 0">
-          <a href="/" style="margin: 0 0 0 0; padding: 0;">
+          <a href="/" style="margin: 4px 0 0 0; padding: 0;">
             <img src="/assets/vendor/local/raddict-white.png" width="40px" height="40px" class="navbar-brand img-fluid"/>
           </a>
-          <span style="margin: -5px 0 0 -10px;; color: white; font-size: 2em; font-weight: bold; font-family: 'Helvetica';">
-            raddict
+          <span>
+            <a href="/" style="margin: -2px 0 0 -10px;; color: white; font-size: 2em; font-weight: bold; font-family: 'Helvetica';">
+              raddict
+            </a>
           </span>
           
           <button class="navbar-toggler float-right" type="button"
@@ -56,7 +58,7 @@
                   <a href="{{routes.user.profile}}" style="display: block; color: white; font-size: 1.1em; margin: 0 0 10px 0;">
                     <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=27"/>&nbsp;
                     {{#xif user.provider local}}
-                      {{user.givenName}}
+                      {{user.username}}
                     {{else}}
                       {{user.familyName}}
                     {{/xif}}

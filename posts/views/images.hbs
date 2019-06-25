@@ -1,0 +1,220 @@
+<div class="container-fluid h-100 index-wrapper">
+  <div class="row h-100 justify-content-center" style="margin: 0; padding: 0;">
+
+    {{!-- Rearrange the layout when there is no user logged in--}}
+    {{#if user}}<div class="col col-md-12 col-lg-12 d-flex justify-content-center" style="padding: 0; border: none; 
+    margin: 0;">{{/if}}
+
+      {{#if user}}
+        {{> user_status }}
+      {{/if}}
+
+      <div class="col-12 col-sm-10 {{#if user}}col-md-7 col-lg-6{{else}}col-md-10 col-lg-7{{/if}} d-sm-block d-inline-block"
+      style="border: none; padding: 0;">
+
+        {{> feed_bar }}
+
+        <div class="col-12 btn-group-vertical" id="imagelist" role="group" style="padding: 0;">
+          {{#unless imagelist }}
+            <div class="align-self-center text-center col-sm-7 col-lg-5 no-post">
+              <a href="{{routes.post.image.add}}" class="btn col-12"
+                style="background-color: steelblue; color: white; border-radius: 0;">
+                Be the first to post a picture
+              </a>
+            </div>
+          {{/unless}}
+
+          {{!-- List of postlist: Expanded on all 12 grid columns block on small screens and inline-block on all others --}}
+          {{> images_list }}
+
+        </div>
+        {{#if imagelist}}
+          {{> load_more_button }}
+        {{/if}}
+      </div>
+
+      {{> people_suggestions }}
+
+    {{#if user}}</div>{{/if}}
+  </div>
+</div>
+
+{{!-- Buttons to post thoughts and images: displayed only small screens--}}
+{{> post_button }}
+
+{{#if imagelist}}
+  {{> footer_relative }}
+{{else}}
+  {{> footer_absolute }}
+{{/if}}
+
+{{> footer_js }}
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  $(function() {
+    feather.replace();
+    io("/home").on("newimage", function(data) {
+      console.log("\"newimage\" event listened successfully by the client");
+      console.debug(data);
+      var freshimage = data.image;
+      $("#imagelist").prepend(formatImage(freshimage));
+      feather.replace();
+    });
+    io("/home").on("imagedestroyed", function(key) {
+      $(".freshimage-" + key).remove();
+    });
+    
+    var hasLiked = false;
+    /* Liking or disliking a post */
+    $(".heart").on("click", function(e) {
+      $.post("{{routes.post.image.like}}", {
+        key: $(this).data("key"),
+        likedBy: $(this).data("userid"),
+        likedOnceBy: $(this).data("username")
+      }, function (data) {
+        $("#count-likes-" + data.id).text(data.thisimage.likes);
+        var likedByArray = data.thisimage.likedBy;
+        if (likedByArray.length === 0) {
+          $("#likedby-content-" + data.id).html("");
+        }
+        else if (likedByArray.length === 1) {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + "</b>");
+        } else if (likedByArray.length === 2) {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>");
+        } else if (likedByArray.length === 3) {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " other</b>");
+        } else {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " others</b>");
+        }
+        console.debug(likedByArray);
+      });
+      if (hasLiked) {
+        hasLiked = false;
+        $(this).attr("class", "feather feather-heart image-like");
+      } else {
+        hasLiked = true;
+        $(this).attr("class", "feather feather-heart image-dislike");
+      }
+      e.preventDefault();
+    });
+
+    /* Collecting likes and likers */
+    $.ajax({
+      type: "POST",
+      url: "{{routes.post.image.likers}}",
+    }).done(function(data, textStatus, jqXHR) {
+      var likelist = data.likelist;
+      likelist.forEach(function(image) {
+        var imagekey = image.key;
+        var likedByArray = image.likedBy;
+        if (likedByArray.length === 0) {
+          $("#likedby-content-" + imagekey).html("");
+        }
+        else if (likedByArray.length === 1) {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + "</b>");
+        } else if (likedByArray.length === 2) {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>");
+        } else if (likedByArray.length === 3) {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " other</b>");
+        } else {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " others</b>");
+        }
+        /* Keeping red all liked button
+        if (likedByArray.indexOf("{{user.username}}")) {
+          $("#heart-" + postkey).attr("class", "feather feather-heart post-dislike");
+        } else {
+          $("#heart-" + postkey).attr("class", "feather feather-heart post-like");
+        } */
+      });
+    });
+  });
+
+  /* formatting the display of a new image */
+  function formatImage(freshimage) {
+    feather.replace();
+    return "<a class=\"col-12 align-self-center imagelist freshimage-" + freshimage.key + "\" href=\"/posts/image/view?key=" + freshimage.key + "\""
+    + "style=\"padding-left: 0; padding-right: 0; border: none;\">"
+      + "<div style=\"position: relative;\">"
+        + "<div class=\"post-image\">"
+          + "<img class=\"img-fluid rounded-circle d-inline-block\" src=\"http://www.gravatar.com/avatar/" + freshimage.gravatar + "?d=monsterid&s=35\""
+          + "title=\"\" alt=\"\" style=\"margin: 0 10px 10px 20px; border: none;\"/>"
+          + "<p class=\"d-inline-block\" class=\"username\" style=\"color: grey; font-size: 1.4em;\">"
+            + "{{#xif " + freshimage.provider + " local}}"
+              + freshimage.username
+            + "{{else}}"
+              + freshimage.familyname
+            + "{{/xif}}"
+          + "</p>"
+          + "<div style=\"clear:both;\"></div>"
+          + "<div class=\"post-image-content img\" style=\"margin: 10px 0 0 0; padding: 0; text-align: center;\">"
+            + "<img class=\"img-fluid\" src=\"/uploads/media/pictures/" + freshimage.filename + "\" alt=\"Photo\" title=\"\"/>"
+          + "</div>"
+          + "<p class=\"post-image-caption\" style=\"font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',"
+          + "'Lucida Sans', Arial, sans-serif; color:black; margin: 20px 0 0 20px;\">"
+            + "<strong>"
+              + "{{#xif " + freshimage.provider + " local}}"
+                + freshimage.username
+              + "{{else}}"
+                + freshimage.familyname
+              + "{{/xif}}"
+            + "</strong>&nbsp;" + freshimage.caption
+          + "</p>"
+          + "<p id=\"likedby-content-" + freshimage.key + "\" style=\"color: rgb(37, 37, 41); margin: 20px; 20px 0 20px; font-family: Arial\">"
+            + "<span class=\"liked-by\"></span>"
+          + "</p>"
+        + "</div>"
+        + "<p style=\"position: absolute; top: 13px; right: 30px; border: none;\">"
+          + "<span class=\"count-image-views\">" + freshimage.views + "</span> &nbsp;"
+          + "<i data-feather=\"eye\" width=\"20px\" height=\"20px\" stroke=\"grey\"></i>"
+        + "</p>"
+        + "<p style=\"position: absolute; top: 10px; right: 85px; border: none;\">"
+          + "<small class=\"text-muted timeago\">" + freshimage.timestamp + "</small>&nbsp;&nbsp;<i data-feather=\"clock\" width=\"12px\"></i>"
+        + "</p>"
+      + "</div>"
+    + "</a>"
+
+    + "<div class=\"col-12 freshimage-" + freshimage.key + "\" style=\"margin: -50px 0 10px 0; padding: 0 15px 0 20px; background-color: white;\">"
+      + "<div style=\"padding: 0 5px 30px 0;\">"
+        + "<span style=\"margin: 0;\">"
+          + "<i data-feather=\"more-horizontal\" width=\"18px\" height=\"18px\" stroke=\"grey\"></i>"
+        + "</span>"
+        + "<a href=\"/posts/image/share\" class=\"float-right\" style=\"position: relative;\">"
+          + "<span style=\"font-size: 1.1em; position: absolute; top: 1px; right: 25px;\">0</span>"
+          + "<i data-feather=\"share\" width=\"18px\" height=\"18px\" data-id=\"" + freshimage.key + "\"></i>"
+        + "</a>"
+        + "<a href=\"/posts/image/view?key=" + freshimage.key + "\" class=\"float-right\" style=\"margin: 0 40px 0 0; position: relative;\">"
+          + "<span class=\"\" style=\"font-size: 1.1em; position: absolute; top: 1px; right: 25px;\">0</span> &nbsp;"
+          + "<i class=\"comment\" data-feather=\"message-circle\" width=\"18px\" height=\"18px\"></i>"
+        + "</a>"
+        + "<span class=\"float-right\" style=\"margin: 0 35px 0 0; position: relative; font-family: 'Franklin Gothic Medium', 'Arial Narrow';"
+        + "color: steelblue; font-size: 1.1em;\">"
+          + "<span id=\"count-likes-" + freshimage.key + "\" style=\"position: absolute; top: 1px; right: 25px;\">"
+            + freshimage.likes
+          + "</span> &nbsp;"
+          + "<i class=\"heart\" id=\"heart-" + freshimage.key + "\" data-feather=\"heart\" width=\"18px\" height=\"18px\" data-key=\"" + freshimage.key + "\""
+          + "data-userid=\""
+            + "{{#if user}}"
+              + "{{#xif user.provider local}}"
+                + "{{user.username}}"
+              + "{{else}}"
+                + "{{user.familyname}}"
+              + "{{/xif}}"
+            + "{{/if}}\""
+          + "data-username=\""
+            + "{{#if user}}"
+              + "{{#xif user.provider local}}"
+                + "{{user.username}}"
+              + "{{else}}"
+                + "{{user.familyname}}"
+              + "{{/xif}}"
+            + "{{/if}}\"></i>"
+        + "</span>"
+      + "</div>"
+    + "</div>"
+  }
+</script>

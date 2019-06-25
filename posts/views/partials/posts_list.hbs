@@ -1,0 +1,73 @@
+{{#each postlist }}
+  <a class="col-12 align-self-center postlist freshpost-{{key}}" href="/posts/view?key={{ key }}">
+    <div style="postion: relative">
+      <div class="post">
+        <img class="img-fluid rounded-circle d-inline-block" src="http://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=35"
+        title="" alt="" style="margin: 0 10px 10px 0; border: none;"/>
+        <p class="d-inline-block" class="username" style="color: grey; font-size: 1.4em;">
+          {{#xif provider local}}
+            {{username}}
+          {{else}}
+            {{familyname}}
+          {{/xif}}
+        </p>
+        <div style="clear:both;"></div>
+        <h5 class=" col-auto post-title overflow" style="margin: 0">{{ title }}</h5>
+        <p class="post-content col-11 overflow"
+        style="font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        color:black; margin: 10px 0 0 0;">
+          {{ body }}
+        </p>
+        <p id="likedby-content-{{key}}" style="color: rgb(37, 37, 41); margin: 15px 15px 0 15px; font-family: Arial">
+          <span class="liked-by"></span>
+        </p>
+      </div>
+      <p style="position: absolute; top: 17px; right: 25px; border: none;">
+        <span class="count-post-views">{{views}}</span> &nbsp;
+        <i data-feather="eye" width="18px" height="18px" stroke="steelblue"></i>
+      </p>
+      <p style="position: absolute; top: 15px; right: 100px; border: none;">
+        <small class="text-muted timeago">{{timeago timestamp}}</small>&nbsp;&nbsp;<i data-feather="clock" width="12px"></i>
+      </p>
+    </div>
+  </a>
+  {{!-- Attaching a bar of the Comment, Like, Share buttons to each post --}}
+  <div class="col-12 freshpost-{{key}}" style="margin: -50px 0 30px 0; padding: 0 18px 0 25px; background-color: white;">
+    <div style="padding: 0 5px 0 0;">
+      <span style="margin: 0 0 0 13px;">
+        <i data-feather="more-horizontal" width="18px" height="18px" stroke="grey"></i>
+      </span>
+      <a href="/posts/share" class="float-right" style="position: relative;">
+        <span style="font-size: 1.1em; position: absolute; top: 1px; right: 25px;">{{#if share}}{{share}}{{else}}0{{/if}}</span>
+        <i data-feather="share" width="18px" height="18px" data-id="{{key}}"></i>
+      </a>
+      <a href="/posts/view?key={{ key }}" class="float-right" style="margin: 0 40px 0 0; position: relative;">
+        <span class="" style="font-size: 1.1em; position: absolute; top: 1px; right: 25px;">0</span> &nbsp;
+        <i class="comment" data-feather="message-circle" width="18px" height="18px"></i>
+      </a>
+      <span class="float-right" style="margin: 0 35px 0 0; position: relative; font-family: 'Franklin Gothic Medium', 'Arial Narrow';
+      color: steelblue; font-size: 1.1em;">
+        <span id="count-likes-{{key}}" style="position: absolute; top: 1px; right: 25px;">
+          {{likes}}
+        </span> &nbsp;
+        <i class="heart" id="heart-{{key}}" data-feather="heart" width="18px" height="18px" data-key="{{key}}"
+        data-userid="
+          {{#if ../user}}
+            {{#xif ../user.provider local}}
+              {{../user.username}}
+            {{else}}
+              {{../user.familyName}}
+            {{/xif}}
+          {{/if}}"
+        data-username="
+          {{#if ../user}}
+            {{#xif ../user.provider local}}
+              {{../user.username}}
+            {{else}}
+              {{../user.familyName}}
+            {{/xif}}
+          {{/if}}"></i>
+      </span>
+    </div>
+  </div>
+{{/each}}

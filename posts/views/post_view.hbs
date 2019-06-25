@@ -6,14 +6,25 @@
           <img class="img-fluid rounded-circle d-inline-block" src="http://www.gravatar.com/avatar/{{post.gravatar}}?d=monsterid&s=50"
           title="" alt="" style="margin: 0 10px 10px 0; border: none;"/>
           <h4 class="d-inline-block" id="username" style="color: grey; margin: 0;">
-            {{post.familyname}}
+            {{#xif post.provider local}}
+              {{post.username}}
+            {{else}}
+              {{post.familyname}}
+            {{/xif}}
           </h4>
           <h4 id="postitle" style="color: steelblue"> {{ post.title }} </h4>
-          <p id="postbody"> {{ post.body }} </p>
-          <small class="text-muted timeago" style="position: absolute; top: 50px; right: 50px;">{{timeago post.timestamp}}</small>
+          <p id="postbody" style="font-size: 1.2em; line-height: 1.3em;"> {{ post.body }} </p>
+          <p id="likedby-content-{{post.key}}" style="color: rgb(37, 37, 41);">
+            <span class="liked-by"></span>
+          </p>
+          <p style="position: absolute; color: steelblue; top: 27px; right: 75px; border: none;
+          font-family: 'Franklin Gothic Medium', 'Arial Narrow'">
+            <span class="count-post-views">{{post.views}}</span>&nbsp;
+            <i data-feather="eye" width="18px" height="18px" stroke="steelblue"></i>
+          </p>
+          <small class="text-muted timeago" style="position: absolute; top: 30px; right: 140px;">{{timeago post.timestamp}}</small>
         </div>
       {{/if}}
-      {{!-- <p> key: {{ postkey }} </p> --}}
       <span title="More"><i class="more-vertical" data-feather="more-vertical"></i></span>
     </div>
   </div>
@@ -24,20 +35,31 @@
         <div class="col-xm-12" style="border: none; padding: 0 0 0 25px;">
 
           <div class="btn-group float-right" style="border: none;">
-            <a href="/posts/like"><i class="heart" data-feather="heart"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="heart" id="heart-{{postkey}}" data-feather="heart" data-key="{{postkey}}"
+            data-userid="
+            {{#if user}}
+              {{#xif user.provider local}}
+                {{user.username}}
+              {{else}}
+                {{user.familyName}}
+              {{/xif}}
+            {{/if}}"
+            data-username="
+            {{#if user}}
+              {{#xif user.provider local}}
+                {{user.username}}
+              {{else}}
+                {{user.familyName}}
+              {{/xif}}
+            {{/if}}"></i>&nbsp;&nbsp;&nbsp;&nbsp;
             <i class="comment" data-feather="message-circle" data-toggle="modal" data-target="#posts-comment-modal"></i>
             &nbsp;&nbsp;&nbsp;&nbsp;
             {{#if user}}
               {{#if post}}
                 {{#wif post.username user.username}}
-                <a class="edit" role="button" href="{{routes.post.update}}?key={{postkey}}" title="Edit">
-                  <i data-feather="edit-3"></i>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                {{/wif}}
-              {{/if}}
-
-              {{#if post}}
-                {{#wif post.username user.username}}
+                  <a class="edit" role="button" href="{{routes.post.update}}?key={{postkey}}" title="Edit">
+                    <i data-feather="edit-3"></i>
+                  </a>&nbsp;&nbsp;&nbsp;&nbsp;
                   <a class="delete" role="button" href="{{routes.post.delete}}?key={{postkey}}" title="Delete">
                     <i data-feather="trash-2"></i>
                   </a>
@@ -48,15 +70,15 @@
 
           <div class="stats float-left" style="color: grey; margin: 5px 0 0 0; border: none; width: 52%;">
             <p>
-              <span>{{#if totalLikes}}{{totalLikes}}{{else}}0{{/if}}</span> Likes &nbsp;&nbsp;&nbsp;&nbsp;
-              <span>{{#if totalComments}}{{totalComments}}{{else}}0{{/if}}</span> Comments
+              <span id="count-likes-{{postkey}}">{{post.likes}}</span> Likes&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>{{#if post.comments}}{{post.omments}}{{else}}0{{/if}}</span> Comments
             </p>
           </div>
         </div>
       </div>
     </div>
     <div class="row h-100 justify-content-center">
-      <div id="postComments" style="margin: 10px 0 0 0; position: relative;" class="col-12 col-md-10 col-lg-8"></div>
+      <div id="postComments" style="margin: 10px 0 0 0; padding: 0; position: relative;" class="col-12 col-md-10 col-lg-8"></div>
     </div>
   {{/if}}
 
@@ -70,7 +92,9 @@
   {{/unless}}
 </div>
 
-{{!-- Modal window view --}}
+{{> post_button }}
+
+{{!-- Modal window view for commenting --}}
 {{#if user}}
   {{#if postkey}}
     <div class="modal fade" id="posts-comment-modal" tabindex="-1" role="dialog"
@@ -85,9 +109,11 @@
           </div>
 
           <div class="modal-body">
-            <form method="POST" id="submit-comment" class="well" data-async
+            <form method="POST" id="submit-post-comment" class="well" data-async
               data-target="#rating-modal" action="{{routes.post.comment.make}}">
-              <input type="hidden" name="from" value="{{user.familyName}}" />
+              <input type="hidden" name="from"
+              value="{{#xif user.provider local}}{{user.username}}{{else}}{{user.familyName}}{{/xif}}"/>
+              <input type="hidden" name="gravatar" value="{{user.gravatar}}"/>
               <input type="hidden" name="namespace" value="/view-{{postkey}}"/>
               <input type="hidden" name="key" value="{{postkey}}"/>
               <fieldset>
@@ -110,6 +136,22 @@
   {{/if}}
 {{/if}}
 
+{{!-- Model view to be displayed on a post deletion --}}
+<div class="modal fade" id="posts-deleted-modal" tabindex="-1" role="dialog"
+aria-labelledby="postDeletedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="padding: 25px 10px 25px 10px; font-family: Arial;">
+      <div class="modal-body text-center" style="margin: -20px 0 0 0;">
+        <h4>Ouups!</h4>
+        <span style="font-size: 1.2em;">The post you are currently viewing has been deleted by the author</span>
+      </div>
+      <a href="/" class="col-10 align-self-center text-center" style="border: none;">
+        <button type="button" class="btn btn-outline-dark col-10">Okay Take Me Back</button>
+      </a>
+    </div>
+  </div>
+</div>
+
 {{> footer_relative }}
 {{> footer_js }}
 
@@ -118,9 +160,9 @@
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
+      // Updating and deleting posts in real time
       io("/view").on("postupdated", function (data) {
         console.log("\"postupdated\" event listened successfully from the client");
-        // console.debug(data);
         var post = data.post;
         if (post.key === "{{postkey}}") {
           $("h3#postitle").empty();
@@ -129,13 +171,49 @@
           $("#postbody").text(post.body);
         }
       });
-
+      
       io("/view").on("postdestroyed", function (key) {
         console.log("\"postdestroyed\" event listened successfully by the client");
         console.log("postkey: " + key);
         if (key === "{{postkey}}") {
-          window.location.href = "/";
+          $("#posts-deleted-modal").modal({ show: true });
+          $("#posts-deleted-modal").click(function() {
+            window.location.href = "/";
+          });
         }
+      });
+
+      /* Collecting likes and likers */
+      $.ajax({
+        type: "POST",
+        url: "{{routes.post.likers}}",
+      }).done(function(data, textStatus, jqXHR) {
+        var likelist = data.likelist;
+        likelist.forEach(function(post) {
+          var postkey = post.key;
+          var likedByArray = post.likedBy;
+          console.log(postkey);
+          if (likedByArray.length === 0) {
+            $("#likedby-content-" + postkey).html("");
+          }
+          else if (likedByArray.length === 1) {
+            $("#likedby-content-" + postkey).html("Liked by <b>" + likedByArray[0] + "</b>");
+          } else if (likedByArray.length === 2) {
+            $("#likedby-content-" + postkey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>");
+          } else if (likedByArray.length === 3) {
+            $("#likedby-content-" + postkey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+            " and " + "<b>" + (likedByArray.length - 2) + " other</b>");
+          } else {
+            $("#likedby-content-" + postkey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+            " and " + "<b>" + (likedByArray.length - 2) + " others</b>");
+          }
+          /* Keeping red all liked button
+          if (likedByArray.indexOf("{{user.username}}")) {
+            $("#heart-" + postkey).attr("class", "feather feather-heart post-dislike");
+          } else {
+            $("#heart-" + postkey).attr("class", "feather feather-heart post-like");
+          } */
+        });
       });
     });
   </script>
@@ -146,24 +224,55 @@
   {{#if user}}
     <script type="text/javascript">
       $(document).ready(function() {
+        $("#postComments")
+        .append("<div class=\"text-center load-comments\" style=\"color: gray; font-family: Arial; font-size: .9em;\">"
+          + "Loading Comments..."
+          + "<div>");
+        
+        /* Animating the loading comments message */
+        function glow(element) {
+          var level = 1, hex;
+          gradualy = function() {
+            hex = level.toString(16);
+            element.style.color = "#" + hex + "44d" + hex + "f";
+            if (level < 1000000000) {
+              level += 1;
+              setTimeout(gradualy, 100);
+            }
+          }; setTimeout(gradualy, 100);
+        } glow(document.querySelector(".load-comments"));
+        
+        /* Starting with socket.io */
         io("/view").emit("getpostcomments", "/view-{{postkey}}", function(comments) {
           $("#postComments").empty();
           if(comments.length > 0) {
-            comments.forEach(function(newcomment) {
-              if (newcomment.namespace === "/view-{{postkey}}") {
-                $("#postComments").prepend(formatComment(newcomment));
+            comments.forEach(function(comment) {
+              if (comment.namespace === "/view-{{postkey}}") {
+                $("#postComments").prepend(formatComment(comment));
               }
+              if (comment.from !== "{{user.username}}") {
+                $("#cmt-del-btn-"+ comment.id).css("display", "none");
+              }
+              $("#show-hide-del-btn-" + comment.id).on("click", function() {
+                $("#comment-del-btn-" + comment.id).fadeIn(500, "swing");
+                setTimeout(function() {
+                  $("#comment-del-btn-" + comment.id).fadeOut(500, "swing");
+                }, 7000);
+              });
             });
             $("#postComments").show();
             connectCmtDelButton();
           } else {
-            $("#postComments").hide();
-            console.log("Successfull: No Comments Was Made!");
+            $("#postComments")
+            .html("<div class=\"text-center no-comment\" style=\"color: gray; margin: 10px 0 0 0; font-family: Arial; font-size: .9em;\">"
+              + "No Comments Here."
+            + "</div>");
           }
-          console.log("\"getpostscomment\" emitted successfully by the client: ");
+          console.log("\"getpostcomment\" emitted successfully by the client: ");
         });
 
         io("/view").on("newcomment", function(newcomment) {
+          $(".no-comment").css("display", "none");
           if (newcomment.namespace === "/view-{{postkey}}") {
             $("#postComments").prepend(formatComment(newcomment));
             connectCmtDelButton();
@@ -172,18 +281,27 @@
         });
         io("/view").on("destroycomment", function(data) {
           if (data.namespace === "/view-{{postkey}}") {
-            // console.debug(data);
             $("#postComments #post-comment-" + data.id).remove();
             console.log("destroycomment event listened successfully by the client!");
           }
+
+          io("/view").emit("getpostcomments", "/view-{{postkey}}", function(comments) {
+            if(comments.length === 0) {
+              $("#postComments")
+              .html("<div class=\"text-center no-comment\" style=\"color: gray; margin: 10px 0 0 0; font-family: Arial; font-size: .9em;\">"
+                + "No Comments Here."
+              + "</div>");
+              console.log("\"getpostcomment\" emitted successfully by the client after \"destroycomment\" event");
+            }
+          });
         });
 
-        $("form#submit-comment").submit(function(e) {
+        $("form#submit-post-comment").submit(function(e) {
           // first we abort any pending request
           if (request) {
             request.abort();
           }
-          var $form = $("form#submit-comment");
+          var $form = $("form#submit-post-comment");
           var target = $($form.attr("data-target"));
           var request = $.ajax({
             type: $form.attr("method"),
@@ -200,45 +318,91 @@
           });
           e.preventDefault();
         });
-    });
 
-    function formatComment(newcomment) {
-      console.log(newcomment.from);
-      return "<div style=\"position: relative; margin: 0 0 7px 0; padding: 10px 10px 40px 10px; background-color: white; border: none;"
-        + "\" class=\"custom-card col-12 word-wrap\" id=\"post-comment-" + newcomment.id + "\">"
-          + "<div class=\"card-body\">"
-              + "<h5 class=\"card-title\">" + newcomment.from + "</h5>"
-              + "<div class=\"card-text\">" + newcomment.comment
-                + "<small style=\"position: absolute; top: 37px; left: 115px;\" class=\"text-muted timeago\">"
-                  + newcomment.timestamp
-                + "</small>"
-              + "</div>"
-              + "{{#wif " + newcomment.from + " user.username}}"
-              + "<span class=\"comment-del-btn \" style=\"position: absolute; top: 35px; right: 30px; font-size: 1em; color: red;\""
-                + "data-id=\"" + newcomment.id + "\" data-namespace=\"" + newcomment.namespace + "\">"
-                  + "<span class=\"round\" title=\"Delete\">" + "&times;" + "</span>"
-                + "</span>"
-              + "{{/wif}}"
-              + "<div class=\"float-right\" style=\"margin: 15px 0 0 0; font-size: .9em; font: TrebuchetMS\">"
-                + "<a href=\"posts/like-reply\"><span class=\"heart\" width=\"20px\" height=\"20px\">Like</span></a>" + "&nbsp;&nbsp;&nbsp;"
-                + "<a href=\"posts/reply-comment\"><span class=\"comment\" width=\"20px\" height=\"20px\">Reply</span></a>" + "&nbsp;&nbsp;&nbsp;"
-                + "<a href=\"/posts/edit-comment\"><span class=\"edit\" width=\"20px\" height=\"20px\">Edit</span></a>"
-              + "</div>"
-          + "</div>"
-        + "</div>"
-    };
-    
-    function connectCmtDelButton() {
-      $(".comment-del-btn").on("click", function(e) {
-        $.post("{{routes.post.comment.delete}}", {
-          id: $(this).data("id"),
-          namespace: $(this).data("namespace")
-        },
-        function (response) { });
-        e.preventDefault();
+        /* Liking or disliking a post */
+        var hasLiked = false;
+        /* Liking or disliking a post */
+        $(".heart").on("click", function(e) {
+          $.post("{{routes.post.like}}", {
+            key: $(this).data("key"),
+            likedBy: $(this).data("userid"),
+            likedOnceBy: $(this).data("username")
+          }, function (data) {
+            $("#count-likes-" + data.id).text(data.thispost.likes);
+            var likedByArray = data.thispost.likedBy;
+            if (likedByArray.length === 0) {
+              $("#likedby-content-" + data.id).html("");
+            }
+            else if (likedByArray.length === 1) {
+              $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + "</b>");
+            } else if (likedByArray.length === 2) {
+              $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>");
+            } else if (likedByArray.length === 3) {
+              $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+              " and " + "<b>" + (likedByArray.length - 2) + " other</b>");
+            } else {
+              $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+              " and " + "<b>" + (likedByArray.length - 2) + " others</b>");
+            }
+          });
+          if (hasLiked) {
+            hasLiked = false;
+            $(this).attr("class", "feather feather-heart post-like");
+          } else {
+            hasLiked = true;
+            $(this).attr("class", "feather feather-heart post-dislike");
+          }
+          e.preventDefault();
+        });
       });
-    };
 
+      function formatComment(newcomment) {
+        return "<div style=\"position: relative; margin: 0 0 7px 0; padding: 0 10px 20px 10px; background-color: white; border: none;"
+          + "\" class=\"custom-card col-12 word-wrap\" id=\"post-comment-" + newcomment.id + "\">"
+            + "<div class=\"card-body\">"
+                + "<img src=\"http://www.gravatar.com/avatar/" + newcomment.gravatar + "?d=monsterid&s=25\""
+                + "class=\"float-left rounded-circle\"/>"
+                + "&nbsp;&nbsp;"
+                + "<div style=\"clear: both;\"></div>"
+                + "<h5 class=\"card-title\" style=\"position: absolute; top: 21px; left: 65px;\">" + newcomment.from + "</h5>"
+                + "<div class=\"card-text\" style=\"margin: 10px 0 0 0; font-family: Arial; font-size: 1.2em; line-height: 1.3em;\">"
+                  + newcomment.comment
+                  + "<small style=\"position: absolute; top: 20px; right: 65px;\" class=\"text-muted timeago\">"
+                    + newcomment.timestamp
+                  + "</small>"
+                + "</div>"
+                + "<div class=\"cmt-del-btn\" id=\"cmt-del-btn-" + newcomment.id + "\">"
+                  + "<span id=\"show-hide-del-btn-" + newcomment.id + "\""
+                  + "style=\"font-size: 1.2em; color: gray; position: absolute; right: 30px; top: 22px;\">"
+                    + "&bull;&bull;&bull;"
+                  + "</span>"
+                  + "<span class=\"comment-del-btn alert alert-danger\" id=\"comment-del-btn-" + newcomment.id + "\""
+                  + "style=\"position: absolute; top: 42px; right: 27px; font-size: 1em; color: red; font-size: .8em; padding: 3px; display: none;\""
+                    + "data-id=\"" + newcomment.id + "\" data-namespace=\"" + newcomment.namespace + "\">"
+                      + "<span class=\"\" title=\"\" style=\"\">" + "Delete" + "</span>"
+                    + "</span>"
+                + "</div>"
+                + "<div class=\"float-right\" style=\"margin: 7px 0 0 0; font-size: .9em; font: TrebuchetMS\">"
+                  + "<a href=\"posts/like-reply\"><span class=\"heart-custom\" width=\"20px\" height=\"20px\">Like</span></a>"
+                  + "&nbsp;&nbsp;&nbsp;"
+                  + "<a href=\"posts/reply-comment\"><span class=\"comment\" width=\"20px\" height=\"20px\">Reply</span></a>"
+                  + "&nbsp;&nbsp;&nbsp;"
+                  + "<a href=\"/posts/edit-comment\"><span class=\"edit\" width=\"20px\" height=\"20px\">Edit</span></a>"
+                + "</div>"
+            + "</div>"
+          + "</div>"
+      };
+      
+      function connectCmtDelButton() {
+        $(".comment-del-btn").on("click", function(e) {
+          $.post("{{routes.post.comment.delete}}", {
+            id: $(this).data("id"),
+            namespace: $(this).data("namespace")
+          },
+          function (response) {  });
+          e.preventDefault();
+        });
+      };
     </script>
   {{/if}}
 {{/if}}

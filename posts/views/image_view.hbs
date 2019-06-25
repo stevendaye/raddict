@@ -1,0 +1,404 @@
+<div class="container-fluid h-100" style="position: relative;">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col col-md-10 col-lg-8" style="background: white; margin: 15px 0 5px 0; padding: 15px 0 65px 0">
+      {{#if image}}
+        <div class="post-image">
+          <img class="img-fluid rounded-circle d-inline-block" src="http://www.gravatar.com/avatar/{{image.gravatar}}?d=monsterid&s=50"
+          title="" alt="" style="margin: 0 10px 10px 25px; border: none;"/>
+          <h4 class="d-inline-block" id="username" style="color: grey; margin: 0;">
+            {{#xif image.provider local}}
+              {{image.username}}
+            {{else}}
+              {{image.familyname}}
+            {{/xif}}
+          </h4>
+          <div class="post-image-content col-auto img" style="margin: 10px 0 0 0; padding: 0; text-align: center;">
+            <img class="img-fluid" src="/uploads/media/pictures/{{image.filename}}" alt="" title=""/>
+          </div>
+          <p class="post-image-caption" style="font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+          'Lucida Sans', Arial, sans-serif; color:black; margin: 20px 20px 0 20px; font-size: 1.2em; line-height: 1.3em;">
+            <strong>
+              {{#xif image.provider local}}
+                {{image.username}}
+              {{else}}
+                {{image.familyname}}
+              {{/xif}}
+            </strong>&nbsp;
+            <span style="">
+              {{image.caption}}
+            </span>
+          </p>
+          <p id="likedby-content-{{image.key}}" style="color: rgb(37, 37, 41); margin: 20px">
+            <span class="liked-by"></span>
+          </p>
+          <small class="text-muted timeago" style="position: absolute; top: 36px; right: 150px;">{{timeago image.timestamp}}</small>
+          <p style="position: absolute; top: 33px; right: 75px; border: none;">
+            <span class="count-image-views">{{image.views}}</span> &nbsp;
+            <i data-feather="eye" width="20px" height="20px" stroke="grey"></i>
+          </p>
+        </div>
+      {{/if}}
+      <span title="More"><i class="more-vertical" data-feather="more-vertical"></i></span>
+    </div>
+  </div>
+
+  {{#if imagekey}}
+    <div class="row h-100 justify-content-center">
+      <div class="col col-md-10 col-lg-8" style="margin: -70px 0 0 0; padding: 10px 30px 0 0;">
+        <div class="col-xm-12" style="border: none; padding: 0 0 0 25px;">
+
+          <div class="btn-group float-right" style="border: none;">
+            <i class="heart" data-feather="heart" data-key="{{imagekey}}"
+            data-userid="
+            {{#xif image.provider local}}
+              {{#if user}}{{user.username}}{{/if}}
+            {{else}}
+              {{#if user}}{{user.familyName}}{{/if}}
+            {{/xif}}"
+            data-username="
+            {{#xif image.provider local}}
+              {{#if user}}{{user.username}}{{/if}}
+            {{else}}
+              {{#if user}}{{user.familyName}}{{/if}}
+            {{/xif}}"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="comment" data-feather="message-circle" data-toggle="modal" data-target="#images-comment-modal"></i>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {{#if user}}
+              {{#if image}}
+                {{#wif image.username user.username}}
+                  <a class="edit" role="button" href="{{routes.post.image.update}}?key={{imagekey}}" title="Edit">
+                    <i data-feather="edit-3"></i>
+                  </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a class="delete" role="button" href="{{routes.post.image.delete}}?key={{imagekey}}" title="Delete">
+                    <i data-feather="trash-2"></i>
+                  </a>
+                {{/wif}}
+              {{/if}}
+            {{/if}}
+          </div>
+
+          <div class="stats float-left" style="color: grey; margin: 0; border: none; width: 52%;">
+            <p>
+              <span id="count-likes-{{imagekey}}">{{image.likes}}</span> Likes &nbsp;&nbsp;&nbsp;&nbsp;
+              <span>{{#if image.comments}}{{image.comments}}{{else}}0{{/if}}</span> Comments
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row h-100 justify-content-center">
+      <div id="imageComments" style="margin: 10px 0 0 0; padding: 0; position: relative;" class="col-12 col-md-10 col-lg-8"></div>
+    </div>
+  {{/if}}
+
+  {{#unless user}}
+    <div class="row h-100 justify-content-center">
+      <div style="margin: 10px 0 0 0; padding: 15px 0 15px 0; background-color: steelblue; color: white;"
+        class="col-12 col-md-10 col-lg-8 text-center vistor-comment">
+        <a href="{{routes.user.login}}">Login</a> or <a href="{{routes.user.signup}}">Signup</a> to see Comments and Interactivity
+      </div>
+    </div>
+  {{/unless}}
+</div>
+
+{{!-- Modal window view --}}
+{{#if user}}
+  {{#if imagekey}}
+    <div class="modal fade" id="images-comment-modal" tabindex="-1" role="dialog"
+      aria-labelledby="imageCommentModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="imageCommentModalLabel">Leave a comment</h4>
+          </div>
+
+          <div class="modal-body">
+            <form method="POST" id="submit-image-comment" class="well" data-async
+              data-target="#rating-modal" action="{{routes.post.image.comment.make}}">
+              <input type="hidden" name="from"
+              value="{{#xif user.provider local}}{{user.username}}{{else}}{{user.familyname}}{{/xif}}"/>
+              <input type="hidden" name="gravatar" value="{{user.gravatar}}"/>
+              <input type="hidden" name="namespace" value="/view-{{imagekey}}"/>
+              <input type="hidden" name="key" value="{{imagekey}}"/>
+              <fieldset>
+                <div class="form-group">
+                  <label for="imageCommentTextArea">Your Thoughts On This, Please</label>
+                  <textarea id="imageCommentTextArea" name="comment" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button id="submitNewComment" type="submit" class="btn btn-default">Make Comment</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+{{/if}}
+
+{{!-- Modal view to be displayed on a post deletion --}}
+<div class="modal fade" id="images-deleted-modal" tabindex="-1" role="dialog"
+aria-labelledby="imageDeletedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="padding: 25px 10px 25px 10px; font-family: Arial;">
+      <div class="modal-body text-center" style="margin: -20px 0 0 0;">
+        <h4>Ouups!</h5>
+        <span style="font-size: 1.2em;">The image you are currently viewing has been deleted by the author</span>
+      </div>
+      <a href="/" class="col-10 align-self-center text-center" style="border: none;">
+        <button type="button" class="btn btn-outline-dark col-10">Okay Take Me Back</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+{{> post_button }}
+
+{{> footer_relative }}
+{{> footer_js }}
+
+<script type="text/javascript">
+  $(function() {
+    var hasLiked = false;
+    /* Liking or disliking a post */
+    $(".heart").on("click", function(e) {
+      $.post("{{routes.post.image.like}}", {
+        key: $(this).data("key"),
+        likedBy: $(this).data("userid"),
+        likedOnceBy: $(this).data("username")
+      }, function (data) {
+        $("#count-likes-" + data.id).text(data.thisimage.likes);
+        var likedByArray = data.thisimage.likedBy;
+        if (likedByArray.length === 0) {
+          $("#likedby-content-" + data.id).html("");
+        }
+        else if (likedByArray.length === 1) {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + "</b>");
+        } else if (likedByArray.length === 2) {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>");
+        } else if (likedByArray.length === 3) {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " other</b>");
+        } else {
+          $("#likedby-content-" + data.id).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " others</b>");
+        }
+      });
+      if (hasLiked) {
+        hasLiked = false;
+        $(this).attr("class", "feather feather-heart image-like");
+      } else {
+        hasLiked = true;
+        $(this).attr("class", "feather feather-heart image-dislike");
+      }
+      e.preventDefault();
+    });
+
+    /* Collecting likes and likers */
+    $.ajax({
+      type: "POST",
+      url: "{{routes.post.image.likers}}",
+    }).done(function(data, textStatus, jqXHR) {
+      var likelist = data.likelist;
+      likelist.forEach(function(image) {
+        var imagekey = image.key;
+        var likedByArray = image.likedBy;
+        if (likedByArray.length === 0) {
+          $("#likedby-content-" + imagekey).html("");
+        }
+        else if (likedByArray.length === 1) {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + "</b>");
+        } else if (likedByArray.length === 2) {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>");
+        } else if (likedByArray.length === 3) {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " other</b>");
+        } else {
+          $("#likedby-content-" + imagekey).html("Liked by <b>" + likedByArray[0] + ", " + likedByArray[1] + "</b>" +
+          " and " + "<b>" + (likedByArray.length - 2) + " others</b>");
+        }
+        /* Keeping red all liked button
+        if (likedByArray.indexOf("{{user.username}}")) {
+          $("#heart-" + postkey).attr("class", "feather feather-heart post-dislike");
+        } else {
+          $("#heart-" + postkey).attr("class", "feather feather-heart post-like");
+        } */
+      });
+    });
+    
+  });
+</script>
+
+{{!-- Rendering all recent comments on an image and listening to the newcomment and destroycomment events --}}
+{{#if user}}
+  {{#if imagekey}}
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        // Submitting the form for a comment
+        $("form#submit-image-comment").on("submit", function(e) {
+          if (request) {
+            request.abort();
+          }
+          var $form = $("form#submit-image-comment");
+          var target = $("form#submit-image-comment").data("target");
+          var request = $.ajax({
+            type: $form.attr("method"),
+            url: $form.attr("action"),
+            data: $form.serialize()
+          });
+
+          request.done(function(response, textStatus, jqXHR) { });
+          request.fail(function(jqXHR, textStatus, errorThrown) {
+            alert("Oups -- An error occured during your request to post a comment on this image: " + jqXHR.responseText
+            + "\n PLAESE TRY AGAIN");
+          })
+          request.always(function() {
+            $("#images-comment-modal").modal("hide");
+          });
+          e.preventDefault();
+        });
+
+        // Getting all comments on an image
+        $("#imageComments")
+        .append("<div class=\"text-center load-comments\" style=\"color: gray; font-family: Arial; font-size: .9em;\">"
+          + "Loading Comments..."
+          + "<div>");
+        
+        /* Animating the loading comments message */
+        function glow(element) {
+          var level = 1, hex;
+          gradualy = function() {
+            hex = level.toString(16);
+            element.style.color = "#" + hex + "44d" + hex + "f";
+            if (level < 1000000000) {
+              level += 1;
+              setTimeout(gradualy, 100);
+            }
+          }; setTimeout(gradualy, 100);
+        } glow(document.querySelector(".load-comments"));
+
+        io("/view").on("imagedestroyed", function(key) {
+          if ("{{imagekey}}" === key) {
+            $("#images-deleted-modal").modal({ show: true });
+            $("#images-deleted-modal").click(function() {
+              window.location.href = "/posts/images";
+            });
+          }
+        });
+
+        io("/view").emit("getimagecomments", "/view-{{imagekey}}", function(comments) {
+          $("#imageComments").empty();
+          if (comments.length > 0) {
+            comments.forEach(function(comment) {
+              if (comment.namespace === "/view-{{imagekey}}") {
+                $("#imageComments").prepend(formatComment(comment));
+              }
+              if (comment.from !== "{{user.username}}") {
+                $("#cmt-del-btn-"+ comment.id).css("display", "none");
+              }
+              $("#show-hide-del-btn-" + comment.id).on("click", function() {
+                $("#comment-del-btn-" + comment.id).fadeIn(500, "swing");
+                setTimeout(function() {
+                  $("#comment-del-btn-" + comment.id).fadeOut(500, "swing");
+                }, 7000);
+              });
+            });
+            $("#imageComments").show();
+            connectCmtDelButton();
+          } else {
+            $("#imageComments")
+            .html("<div class=\"text-center no-comment\" style=\"color: gray; margin: 10px 0 0 0; font-family: Arial; font-size: .9em;\">"
+              + "No Comments Here."
+            + "</div>");
+            console.log("Successfull: No Image comments Were Made!");
+          }
+          console.log("\"getimagecomments\" emitted successfully by the client: ");
+        });
+
+        // Listining to the newcoment and destroycomment event on an image
+        io("/view").on("newcomment", function(newcoment) {
+          $(".no-comment").css("display", "none");
+          if (newcoment.namespace === "/view-{{imagekey}}") {
+            $("#imageComments").prepend(formatComment(newcoment));
+            connectCmtDelButton();
+            console.log("newcomment event listened successfully by the client!");
+          }
+        });
+        io("/view").on("destroycomment", function(data) {
+          if (data.namespace === "/view-{{imagekey}}") {
+            $("#imageComments #image-comment-" + data.id).remove();
+            console.log("destroycomment event listened successfully by the client!");
+          }
+
+          io("/view").emit("getimagecomments", "/view-{{imagekey}}", function(comments) {
+            if(comments.length === 0) {
+              $("#imageComments")
+              .html("<div class=\"text-center no-comment\" style=\"color: gray; margin: 10px 0 0 0; font-family: Arial; font-size: .9em;\">"
+                + "No Comments Here."
+              + "</div>");
+              console.log("\"getimagecomments\" emitted successfully by the client after \"destroycomment\" event");
+            }
+          });
+        });
+      });
+
+      // Utility functions
+      function formatComment(newcomment) {
+        return "<div style=\"position: relative; margin: 0 0 7px 0; padding: 0 10px 20px 10px; background-color: white; border: none;"
+          + "\" class=\"custom-card col-12 word-wrap\" id=\"image-comment-" + newcomment.id + "\">"
+            + "<div class=\"card-body\">"
+                + "<img src=\"http://www.gravatar.com/avatar/" + newcomment.gravatar + "?d=monsterid&s=25\""
+                + "class=\"float-left rounded-circle\"/>"
+                + "&nbsp;&nbsp;"
+                + "<div style=\"clear: both;\"></div>"
+                + "<h5 class=\"card-title\" style=\"position: absolute; top: 21px; left: 65px;\">" + newcomment.from + "</h5>"
+                + "<div class=\"card-text\" style=\"margin: 10px 0 0 0; font-family: Arial; font-size: 1.2em; line-height: 1.3em;\">"
+                  + newcomment.comment
+                  + "<small style=\"position: absolute; top: 20px; right: 65px;\" class=\"text-muted timeago\">"
+                    + newcomment.timestamp
+                  + "</small>"
+                + "</div>"
+                + "<div class=\"cmt-del-btn\" id=\"cmt-del-btn-" + newcomment.id + "\">"
+                  + "<span id=\"show-hide-del-btn-" + newcomment.id + "\""
+                  + "style=\"font-size: 1.2em; color: gray; position: absolute; right: 30px; top: 22px;\">"
+                    + "&bull;&bull;&bull;"
+                  + "</span>"
+                  + "<span class=\"comment-del-btn alert alert-danger\" id=\"comment-del-btn-" + newcomment.id + "\""
+                  + "style=\"position: absolute; top: 42px; right: 27px; font-size: 1em; color: red; font-size: .8em; padding: 3px; display: none;\""
+                    + "data-id=\"" + newcomment.id + "\" data-namespace=\"" + newcomment.namespace + "\">"
+                      + "<span class=\"\" title=\"\" style=\"\">" + "Delete" + "</span>"
+                    + "</span>"
+                + "</div>"
+                + "<div class=\"float-right\" style=\"margin: 7px 0 0 0; font-size: .9em; font: TrebuchetMS\">"
+                  + "<a href=\"posts/like-reply\"><span class=\"heart-custom\" width=\"20px\" height=\"20px\">Like</span></a>"
+                  + "&nbsp;&nbsp;&nbsp;"
+                  + "<a href=\"posts/reply-comment\"><span class=\"comment\" width=\"20px\" height=\"20px\">Reply</span></a>"
+                  + "&nbsp;&nbsp;&nbsp;"
+                  + "<a href=\"/posts/edit-comment\"><span class=\"edit\" width=\"20px\" height=\"20px\">Edit</span></a>"
+                + "</div>"
+            + "</div>"
+          + "</div>"
+      };
+
+      function connectCmtDelButton() {
+        $(".comment-del-btn").click(function(e) {
+          $.post("{{routes.post.image.comment.delete}}", {
+            id: $(this).data("id"),
+            namespace: $(this).data("namespace")
+          },
+          function(response) { });
+          e.preventDefault();
+        });
+      }
+
+    </script>
+  {{/if}}
+{{/if}}

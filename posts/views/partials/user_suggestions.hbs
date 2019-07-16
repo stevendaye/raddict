@@ -1,0 +1,38 @@
+<div class="connections d-none d-lg-block">
+  <div class="suggestions d-inline-block col {{#if user}}col-md-10 col-sm-9{{/if}}" style="margin:0 10px 0 10px; padding: 0;
+  background-color: white; height: 350px; border: 2px solid black;">
+    {{#unless userlists}}
+      <a class="btn btn-primary" href="/users/signup">
+        Register Now To Be Suggested
+      </a>
+    {{/unless}}
+    {{#each userlist}}
+      <a class="col-12 align-self-center userlist" href="/find-user/{{username}}" id="user-{{id}}" style="padding-bottom: 12px;">
+        <div style="position: relative; font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+        'Lucida Sans', Arial, sans-serif;">
+          <img class="img-fluid rounded-circle d-inline-block" style="margin: 0 10px 10px 0; border: none;" alt="" title=""
+          src="{{#if dp}}/uploads/media/profiles/{{filename}}{{else}}https://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45{{/if}}"/>
+          <p class="d-inline-block" class="username" style="color: rgb(37, 37, 41); ">
+            <span style="font-size: 1.5em;">{{givenName}} {{familyName}}</span>
+            <span class="text-muted">{{#xif provider local}}
+              @{{username}}
+            {{else}}
+              @{{familyName}}</span>
+            {{/xif}}
+          </p>
+          <p style="color: rgb(37, 37, 41);">
+            {{#if biographie}}
+              {{biographie}}
+            {{else}}
+              What's up there! I am on Raddict. Watch me to see my latest posts and pictures.
+            {{/if}}
+          </p>
+        </div>
+      </a>
+    {{/each}}
+    <div class="col-md-10" style="margin: 0; background: red;">
+      View more of people you might know! might know! might know! might know!
+    </div>
+  </div>
+  
+</div>

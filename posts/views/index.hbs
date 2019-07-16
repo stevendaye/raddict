@@ -14,7 +14,7 @@
 
         {{> feed_bar }}
 
-        <div class="col-12 btn-group-vertical" id="postlist" role="group" style="padding: 0;">
+        <div class="col-12 btn-group-vertical" id="postlist" role="group" style="position:relative; padding: 0;">
           {{#unless postlist }}
             <div class="align-self-center text-center col-sm-7 col-lg-5 no-post">
               <a href="{{routes.post.add}}" class="btn col-12"
@@ -32,7 +32,7 @@
         {{/if}}
       </div>
       
-      {{> people_suggestions }}
+      {{> user_suggestions }}
 
     {{#if user}}</div>{{/if}}
   </div>

@@ -1,0 +1,45 @@
+<div class="container-fluid h-100 index-wrapper">
+  <div class="row h-100 justify-content-center" style="margin: 0; padding: 0;">
+
+    {{!-- Rearrange the layout when there is no user logged in--}}
+    {{#if user}}<div class="col col-md-12 col-lg-12 d-flex justify-content-center" style="padding: 0; border: none; 
+    margin: 0;">{{/if}}
+
+      {{#if user}}
+        {{> user_status }}
+      {{/if}}
+
+      <div class="col-12 col-sm-10 {{#if user}}col-md-7 col-lg-6{{else}}col-md-10 col-lg-7{{/if}} d-sm-block d-inline-block"
+      style="border: none; padding: 0;">
+
+        {{> feed_bar }}
+
+        <div class="col-12 btn-group-vertical" id="feedlist" role="group" style="position:relative; padding: 0;">
+          {{#unless feedlist }}
+            <div class="col-12 col-auto align-self-center text-center no-post">
+              <a href="{{routes.user.list}}" class="btn overflow"
+                style="background-color: steelblue; color: white; border-radius: 0;">
+                Connect now with people to see only your connection posts
+              </a>
+            </div>
+          {{/unless}}
+
+          {{!-- List of feedlist: Expanded on all 12 grid columns block on small screens and inline-block on all others --}}
+          {{!-- {{> feed_list }} --}}
+        </div>
+        {{#if feedlist}}
+          {{> load_more_button }}
+        {{/if}}
+      </div>
+      
+      {{> user_suggestions }}
+
+    {{#if user}}</div>{{/if}}
+  </div>
+</div>
+
+{{!-- Buttons to post thoughts and images: displayed only small screens--}}
+{{> post_button }}
+
+{{> footer_absolute}}
+{{> footer_js}}

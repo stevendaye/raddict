@@ -6,6 +6,7 @@ const config = {
   postsHost: process.env.POSTS_HOST || "http://localhost:3000",
   usersHost: process.env.USERS_HOST || "http://localhost:3333",
   routes: {
+    feeds: "/feeds",
     post: {
       add: "/posts/add",
       create: "/posts/save",
@@ -46,6 +47,7 @@ const config = {
       checkPassword: "/password-check",
       findOrCreate: "/find-or-create",
       list: "/list-users",
+      suggestions: "/suggest-users",
       login: "/users/login",
       logout: "/users/logout",
       signup: "/users/signup",

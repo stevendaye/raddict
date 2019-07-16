@@ -23,6 +23,14 @@ export default {
       next(err);
     }
   },
+
+  async feeds (req, res, next) {
+    res.render("feeds", {
+      title: "Your feeds",
+      user: req.user ? req.user : undefined
+    });
+  },
+  
   async refresh (req, res, next) {
     try {
       const postlist = await getAllPostList();

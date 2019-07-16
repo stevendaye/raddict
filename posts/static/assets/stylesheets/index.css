@@ -32,13 +32,13 @@ a:hover {
   border: none;
 }
 
-/* Index: Postlist Rules */
-a.postlist, a.imagelist {
+/* Index: List Rules */
+a.postlist, a.imagelist, a.userlist {
   margin: 0 0 10px 0;
   background-color: white;
   padding: 15px 25px 60px 30px;
 }
-a.postlist:hover, a.imagelist:hover {
+a.postlist:hover, a.imagelist:hover, a.userlist:hover {
   border: none;
   box-shadow: 5px 5px 20px #faeaea;
   -webkit-box-shadow: 5px 5px 20px #aaaaaa;

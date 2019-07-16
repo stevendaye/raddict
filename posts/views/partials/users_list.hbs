@@ -1,0 +1,41 @@
+{{#each userlist}}
+  <a class="col-12 align-self-center userlist" href="/find-user/{{username}}" id="user-{{id}}" style="padding-bottom: 12px;">
+    <div style="position: relative; font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;">
+      <img class="img-fluid rounded-circle d-inline-block" style="margin: 0 10px 10px 0; border: none;" alt="" title=""
+      src="{{#if dp}}/uploads/media/profiles/{{filename}}{{else}}https://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45{{/if}}"/>
+      <p class="d-inline-block" class="username" style="color: rgb(37, 37, 41); ">
+        <span style="font-size: 1.5em;">{{givenName}} {{familyName}}</span>
+        <span class="text-muted">{{#xif provider local}}
+          @{{username}}
+        {{else}}
+          @{{familyName}}</span>
+        {{/xif}}
+      </p>
+      <p style="color:rgb(37, 37, 41);">
+        {{#if profession}}
+          {{profession}}
+        {{/if}}
+      </p>
+      <p style="color: rgb(37, 37, 41);">
+        {{#if biographie}}
+          {{biographie}}
+        {{else}}
+          What's up there! I am on Raddict. Watch me to see my latest posts and pictures.
+        {{/if}}
+      </p>
+      <p class="text-muted" style="font-size: 1em;">
+        {{#if watchers}}<b>{{watchers}}</b> watchers{{else}}<b>0</b> watchers{{/if}}
+        {{#if watching}}<b>{{watching}}</b> watching{{else}}&nbsp;&nbsp;&nbsp;&nbsp;<b>0</b> watching{{/if}}
+      </p>
+    </div>
+  </a>
+  <div class="col-12" style="margin: 0; z-index:2; position: relative;">
+    <a href="/user/watch" class="col-3 col-sm-2 col-md-2 btn btn-default watch-btn" style="background-color: steelblue;
+    color: white; position: absolute; top: -60px; right: 25px; border: none; border-radius: 0"
+    data-watcher="{{../user.username}}" data-watching="{{username}}">
+      Watch
+    </a> 
+  </div>
+  <div style="clear: both;"></div>
+{{/each}}

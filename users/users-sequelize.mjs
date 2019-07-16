@@ -151,11 +151,11 @@ async function findOrCreateProfile(profile) {
 async function listUsers() {
   const SQUser = await connectDB();
   const users = await SQUser.findAll({});
-  return users.map(async user => await sanitizedUser(user));
+  return users.map( user => sanitizedUser(user));
 }
 
 // Sanitizing users to emulate a secured user information service exposing only what we want exposed
-async function sanitizedUser(user) {
+function sanitizedUser(user) {
   let ret = {
     id: user.username,
     username: user.username,

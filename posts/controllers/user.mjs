@@ -10,6 +10,19 @@ const debug = DBG("raddict:router-users");
 const error = DBG("raddict:error-users");
 
 export default {
+  async list (req, res, next) {
+    try {
+      const userlist = await UsersModel.listUsers();
+      res.render("users", {
+        title: "User List",
+        user: req.user ? req.user : undefined,
+        userlist
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   login (req, res, next) {
     try {
       res.render("login", { title: "Login to Raddict", user: req.user });

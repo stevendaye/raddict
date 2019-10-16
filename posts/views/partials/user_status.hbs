@@ -1,4 +1,4 @@
-<div class="user-status col-3 col-md-4 col-lg-3 d-none d-md-block col-lg-block d-md-block">
+<div class="user-status col-3 col-md-4 col-lg-3 d-none d-md-block col-lg-block d-md-block" style="font-family: Arial;">
   <div class="col-12 d-inline-block" style="margin: 0; padding: 15px 0 15px 20px; background-color: white;">
     <a href="{{routes.user.profile}}" class="float-left">
       <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=75"
@@ -16,17 +16,20 @@
           @{{user.familyName}}
         {{/xif}}
       </p>
-      <div class="watch-number" style="margin: 7px 0 7px 0;">
-        <p style=" margin: 0 0 2px 0;">
-          <span id="total-watching">0</span> <span class="text-muted" style="font-size: .82em;"><b>Watching</b></span>
-        </p>
-        <p style=" margin:0;">
-          <span id="total-watchers">0</span> <span class="text-muted" style="font-size: .82em;"><b>Watchers</b></span>
-        </p>
-      </div>
+      <a href="{{routes.user.profile.edit}}" style="font-size: .9em;">Edit Profile</a>
      </div>
 
     <div style="clear: both;"></div>
+    <div class="watch-number" style="margin: 7px 0 7px 10px; display: flex;">
+      <p style=" margin: 0 0 2px 0; padding-right: 10px;">
+        <span id="total-watching"><b>0</b></span>
+        <span class="text-muted" style="font-size: .9em;">Watching</span>
+      </p>
+      <p style=" margin:0">
+        <span id="total-watchers"><b>0</b></span>
+        <span class="text-muted" style="font-size: .9em;">Watchers</span>
+      </p>
+    </div>
 
     <p class="col-auto" style="font-size: .9em; margin: 10px 0 15px -5px; line-height: 1.4em;">
       {{#if user.biographie}}
@@ -34,10 +37,9 @@
       {{else}}
         Edit your profile to let all your connections know you a bit about by writing a little
         biography about yourself.
-      {{/if}}<br/>
-      <a href="{{routes.user.profile.edit}}">Edit Profile</a>
+      {{/if}}
     </p>
-    <div class="user-utils">
+    <div class="user-utils" style="font-size: .9em;">
       <ul>
         <li><a href="{{routes.post.add}}" style="color: rgb(37, 37, 41);">
           <i data-feather="edit-2" class="feathers"></i>&nbsp;&nbsp; Post a thought</a>

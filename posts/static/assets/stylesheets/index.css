@@ -2,7 +2,7 @@
 body {
   margin: 0;
   padding: 0;
-  font: 14px "Lucida Grande", "TrebuchetMS", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica', sans-serif;
   background-color: #f6f9fc;
 }
 
@@ -12,7 +12,7 @@ h1:first-child {
 
 a {
   color: steelblue;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica', sans-serif;
   text-decoration: none;
 }
 
@@ -25,11 +25,39 @@ a:hover {
   display: inline-block;
 }
 
-/* Wraping the index content */
+/* Wraping the content */
+#app-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.main-container {
+  padding-bottom: 3rem;
+}
+
 .index-wrapper {
   margin: 25px 0 15px 0;
   padding: 0px;
   border: none;
+}
+
+/* Header Rules */
+.page-header {
+  font-size: .7em;
+  font-weight: bold;
+  background-color: steelblue;
+  margin: 0;
+  padding: 0;
+  position:
+  sticky;
+  top: 0;
+  z-index: 9
+}
+
+/* Feed Bar */
+.feed-bar {
+  font-size: .8em;
+  font-weight: 200;
 }
 
 /* Index: List Rules */
@@ -176,6 +204,14 @@ hr.login-line {
 }
 
 /* Footer */
+footer {
+  font-size: .8em;
+  margin: 45px 0 15px 0;
+  position: absolute;
+  border: none;
+  bottom: 0;
+}
+
 footer a {
   color: inherit;
 }
@@ -216,8 +252,8 @@ ul li.post-util {
 div.post-btn, .login-round-btn {
   position:fixed;
   display: none;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 1.1em;
+  font-family: Arial, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: .9em;
   font-weight: bold;
   z-index: 3;
   text-align: center;
@@ -225,7 +261,7 @@ div.post-btn, .login-round-btn {
   bottom: 25px;
   width: 40px;
   height: 52px;
-  padding: 16px 40px 10px 10px;
+  padding: 14px 40px 10px 9px;
   color: white;
   border: 1px solid steelblue;
   background-color: steelblue;
@@ -243,8 +279,8 @@ div.post-btn-add {
 }
 
 div.post-btn-add a {
+  font-family: 'Open Sans', 'Helvetica', sans-serif;
   position: relative;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   display: block;
   text-align: center;
   font-size: .8em;
@@ -277,7 +313,7 @@ div.post-btn-hide:hover {
 
 /* Load-more Button */
 .load-more {
-  font-family: Arial, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica', sans-serif;
   color: grey;
   margin: 15px 0 0 0;
   padding: 10px 75px 10px 75px;

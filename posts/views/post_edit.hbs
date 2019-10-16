@@ -17,20 +17,6 @@
         <div class="row alert alert-danger">{{message}}</div>
       {{/if}}
 
-      {{!-- Leaving the poskey field here, in case we might change our mind for the user to provide one 
-        <div class="form-group row">
-          <label for="postkey" class="col-form-label">key:</label><br/>
-          {{#if docreate}}
-            <input class="form-control" type="text" name="postkey" id="postkey" placeholder="postkey" value="" required/>
-          {{else}}
-            {{#if post}}
-              <span class="input-group-text">{{postkey}}</span>
-            {{/if}}
-            <input type="hidden" name="postkey" value="{{#if post}}{{postkey}}{{/if}}" />
-          {{/if}}
-        </div>
-      --}}
-
       <div class="form-group row">
         <label for="title" class="col-form-label">Title:</label><br/>
         <input class="form-control post-title" type="text" name="title" id="title" placeholder="Post title"
@@ -58,5 +44,4 @@
   </div>
 </form>
 
-{{> footer_absolute }}
 {{> footer_js }}

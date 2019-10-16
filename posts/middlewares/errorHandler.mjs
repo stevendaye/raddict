@@ -11,7 +11,7 @@ const notFound = (req, res, next) => {
   });
 };
 
-const notExist = (code) => {
+const notExist = code => {
   return res.status(code).render("410", {
     title: "410! NO LONGER EXIST",
     message: "What You Are Looking For May Have Been Moved Or Deleted Permanently!"

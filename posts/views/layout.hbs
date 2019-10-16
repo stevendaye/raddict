@@ -3,16 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    {{!-- <title>{{title}}</title> --}}
+    <title> Raddict | Share Your Thoughts And Photos </title>
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no" />
+    <meta name="description" content="Raddict is your light weight social network for sharing your thoughts and photos
+    with friends and families around the world"/>
     <link rel="shortcut icon" href="/raddictr.ico" />
     <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/assets/stylesheets/index.css" />
   </head>
   <body>
-    <div id="wrapper" style="margin: 0;">
-      {{> header }}
-      {{{body}}}
+    <div id="app-wrapper" style="margin: 0;">
+      <div class="main-container" id="top">
+        {{> header }}
+        {{{body}}}
+      </div>
+      {{> footer }}
     </div>
   </body>
 </html>

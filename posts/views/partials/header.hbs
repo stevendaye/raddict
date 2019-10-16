@@ -1,10 +1,10 @@
-<header style="background-color: steelblue; margin: 0; padding: 0;" class="page-header">
+<header class="page-header">
   <div class="container-fluid h-100">
     <div class="row h-100 justify-content-center">
-      <div class="col-12 col-md-11 col-lg-11 col-xl-11" style="margin: 0;">
+      <div class="col-12 col-lg-10 col-xl-10" style="margin: 0;">
         
         {{!-- Login and Signup icons hidden on small screens but displayed on all others --}}
-        <nav class="navbar float-right d-none d-sm-block" style="margin: 15px 0 0 0; color: white;">
+        <nav class="navbar float-right d-none d-sm-block" style="margin-top: 10px; color: white;">
           {{#if user}}
             <a href="{{routes.user.profile}}" style="color: white; font-size: 1.1em">
               <img class="img-fluid rounded-circle" src="http://www.gravatar.com/avatar/{{user.gravatar}}?d=monsterid&s=27"/>&nbsp;
@@ -15,12 +15,15 @@
               {{/xif}}&nbsp;&nbsp;&nbsp;
             </a>
             
-            <a href="{{routes.user.profile.settings}}" style="color: white;">
-              <i data-feather="settings" stroke="white" fill="none"></i>&nbsp;&nbsp;Settings &amp; Privacy
+            <a href="{{routes.user.profile.notifiations}}" style="color: white;">
+              <i data-feather="bell" stroke="white" fill="none"></i>&nbsp;&nbsp;Notifications
             </a>&nbsp;&nbsp;&nbsp;
-            <a href="{{routes.user.profile.help}}" style="color: white;">
-              <i data-feather="help-circle" stroke="white" fill="none"></i>&nbsp;&nbsp;Help Center
-            </a>
+            <a href="{{routes.user.profile.messages}}" style="color: white;">
+              <i data-feather="message-square" stroke="white" fill="none"></i>&nbsp;&nbsp;Messages
+            </a>&nbsp;&nbsp;&nbsp;
+            <a href="#top" style="color: white; font-size: 1.2em">
+              | Posts
+            </a>&nbsp;&nbsp;&nbsp;
           {{else}}
             <a href="{{routes.user.login}}" style="color: white; text-decoration: none" title="Log In">
               <i data-feather="log-in" width="25px" height="25px"></i>
@@ -35,10 +38,11 @@
 
         <nav class="navbar navbar-expand-sm navbar-dark" style="padding: 0">
           <a href="/" style="margin: 4px 0 0 0; padding: 0;">
-            <img src="/assets/vendor/local/raddict-white.png" width="40px" height="40px" class="navbar-brand img-fluid"/>
+            <img src="/assets/vendor/local/raddict-white.png" width="30px" height="30px" class="navbar-brand img-fluid"/>
           </a>
           <span>
-            <a href="/" style="margin: -2px 0 0 -10px;; color: white; font-size: 2em; font-weight: bold; font-family: 'Helvetica';">
+            <a href="/" style="margin: -2px 0 0 -10px;; color: white; font-size: 2em; font-weight: bold;
+            font-family: 'Arial';">
               raddict
             </a>
           </span>
@@ -64,15 +68,18 @@
                     {{/xif}}
                   </a>
                   
+                  <a href="{{routes.user.profile.notifications}}" style="display: block; color: white; margin: 0 0 10px 0;">
+                    <i data-feather="bell" stroke="white" fill="none"></i>&nbsp;&nbsp;Notifications
+                  </a>
+                  <a href="{{routes.user.profile.messages}}" style="display: block; color: white; margin: 0 0 10px 0;">
+                    <i data-feather="message-square" stroke="white" fill="none"></i>&nbsp;&nbsp;Messages
+                  </a>
                   <a href="{{routes.user.logout}}" style="display: block; color: white; margin: 0 0 10px 0;">
                     <i data-feather="log-out" stroke="white" fill="none"></i>&nbsp;&nbsp;Logout
                   </a>
-                  <a href="{{routes.user.profile.settings}}" style="display: block; color: white; margin: 0 0 10px 0;">
-                    <i data-feather="settings" stroke="white" fill="none"></i>&nbsp;&nbsp;Settings &amp; Privacy
-                  </a>
-                  <a href="{{routes.user.profile.help}}" style="display: block; color: white; margin: 0 0 10px 0;">
-                    <i data-feather="help-circle" stroke="white" fill="none"></i>&nbsp;&nbsp;Help Center
-                  </a>
+                  <a href="#top" style="color: white; font-size: 1.2em">
+                    | Posts
+                  </a>&nbsp;&nbsp;&nbsp;
                 {{else}}
                   <a href="{{routes.user.login}}" style="color: white; text-decoration: none" title="Log In">
                     <i data-feather="log-in" width="25px" height="25px"></i>

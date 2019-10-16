@@ -5,7 +5,7 @@
       <img class="img-fluid rounded-circle d-inline-block" style="margin: 0 10px 10px 0; border: none;" alt="" title=""
       src="{{#if dp}}/uploads/media/profiles/{{filename}}{{else}}https://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45{{/if}}"/>
       <p class="d-inline-block" class="username" style="color: rgb(37, 37, 41); ">
-        <span style="font-size: 1.5em;">{{givenName}} {{familyName}}</span>
+        <span style="font-size: 1.2em; font-weight: bold;">{{givenName}} {{familyName}}</span>
         <span class="text-muted">{{#xif provider local}}
           @{{username}}
         {{else}}
@@ -32,7 +32,7 @@
   </a>
   <div class="col-12" style="margin: 0; z-index:2; position: relative;">
     <a href="/user/watch" class="col-3 col-sm-2 col-md-2 btn btn-default watch-btn" style="background-color: steelblue;
-    color: white; position: absolute; top: -60px; right: 25px; border: none; border-radius: 0"
+    color: white; position: absolute; top: -60px; right: 25px; border: none; border-radius: 4"
     data-watcher="{{../user.username}}" data-watching="{{username}}">
       Watch
     </a> 

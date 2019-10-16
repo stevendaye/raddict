@@ -6,7 +6,7 @@ import EventEmitter from "events";
 import util from "util";
 import DBG from "debug";
 
-class messageEmitter extends EventEmitter {}
+class MessageEmitter extends EventEmitter {}
 
 const debug = DBG("raddict:model-messsages");
 const error = DBG("raddict:error-messages");
@@ -79,4 +79,4 @@ export async function recentMessages(namespace) {
   });
 }
 
-export const emitter = new messageEmitter();
+export const emitter = new MessageEmitter();

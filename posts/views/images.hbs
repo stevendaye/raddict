@@ -9,7 +9,7 @@
         {{> user_status }}
       {{/if}}
 
-      <div class="col-12 col-sm-10 {{#if user}}col-md-7 col-lg-6{{else}}col-md-10 col-lg-7{{/if}} d-sm-block d-inline-block"
+      <div class="col-12 col-sm-10 {{#if user}}col-md-8 col-lg-7{{else}}col-md-10 col-lg-7{{/if}} d-sm-block d-inline-block"
       style="border: none; padding: 0;">
 
         {{> feed_bar }}
@@ -33,20 +33,12 @@
         {{/if}}
       </div>
 
-      {{> user_suggestions }}
-
     {{#if user}}</div>{{/if}}
   </div>
 </div>
 
 {{!-- Buttons to post thoughts and images: displayed only small screens--}}
 {{> post_button }}
-
-{{#if imagelist}}
-  {{> footer_relative }}
-{{else}}
-  {{> footer_absolute }}
-{{/if}}
 
 {{> footer_js }}
 

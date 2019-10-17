@@ -53,4 +53,4 @@ This is a side project I enjoyed creating to showcase my skills. These include:
 
   - Depending on your OS, you might also encounter an error that says /*let url=moduleWrapResolve(specifier, parentURL)*/. This is due to the fact that I am using ES6 Modules instead of COMMONJS. So the paths to import modules are not being resolved. In this case, just open the /*users*/ and /*posts*/ microservices and add in the start script, right after nodemon or node the following command: /*--es-module-specifier-resolution=node*/, and you are good to go.
 
-  - Or simply explore this project at https://raddict.co
+  - Or, if you prefer to be patient, I will soon deploy it and provide the link to it here.

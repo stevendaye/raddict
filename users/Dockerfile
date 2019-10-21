@@ -8,6 +8,7 @@ ENV REST_LISTEN="0.0.0.0"
 RUN mkdir -p /userauth
 RUN cp -frv /routes /userauth
 RUN cp -frv /controllers /userauth
+RUN cp -frv /scripts /userauth
 
 COPY package.json sequelize-docker-mysql.yaml *.mjs *js /userauth/
 WORKDIR /userauth

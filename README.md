@@ -1,9 +1,11 @@
 # Raddict
-Raddict | A light-weight social network where you can share your thoughts and pictures with friends and families.
+Raddict | A light social network where you can share your thoughts and pictures with friends and families.
 
-Raddict is a light-weight and simple social network platform where users can post their thoughts and pictures in real time,
+Raddict is a light and simple social platform where users can post their thoughts and pictures in real time,
 for others to like and comment. It also offers the possiblity for users to chat privately in real time. It is a bit like a mini
 version of instagram and twitter combined.
+
+![Alt text](posts/static/assets/vendor/local/raddict.png?raw=true "Raddict - Sharing Thoughts & Photos")
 
 This is a side project I enjoyed creating to showcase my skills. These include:
 * Server Side Programming with Node.js

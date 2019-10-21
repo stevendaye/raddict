@@ -1,3 +1,7 @@
+/* The code to query to "users" microservice is one that I am especially proud of.
+ * I took days for researching possible ways of implementing this through RESTFull API's,
+ * all the while, making sure that access to the "users" sever is restricted and secured.
+*/
 /* ## Quries to access the user authentication server ## */
 import request from "superagent";
 import url from "url";

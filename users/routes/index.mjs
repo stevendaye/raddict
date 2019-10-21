@@ -10,9 +10,9 @@ const routes = server => {
   server.post(config.routes.user.checkPassword, user.checkPassword);
   server.get(config.routes.user.list, user.list);
 
-  server.listen(process.env.PORT, "localhost", () => {
+  server.listen(process.env.PORT, process.env.REST_LISTEN ? process.env.REST_LISTEN : "localhost", () => {
     console.log(`User authentication server ${server.name} running at ${server.url}`);
   });
-}
+};
 
 export default routes;

@@ -7,12 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-server.mjs",
     "dev-users-server": "DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-server.mjs",
-    "start-block": "DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-block-server.mjs",
-    "start-add-user": "DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-add.mjs",
-    "start-find-user": "DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-find.mjs Steph",
-    "start-edit-user": "DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-edit.mjs Steph",
-    "start-list-user": "DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-list.mjs",
-    "start-delete-user": "DEBUG=raddict-users:* PORT=3333 nodemon --experimental-modules scripts/users-delete.mjs Steph"
+    "docker": "node --experimental-modules ./user-server.",
+    "docker-build": "docker build -t raddict/userauth .",
+    
+    "add-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-add.mjs",
+    "find-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-find.mjs Steph",
+    "edit-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-edit.mjs Steph",
+    "list-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-list.mjs",
+    "delete-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-delete.mjs Steph"
   },
   "keywords": [],
   "author": "Steven Daye <dev.stevendaye@yahoo.com>",

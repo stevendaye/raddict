@@ -5,16 +5,17 @@ ENV PORT="3333"
 ENV SEQUELIZE_CONNECT="sequelize-docker-mysql.yaml"
 ENV REST_LISTEN="0.0.0.0"
 
-RUN mkdir -p /userauth
-RUN cp -frv /routes /userauth
-RUN cp -frv /controllers /userauth
-RUN cp -frv /scripts /userauth
+RUN mkdir -p /userauth /userauth/routes /userauth/controllers /userauth/scripts
 
-COPY package.json sequelize-docker-mysql.yaml *.mjs *js /userauth/
+COPY routes/ /userauth/routes/
+COPY controllers/ /userauth/controllers/
+COPY scripts/ /userauth/scripts/
+
+COPY package.json sequelize-docker-mysql.yaml *.mjs *.js /userauth/
 WORKDIR /userauth
 
 RUN apt-get update -y \
-  && apt-get -y install curl python build-essential git ca-certicficates \
+  && apt-get -y install curl python build-essential git ca-certificates \
   && npm install --unsafe-perm
 
 EXPOSE 3333

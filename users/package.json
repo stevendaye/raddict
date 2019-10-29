@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-server.mjs",
     "dev-users-server": "DEBUG=raddict-users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon --experimental-modules user-server.mjs",
-    "docker": "node --experimental-modules ./user-server.",
+
+    "docker": "node --experimental-modules ./user-server.mjs",
     "docker-build": "docker build -t raddict/userauth .",
-    
+
     "add-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-add.mjs",
     "find-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-find.mjs Steph",
     "edit-user": "DEBUG=raddict-users:* PORT=3333 --experimental-modules scripts/users-edit.mjs Steph",

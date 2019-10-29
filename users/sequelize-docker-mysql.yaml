@@ -4,4 +4,4 @@ password: unwhite910603Dsa
 params:
   host: db-userauth
   port: 3306
-  dialet: mysql
+  dialect: mysql

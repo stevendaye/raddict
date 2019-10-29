@@ -1,1 +1,0 @@
-docker run -it --name posts --net=frontnet -p 3030:3030 raddict/posts

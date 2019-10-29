@@ -8,6 +8,9 @@ yarn-error.log*
 # Sessions directory created at login
 sessions
 
+# Dockerfile
+./Dockerfile
+
 # Test images
 *.jpeg
 *.jpg

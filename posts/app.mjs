@@ -32,7 +32,9 @@ hbs.handlebars === import("handlebars");
 const FileStore = sessionFileStore(session);
 const sessionCookieName = "postscookie.sid";
 const sessionSecret = config.secret;
-const sessionStore = new FileStore({ path: "sessions" });
+const sessionStore = new FileStore({
+  path: process.env.POSTS_SESSIONS_DIR ? process.env.POSTS_SESSIONS_DIR : "sessions"
+});
 
 const debug = DBG("raddict:server-app");
 const error = DBG("raddict:error-app");

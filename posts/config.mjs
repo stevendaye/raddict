@@ -1,7 +1,7 @@
 /* App Configuration */
 const config = {
   port: process.env.PORT || 3030,
-  secret: process.env.SECRET || "keyboard wolf",
+  secret: process.env.SECRET || "whiteblue wolfdogz",
   host: process.env.HOST || "http://localhost:3030",
   postsHost: process.env.POSTS_HOST || "http://localhost:3030",
   usersHost: process.env.USERS_HOST || "http://localhost:3333",

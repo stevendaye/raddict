@@ -1,0 +1,7 @@
+dbname: posts
+username: unwhite
+password: unwhite910603Dsa
+params:
+  host: db-posts
+  port: 3306
+  dialect: mysql

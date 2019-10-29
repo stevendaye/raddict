@@ -30,7 +30,7 @@
     "mysql": "^2.17.1",
     "restify": "^6.3.4",
     "restify-clients": "^1.5.3",
-    "sequelize": "^4.31.2",
+    "sequelize": "^5.15.1",
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {

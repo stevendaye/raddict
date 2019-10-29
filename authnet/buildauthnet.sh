@@ -1,1 +1,1 @@
-docker network create --driver bridge authnet 
+docker network create --driver bridge authnet
